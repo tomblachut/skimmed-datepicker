@@ -1,21 +1,19 @@
 <div>
-  <label>
-    <span>Date</span>
-    <input type="text" [value]="date | date: 'dd-MM-yyyy'">
-  </label>
+  <label for="date" class="sr-only">Date</label>
+    <input id="date" class="form-control mb-3" type="text" [value]="date | date: 'dd-MM-yyyy'">
 </div>
 <div class="wrapper">
-  <div class="slider">
-    <div class="month">
-      <div class="heading">{{heading}}</div>
+  <div class="slider" [ngStyle]="getStyles()">
+    <div class="month" *ngFor="let month of months">
+      <div class="heading">{{month.heading}}</div>
       <div class="grid">
         <div class="weekday cell" *ngFor="let name of weekdayNames">{{name}}</div>
-        <button class="adjacent cell" *ngFor="let day of prevDays">{{day | date: 'd'}}</button>
-        <button class="cell" *ngFor="let day of days" (click)="date=day">{{day | date: 'd'}}</button>
-        <button class="adjacent cell" *ngFor="let day of nextDays">{{day | date: 'd'}}</button>
+        <button class="adjacent cell" *ngFor="let day of month.prevDays">{{day | date: 'd'}}</button>
+        <button class="current cell" *ngFor="let day of month.days" (click)="date=day">{{day | date: 'd'}}</button>
+        <button class="adjacent cell" *ngFor="let day of month.nextDays">{{day | date: 'd'}}</button>
       </div>
     </div>
-    <button class="switch prev">&lt;</button>
-    <button class="switch next">&gt;</button>
   </div>
+  <button class="switch prev" (click)="prev()" [disabled]="!canPrev()">&lt;</button>
+  <button class="switch next" (click)="next()" [disabled]="!canNext()">&gt;</button>
 </div>

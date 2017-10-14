@@ -1,17 +1,20 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {
+  addDays,
+  addMonths,
+  differenceInDays,
+  eachDay,
   format,
+  lastDayOfMonth,
+  lastDayOfWeek as __lastDayOfWeek,
+  startOfMonth,
   startOfToday,
   startOfWeek as __startOfWeek,
-  lastDayOfWeek as __lastDayOfWeek,
-  eachDay,
-  startOfMonth,
-  lastDayOfMonth,
-  differenceInDays,
   subDays,
-  addDays,
+  subMonths,
 } from 'date-fns';
 import {Weekday} from './models/weekdays';
+import {MonthData} from './models/month-data';
 
 @Component({
   selector: 'tb-calendar',
@@ -26,11 +29,8 @@ export class CalendarComponent implements OnInit {
 
   weekdayNames: Array<string>;
 
-  heading: string;
-  days: Array<Date>;
-  prevDays: Array<Date>;
-  nextDays: Array<Date>;
-
+  months: Array<MonthData> = [];
+  currentMonth = 6;
 
   ngOnInit() {
     this.weekdayNames = eachDay(
@@ -38,12 +38,49 @@ export class CalendarComponent implements OnInit {
       this.lastDayOfWeek(this.date),
     ).map(date => format(date, 'dd'));
 
-    console.log(this.weekdayNames);
+    this.months = Array.from(new Array(12), (x, i) => i - 6).map(days => addMonths(this.date, days)).map(this.generateMonth);
+  }
 
-    const monthStart = startOfMonth(this.date);
-    const monthEnd = lastDayOfMonth(this.date);
-    this.heading = format(monthStart, 'MMMM YYYY');
-    this.days = eachDay(
+  prev() {
+    if (this.currentMonth === 0) {
+      this.months.unshift(this.generateMonth(subMonths(this.months[0].days[0], 1)));
+    } else {
+      this.currentMonth--;
+    }
+  }
+
+  next() {
+    if  (this.currentMonth === this.months.length - 1) {
+      this.months.push(this.generateMonth(addMonths(this.months[this.months.length - 1].days[0], 1)));
+    }
+    this.currentMonth++;
+  }
+
+  canPrev() {
+    return true;
+    // return this.currentMonth > 0;
+  }
+
+  canNext() {
+    return true;
+    // return this.currentMonth < this.months.length - 1;
+  }
+
+  getStyles() {
+    const x = -this.currentMonth / this.months.length;
+    return {
+      width: `${this.months.length * 100}%`,
+      transform: `translateX(${x * 100}%)`,
+    };
+  }
+
+  generateMonth: (date: Date) => MonthData = (date) => {
+    const res = {} as MonthData;
+
+    const monthStart = startOfMonth(date);
+    const monthEnd = lastDayOfMonth(date);
+    res.heading = format(monthStart, 'MMMM YYYY');
+    res.days = eachDay(
       monthStart,
       monthEnd,
     );
@@ -52,16 +89,15 @@ export class CalendarComponent implements OnInit {
     if (shift === 0) {
       shift += 7;
     }
-    this.prevDays = eachDay(
+    res.prevDays = eachDay(
       subDays(monthStart, shift),
       subDays(monthStart, 1),
     );
-    this.nextDays = eachDay(
+    res.nextDays = eachDay(
       addDays(monthEnd, 1),
-      this.lastDayOfWeek(monthEnd),
+      addDays(monthEnd, 7 * 6 - res.prevDays.length - res.days.length),
     );
-
-    console.log('shift', shift);
+    return res;
   }
 
   startOfWeek(date: Date) {
