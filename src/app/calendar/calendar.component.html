@@ -1,1 +1,21 @@
-{{today}}
+<div>
+  <label>
+    <span>Date</span>
+    <input type="text" [value]="date | date: 'dd-MM-yyyy'">
+  </label>
+</div>
+<div class="wrapper">
+  <div class="slider">
+    <div class="month">
+      <div class="heading">{{heading}}</div>
+      <div class="grid">
+        <div class="weekday cell" *ngFor="let name of weekdayNames">{{name}}</div>
+        <button class="adjacent cell" *ngFor="let day of prevDays">{{day | date: 'd'}}</button>
+        <button class="cell" *ngFor="let day of days" (click)="date=day">{{day | date: 'd'}}</button>
+        <button class="adjacent cell" *ngFor="let day of nextDays">{{day | date: 'd'}}</button>
+      </div>
+    </div>
+    <button class="switch prev">&lt;</button>
+    <button class="switch next">&gt;</button>
+  </div>
+</div>
