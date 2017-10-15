@@ -1,20 +1,17 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {
-  addDays,
-  addMonths,
-  differenceInDays,
-  eachDay,
-  format,
-  lastDayOfMonth,
-  lastDayOfWeek as __lastDayOfWeek,
-  startOfMonth,
-  startOfToday,
-  startOfWeek as __startOfWeek,
-  subDays,
-  subMonths,
-} from 'date-fns';
+import * as addDays from 'date-fns/add_days';
+import * as addMonths from 'date-fns/add_months';
+import * as differenceInDays from 'date-fns/difference_in_days';
+import * as eachDay from 'date-fns/each_day';
+import * as lastDayOfMonth from 'date-fns/last_day_of_month';
+import * as startOfMonth from 'date-fns/start_of_month';
+import * as startOfToday from 'date-fns/start_of_today';
+import * as subDays from 'date-fns/sub_days';
+import * as subMonths from 'date-fns/sub_months';
+import * as __startOfWeek from 'date-fns/start_of_week';
+import * as __lastDayOfWeek from 'date-fns/last_day_of_week';
 import {Weekday} from './models/weekdays';
-import {MonthData} from './models/month-data';
+import {MonthGrid} from './models/month-grid';
 
 @Component({
   selector: 'tb-calendar',
@@ -25,61 +22,74 @@ export class CalendarComponent implements OnInit {
 
   @Input() date = startOfToday();
 
-  firstWeekday = Weekday.Monday;
+  @Input() headingFormat = 'MMMM y';
+  @Input() weekdayFormat = 'EEE';
+  @Input() dayFormat = 'd';
+  @Input() firstWeekday = Weekday.Monday;
 
-  weekdayNames: Array<string>;
+  weekdays: Array<Date>;
+  renderedMonths: Array<MonthGrid>;
 
-  months: Array<MonthData> = [];
-  currentMonth = 6;
+  private shownIndex: number;
+  private pivotIndex: number;
 
-  ngOnInit() {
-    this.weekdayNames = eachDay(
-      this.startOfWeek(this.date),
-      this.lastDayOfWeek(this.date),
-    ).map(date => format(date, 'dd'));
-
-    this.months = Array.from(new Array(12), (x, i) => i - 6).map(days => addMonths(this.date, days)).map(this.generateMonth);
+  get earliestRenderedDate(): Date {
+    return this.renderedMonths[0].origin;
   }
 
-  prev() {
-    if (this.currentMonth === 0) {
-      this.months.unshift(this.generateMonth(subMonths(this.months[0].days[0], 1)));
-    } else {
-      this.currentMonth--;
-    }
+  get latestRenderedDate(): Date {
+    return this.renderedMonths[this.renderedMonths.length - 1].origin;
   }
 
-  next() {
-    if  (this.currentMonth === this.months.length - 1) {
-      this.months.push(this.generateMonth(addMonths(this.months[this.months.length - 1].days[0], 1)));
-    }
-    this.currentMonth++;
-  }
-
-  canPrev() {
-    return true;
-    // return this.currentMonth > 0;
-  }
-
-  canNext() {
-    return true;
-    // return this.currentMonth < this.months.length - 1;
-  }
-
-  getStyles() {
-    const x = -this.currentMonth / this.months.length;
+  get sliderStyles() {
     return {
-      width: `${this.months.length * 100}%`,
-      transform: `translateX(${x * 100}%)`,
+      left: `${-this.pivotIndex * 100}%`,
+      transform: `translateX(${-this.shownIndex * 100}%)`,
     };
   }
 
-  generateMonth: (date: Date) => MonthData = (date) => {
-    const res = {} as MonthData;
+  ngOnInit() {
+    this.weekdays = eachDay(
+      this.startOfWeek(this.date),
+      this.lastDayOfWeek(this.date),
+    );
+    this.renderedMonths = Array.from(new Array(6), (x, i) => i - 3)
+      .map(monthShift => addMonths(this.date, monthShift))
+      .map(this.generateMonth);
+    this.pivotIndex = 3;
+    this.shownIndex = 0;
+  }
+
+  showEarlier() {
+    if (this.shownIndex + this.pivotIndex === 0) {
+      this.renderedMonths.unshift(this.generateMonth(subMonths(this.earliestRenderedDate, 1)));
+      this.pivotIndex++;
+    }
+    this.shownIndex--;
+  }
+
+  showLater() {
+    if (this.shownIndex + this.pivotIndex === this.renderedMonths.length - 1) {
+      this.renderedMonths.push(this.generateMonth(addMonths(this.latestRenderedDate, 1)));
+    }
+    this.shownIndex++;
+  }
+
+  isEarlierInRange() {
+    return true;
+  }
+
+  isLaterInRange() {
+    return true;
+  }
+
+  generateMonth: (date: Date) => MonthGrid = (date) => {
+    const res = {} as MonthGrid;
+
+    res.origin = date;
 
     const monthStart = startOfMonth(date);
     const monthEnd = lastDayOfMonth(date);
-    res.heading = format(monthStart, 'MMMM YYYY');
     res.days = eachDay(
       monthStart,
       monthEnd,
@@ -89,14 +99,15 @@ export class CalendarComponent implements OnInit {
     if (shift === 0) {
       shift += 7;
     }
-    res.prevDays = eachDay(
+    res.earlierDays = eachDay(
       subDays(monthStart, shift),
       subDays(monthStart, 1),
     );
-    res.nextDays = eachDay(
+    res.laterDays = eachDay(
       addDays(monthEnd, 1),
-      addDays(monthEnd, 7 * 6 - res.prevDays.length - res.days.length),
+      addDays(monthEnd, 7 * 6 - res.earlierDays.length - res.days.length),
     );
+
     return res;
   }
 

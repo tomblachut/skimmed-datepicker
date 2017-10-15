@@ -1,9 +1,25 @@
+$cell-width: 40px;
+$cell-height: $cell-width;
+
 :host {
   display: block;
 }
 
+button {
+  display: block;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .wrapper, .month {
-  width: 280px;
+  width: 7 * $cell-width;
 }
 
 .wrapper {
@@ -15,13 +31,19 @@
   display: flex;
   transform: translateX(0);
   transition: transform 200ms;
+  position: relative;
+}
+
+.month {
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 .heading {
   font-weight: 700;
   text-align: center;
-  height: 40px;
-  line-height: 40px;
+  height: $cell-height;
+  line-height: $cell-height;
 }
 
 .grid {
@@ -30,29 +52,36 @@
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  background: transparent;
-  border: none;
+  width: $cell-width;
+  height: $cell-height;
 }
 
 .weekday {
   font-weight: 700;
-  line-height: 40px;
+  text-align: center;
+  line-height: $cell-height;
+}
+
+.day, .pagination {
+  &:not([disabled]) {
+    cursor: pointer;
+  }
 }
 
 .current {
-  background: lightblue;
+  color: black;
 }
 
 .adjacent {
-  color: slategray;
+  color: lightgray;
 }
 
-.switch {
+.pagination {
   position: absolute;
   top: 0;
+  width: $cell-width;
+  height: $cell-height;
+  font-weight: 700;
 
   &.prev {
     left: 0;

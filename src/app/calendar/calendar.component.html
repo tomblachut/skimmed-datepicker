@@ -1,19 +1,20 @@
 <div>
   <label for="date" class="sr-only">Date</label>
-    <input id="date" class="form-control mb-3" type="text" [value]="date | date: 'dd-MM-yyyy'">
+  <input id="date" class="form-control mb-3" type="text" [value]="date | date: 'dd-MM-yyyy'">
 </div>
 <div class="wrapper">
-  <div class="slider" [ngStyle]="getStyles()">
-    <div class="month" *ngFor="let month of months">
-      <div class="heading">{{month.heading}}</div>
+  <div class="slider" [ngStyle]="sliderStyles">
+    <div class="month" *ngFor="let month of renderedMonths">
+      <div class="heading">{{month.origin | date: headingFormat}}</div>
       <div class="grid">
-        <div class="weekday cell" *ngFor="let name of weekdayNames">{{name}}</div>
-        <button class="adjacent cell" *ngFor="let day of month.prevDays">{{day | date: 'd'}}</button>
-        <button class="current cell" *ngFor="let day of month.days" (click)="date=day">{{day | date: 'd'}}</button>
-        <button class="adjacent cell" *ngFor="let day of month.nextDays">{{day | date: 'd'}}</button>
+        <div class="weekday cell" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
+        <button class="adjacent day cell" *ngFor="let day of month.earlierDays">{{day | date: dayFormat}}</button>
+        <button class="current day cell" *ngFor="let day of month.days" (click)="date=day">{{day | date: dayFormat}}
+        </button>
+        <button class="adjacent day cell" *ngFor="let day of month.laterDays">{{day | date: dayFormat}}</button>
       </div>
     </div>
   </div>
-  <button class="switch prev" (click)="prev()" [disabled]="!canPrev()">&lt;</button>
-  <button class="switch next" (click)="next()" [disabled]="!canNext()">&gt;</button>
+  <button class="pagination prev" (click)="showEarlier()" [disabled]="!isEarlierInRange()">&lsaquo;</button>
+  <button class="pagination next" (click)="showLater()" [disabled]="!isLaterInRange()">&rsaquo;</button>
 </div>
