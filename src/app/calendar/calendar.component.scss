@@ -68,14 +68,6 @@ button {
   }
 }
 
-.current {
-  color: black;
-}
-
-.adjacent {
-  color: lightgray;
-}
-
 .pagination {
   position: absolute;
   top: 0;
@@ -90,4 +82,22 @@ button {
   &.next {
     right: 0;
   }
+}
+
+// THEME
+
+.current {
+  color: black;
+}
+
+.adjacent {
+  color: lightgray;
+}
+
+.today {
+  border-color: lightgray;
+}
+
+.selected {
+  border-color: gray;
 }

@@ -8,10 +8,12 @@
       <div class="heading">{{month.origin | date: headingFormat}}</div>
       <div class="grid">
         <div class="weekday cell" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
-        <button class="adjacent day cell" *ngFor="let day of month.earlierDays">{{day | date: dayFormat}}</button>
-        <button class="current day cell" *ngFor="let day of month.days" (click)="date=day">{{day | date: dayFormat}}
-        </button>
-        <button class="adjacent day cell" *ngFor="let day of month.laterDays">{{day | date: dayFormat}}</button>
+        <button class="adjacent day cell" [class.today]="isToday(day)" [class.selected]="isSelected(day)"
+                *ngFor="let day of month.earlierDays">{{day | date: dayFormat}}</button>
+        <button class="current day cell" [class.today]="isToday(day)" [class.selected]="isSelected(day)"
+                *ngFor="let day of month.days" (click)="date=day">{{day | date: dayFormat}}</button>
+        <button class="adjacent day cell" [class.today]="isToday(day)" [class.selected]="isSelected(day)"
+                *ngFor="let day of month.laterDays">{{day | date: dayFormat}}</button>
       </div>
     </div>
   </div>

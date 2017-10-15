@@ -30,6 +30,8 @@ export class CalendarComponent implements OnInit {
   weekdays: Array<Date>;
   renderedMonths: Array<MonthGrid>;
 
+  private todayMilli: number;
+
   private shownIndex: number;
   private pivotIndex: number;
 
@@ -49,6 +51,8 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.todayMilli = startOfToday().getTime();
+
     this.weekdays = eachDay(
       this.startOfWeek(this.date),
       this.lastDayOfWeek(this.date),
@@ -83,7 +87,15 @@ export class CalendarComponent implements OnInit {
     return true;
   }
 
-  generateMonth: (date: Date) => MonthGrid = (date) => {
+  isToday(date: Date) {
+    return date.getTime() === this.todayMilli;
+  }
+
+  isSelected(date: Date) {
+    return date.getTime() === this.date.getTime();
+  }
+
+  private generateMonth: (date: Date) => MonthGrid = (date) => {
     const res = {} as MonthGrid;
 
     res.origin = date;
@@ -111,11 +123,11 @@ export class CalendarComponent implements OnInit {
     return res;
   }
 
-  startOfWeek(date: Date) {
+  private startOfWeek(date: Date) {
     return __startOfWeek(date, {weekStartsOn: this.firstWeekday});
   }
 
-  lastDayOfWeek(date: Date) {
+  private lastDayOfWeek(date: Date) {
     return __lastDayOfWeek(date, {weekStartsOn: this.firstWeekday});
   }
 
