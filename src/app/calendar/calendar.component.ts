@@ -35,6 +35,9 @@ export class CalendarComponent implements OnInit {
   private shownIndex: number;
   private pivotIndex: number;
 
+  private wrapperWidth: number;
+  private panOffset: number;
+
   get earliestRenderedDate(): Date {
     return this.renderedMonths[0].origin;
   }
@@ -46,11 +49,12 @@ export class CalendarComponent implements OnInit {
   get sliderStyles() {
     return {
       left: `${-this.pivotIndex * 100}%`,
-      transform: `translateX(${-this.shownIndex * 100}%)`,
+      transform: `translateX(${(-this.shownIndex + this.panOffset) * 100}%)`,
     };
   }
 
   ngOnInit() {
+    this.panOffset = 0;
     this.todayMilli = startOfToday().getTime();
 
     this.weekdays = eachDay(
@@ -62,6 +66,24 @@ export class CalendarComponent implements OnInit {
       .map(this.generateMonth);
     this.pivotIndex = 3;
     this.shownIndex = 0;
+  }
+
+  startPan(wrapperWidth: number) {
+    this.wrapperWidth = wrapperWidth;
+  }
+
+  pan(event: any) {
+    this.panOffset = event.deltaX / this.wrapperWidth;
+  }
+
+  endPan(event: any) {
+    this.panOffset = event.deltaX / this.wrapperWidth;
+    if (this.panOffset < -0.5) {
+      this.showLater();
+    } else if (this.panOffset > 0.5) {
+      this.showEarlier();
+    }
+    this.panOffset = 0;
   }
 
   showEarlier() {

@@ -3,6 +3,8 @@ import {LOCALE_ID, NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {CalendarComponent} from './calendar/calendar.component';
+import 'hammerjs';
+import 'hammer-timejs';
 
 @NgModule({
   declarations: [
