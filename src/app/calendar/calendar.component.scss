@@ -34,10 +34,6 @@ button {
   position: relative;
 }
 
-.week {
-  display: flex;
-}
-
 .month {
   flex-shrink: 0;
   overflow: hidden;
@@ -50,7 +46,19 @@ button {
   line-height: $cell-height;
 }
 
-.grid {
+.week {
+  display: flex;
+}
+
+.weekday {
+  font-weight: 700;
+  text-align: center;
+  line-height: $cell-height;
+  width: $cell-width;
+  height: $cell-height;
+}
+
+.days {
   display: flex;
   flex-wrap: wrap;
 }
@@ -61,18 +69,8 @@ button {
 
 .day {
   border-radius: 50%;
-  display: block;
-}
-
-.cell {
   width: $cell-width;
   height: $cell-height;
-}
-
-.weekday {
-  font-weight: 700;
-  text-align: center;
-  line-height: $cell-height;
 }
 
 .day, .pagination {
@@ -99,12 +97,8 @@ button {
 
 // THEME
 
-.current {
-  color: black;
-}
-
-.adjacent {
-  color: lightgray;
+.day:hover {
+  border-color: darkgray;
 }
 
 .today {
@@ -113,8 +107,4 @@ button {
 
 .selected {
   border-color: gray;
-}
-
-.day:hover {
-  border-color: darkgray;
 }
