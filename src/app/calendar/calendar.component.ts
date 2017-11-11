@@ -29,15 +29,15 @@ export class CalendarComponent implements OnInit {
     this.selectedDate = date;
     this.selectedMonthTime = startOfMonth(date).getTime();
     this.selectedDay = getDay(date);
-    if (this.generatedMonths) {
-      const selectedMonthIndex = this.generatedMonths.findIndex(month => {
-        return month.startDate.getTime() === this.selectedMonthTime
-      });
-
-      this.selectedMonth = this.generatedMonths[selectedMonthIndex];
-      this.shownIndex = selectedMonthIndex - this.pivotIndex;
+    if (this.generatedMonths
+      && date.getTime() >= this.earliestGeneratedDate.getTime()
+      && date.getTime() <= this.latestGeneratedDate.getTime()) {
+      this.updateSelectedMonthRef();
+    } else {
+      this.generateMonths(date);
     }
   }
+
   @Output() dateChange = new EventEmitter<Date>();
 
   private selectedDate: Date;
@@ -91,12 +91,6 @@ export class CalendarComponent implements OnInit {
       this.startOfWeek(this.selectedDate),
       this.lastDayOfWeek(this.selectedDate),
     );
-    const monthDate = startOfMonth(this.selectedDate);
-    this.generatedMonths = Array.from(new Array(3), (x, i) => i - 1)
-      .map(monthShift => addMonths(monthDate, monthShift))
-      .map(this.generateMonth);
-    this.pivotIndex = 1;
-    this.shownIndex = 0;
   }
 
   startPress() {
@@ -166,24 +160,37 @@ export class CalendarComponent implements OnInit {
     return month === this.selectedMonth && day === this.selectedDay;
   }
 
-  private generateMonth: (date: Date) => Month = (date) => {
+  private generateMonths(date: Date) {
     const monthDate = startOfMonth(date);
-    let shift = differenceInDays(monthDate, this.startOfWeek(monthDate)) || 7;
+    this.generatedMonths = Array.from(new Array(3), (x, i) => i - 1)
+      .map(monthShift => addMonths(monthDate, monthShift))
+      .map(this.generateMonth);
+    this.pivotIndex = 1;
+    this.shownIndex = 0;
+    this.updateCurrentMonthRef();
+    this.updateSelectedMonthRef();
+  }
 
-    const month = {
+  private generateMonth: (monthDate: Date) => Month = (monthDate) => {
+    return {
       startDate: monthDate,
       length: getDaysInMonth(monthDate),
-      weekShift: shift,
+      weekShift: differenceInDays(monthDate, this.startOfWeek(monthDate)) || 7,
     };
+  }
 
-    const monthTime = monthDate.getTime();
-    if (monthTime === this.currentMonthTime) {
-      this.currentMonth = month;
-    }
-    if (monthTime === this.selectedMonthTime) {
-      this.selectedMonth = month;
-    }
-    return month;
+  private updateSelectedMonthRef() {
+    const selectedMonthIndex = this.generatedMonths.findIndex(month => {
+      return month.startDate.getTime() === this.selectedMonthTime
+    });
+    this.selectedMonth = this.generatedMonths[selectedMonthIndex];
+    this.shownIndex = selectedMonthIndex - this.pivotIndex;
+  }
+
+  private updateCurrentMonthRef() {
+    this.currentMonth = this.generatedMonths.find(month => {
+      return month.startDate.getTime() === this.currentMonthTime
+    });
   }
 
   private startOfWeek(date: Date) {
