@@ -67,7 +67,8 @@ export class CalendarComponent implements OnInit {
   private shownIndex: number;
   private pivotIndex: number;
 
-  private isClickStationary = true;
+  isSwipeAllowed = true;
+  private isClickFixed = true;
   private isPanning = false;
   private panOffset = 0;
   private wrapperWidth: number;
@@ -100,32 +101,38 @@ export class CalendarComponent implements OnInit {
   }
 
   startPress() {
-    this.isClickStationary = true;
+    this.isClickFixed = true;
   }
 
   startPan(wrapperWidth: number) {
-    this.isClickStationary = false;
+    this.isClickFixed = false;
+    this.isSwipeAllowed = true;
     this.isPanning = true;
     this.wrapperWidth = wrapperWidth;
   }
 
   pan(event: any) {
-    this.panOffset = event.deltaX / this.wrapperWidth;
+    if (Math.abs(event.deltaX) <= this.wrapperWidth) {
+      this.panOffset = event.deltaX / this.wrapperWidth;
+    } else {
+      this.panOffset = event.deltaX > 0 ? 1 : -1;
+    }
   }
 
-  endPan(event: any) {
+  endPan() {
     this.isPanning = false;
-    this.panOffset = event.deltaX / this.wrapperWidth;
     if (this.panOffset < -0.5) {
       this.showLater();
+      this.isSwipeAllowed = false;
     } else if (this.panOffset > 0.5) {
       this.showEarlier();
+      this.isSwipeAllowed = false;
     }
     this.panOffset = 0;
   }
 
   select(event: MouseEvent, month: Month) {
-    if (this.isClickStationary) {
+    if (this.isClickFixed) {
       const button = event.target as HTMLButtonElement;
       const day = +button.textContent;
       this.selectedMonth = month;
