@@ -60,6 +60,8 @@ export class CalendarComponent implements OnInit {
   private panOffset = 0;
   private wrapperWidth: number;
 
+  private transitionDuration = 200;
+
   get earliestGeneratedDate(): Date {
     return this.generatedMonths[0].startDate;
   }
@@ -72,7 +74,7 @@ export class CalendarComponent implements OnInit {
     return {
       'left': `${-this.pivotIndex * 100}%`,
       'transform': `translateX(${(-this.shownIndex + this.panOffset) * 100}%)`,
-      'transition-duration': this.isPanning ? '0ms' : '200ms',
+      'transition-duration': this.isPanning ? '0ms' : this.transitionDuration + 'ms',
     };
   }
 
@@ -82,10 +84,11 @@ export class CalendarComponent implements OnInit {
       this.startOfWeek(this.selectedDate),
       this.lastDayOfWeek(this.selectedDate),
     );
-    this.generatedMonths = Array.from(new Array(6), (x, i) => i - 3)
-      .map(monthShift => addMonths(this.selectedDate, monthShift))
+    const monthDate = startOfMonth(this.selectedDate);
+    this.generatedMonths = Array.from(new Array(3), (x, i) => i - 1)
+      .map(monthShift => addMonths(monthDate, monthShift))
       .map(this.generateMonth);
-    this.pivotIndex = 3;
+    this.pivotIndex = 1;
     this.shownIndex = 0;
   }
 
@@ -125,7 +128,7 @@ export class CalendarComponent implements OnInit {
   }
 
   showEarlier() {
-    if (this.shownIndex + this.pivotIndex === 0) {
+    if (this.shownIndex + this.pivotIndex === 1) {
       this.generatedMonths.unshift(this.generateMonth(subMonths(this.earliestGeneratedDate, 1)));
       this.pivotIndex++;
     }
@@ -133,7 +136,7 @@ export class CalendarComponent implements OnInit {
   }
 
   showLater() {
-    if (this.shownIndex + this.pivotIndex === this.generatedMonths.length - 1) {
+    if (this.shownIndex + this.pivotIndex === this.generatedMonths.length - 2) {
       this.generatedMonths.push(this.generateMonth(addMonths(this.latestGeneratedDate, 1)));
     }
     this.shownIndex++;
