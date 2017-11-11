@@ -89,12 +89,11 @@ export class CalendarComponent implements OnInit {
   }
 
   select(event: MouseEvent, month: Month) {
-    if (event.target instanceof HTMLButtonElement) {
-      const day = +event.target.textContent;
-      this.selectedMonth = month;
-      this.selectedDay = day;
-      this.selectedDate = setDay(month.startDate, day);
-    }
+    const button = event.target as HTMLButtonElement;
+    const day = +button.textContent;
+    this.selectedMonth = month;
+    this.selectedDay = day;
+    this.selectedDate = setDay(month.startDate, day);
   }
 
   startPan(wrapperWidth: number) {

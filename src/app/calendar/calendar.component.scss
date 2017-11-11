@@ -61,6 +61,7 @@ button {
 .days {
   display: flex;
   flex-wrap: wrap;
+  pointer-events: none;
 }
 
 .shifter {
@@ -71,6 +72,7 @@ button {
   border-radius: 50%;
   width: $cell-width;
   height: $cell-height;
+  pointer-events: auto;
 }
 
 .day, .pagination {
