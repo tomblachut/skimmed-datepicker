@@ -70,8 +70,9 @@ button {
 
 .day {
   border-radius: 50%;
-  width: $cell-width;
-  height: $cell-height;
+  width: $cell-width - 2;
+  height: $cell-height - 2;
+  margin: 1px;
   pointer-events: auto;
 }
 
@@ -98,6 +99,9 @@ button {
 }
 
 // THEME
+button {
+  transition: border-color 100ms;
+}
 
 .day:hover {
   border-color: darkgray;
