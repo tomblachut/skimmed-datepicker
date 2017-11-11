@@ -4,7 +4,7 @@ import * as differenceInDays from 'date-fns/difference_in_days';
 import * as startOfMonth from 'date-fns/start_of_month';
 import * as startOfToday from 'date-fns/start_of_today';
 import * as subMonths from 'date-fns/sub_months';
-import * as getDaysInMonth from 'date-fns/get_days_in_month'
+import * as getDaysInMonth from 'date-fns/get_days_in_month';
 import * as setDay from 'date-fns/set_date';
 import * as getDay from 'date-fns/get_date';
 import * as startOfDay from 'date-fns/start_of_day';
@@ -13,7 +13,7 @@ import {Month} from '../month';
 import {createEaseOut, generateWeekdayDates, startOfWeek} from '../utils';
 
 @Component({
-  selector: 'tb-calendar',
+  selector: 'skm-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
@@ -53,7 +53,7 @@ export class CalendarComponent implements OnInit {
   @Input() firstWeekday: Weekday = Weekday.Monday;
 
   weekdays: Array<Date>;
-  dayRange = Array.from(new Array(31), (x, i) => i + 1)
+  dayRange = Array.from(new Array(31), (x, i) => i + 1);
   generatedMonths: Array<Month>;
 
   private selectedDate: Date;

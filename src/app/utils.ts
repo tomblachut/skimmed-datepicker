@@ -25,5 +25,5 @@ export function createEaseOut(panRatio: number): (x: number) => number {
 
   return function easeOut(x: number) {
     return (x >= panRatio) ? 1 : ((a * x + b) * x + 1) * x;
-  }
+  };
 }
