@@ -24,12 +24,12 @@ const log = console.log;
 export class CalendarComponent implements OnInit {
   @Input()
   set date(date: Date) {
+    log('input', date);
     date = startOfDay(date);
-    console.log('input', date);
     this.selectedDate = date;
     this.selectedMonthTime = startOfMonth(date).getTime();
     this.selectedDay = getDay(date);
-    if (this.generatedMonths ) {
+    if (this.generatedMonths) {
       const selectedMonthIndex = this.generatedMonths.findIndex(month => {
         return month.startDate.getTime() === this.selectedMonthTime
       });
@@ -38,11 +38,6 @@ export class CalendarComponent implements OnInit {
       this.shownIndex = selectedMonthIndex - this.pivotIndex;
     }
   }
-
-  get date(): Date {
-    return this.selectedDate;
-  }
-
   @Output() dateChange = new EventEmitter<Date>();
 
   private selectedDate: Date;
@@ -55,16 +50,14 @@ export class CalendarComponent implements OnInit {
   @Input() firstWeekday = Weekday.Monday;
 
   weekdays: Array<Date>;
+  dayRange = Array.from(new Array(31), (x, i) => i + 1)
   generatedMonths: Array<Month>;
   private selectedMonth: Month;
   private currentMonth: Month;
 
-  dayRange = Array.from(new Array(31), (x, i) => i + 1)
-
   private currentDate = startOfToday();
   private currentMonthDate = startOfMonth(this.currentDate);
   private currentDay = getDay(this.currentDate);
-  private currentDateTime = this.currentDate.getTime();
   private currentMonthTime = this.currentMonthDate.getTime();
 
   private shownIndex: number;
