@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import * as addMonths from 'date-fns/add_months';
 import * as differenceInDays from 'date-fns/difference_in_days';
 import * as eachDay from 'date-fns/each_day';
@@ -8,10 +8,13 @@ import * as subMonths from 'date-fns/sub_months';
 import * as __startOfWeek from 'date-fns/start_of_week';
 import * as __lastDayOfWeek from 'date-fns/last_day_of_week';
 import * as getDaysInMonth from 'date-fns/get_days_in_month'
-import * as setDay from 'date-fns/set_date'
-import * as getDay from 'date-fns/get_date'
+import * as setDay from 'date-fns/set_date';
+import * as getDay from 'date-fns/get_date';
+import * as startOfDay from 'date-fns/start_of_day';
 import {Weekday} from './models/weekdays';
 import {Month} from './models/month';
+
+const log = console.log;
 
 @Component({
   selector: 'tb-calendar',
@@ -21,14 +24,26 @@ import {Month} from './models/month';
 export class CalendarComponent implements OnInit {
   @Input()
   set date(date: Date) {
+    date = startOfDay(date);
+    console.log('input', date);
     this.selectedDate = date;
     this.selectedMonthTime = startOfMonth(date).getTime();
     this.selectedDay = getDay(date);
+    if (this.generatedMonths ) {
+      const selectedMonthIndex = this.generatedMonths.findIndex(month => {
+        return month.startDate.getTime() === this.selectedMonthTime
+      });
+
+      this.selectedMonth = this.generatedMonths[selectedMonthIndex];
+      this.shownIndex = selectedMonthIndex - this.pivotIndex;
+    }
   }
 
   get date(): Date {
     return this.selectedDate;
   }
+
+  @Output() dateChange = new EventEmitter<Date>();
 
   private selectedDate: Date;
   private selectedMonthTime: number;
@@ -55,7 +70,7 @@ export class CalendarComponent implements OnInit {
   private shownIndex: number;
   private pivotIndex: number;
 
-  private isClickStationary =  true;
+  private isClickStationary = true;
   private isPanning = false;
   private panOffset = 0;
   private wrapperWidth: number;
@@ -79,7 +94,6 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.date = startOfToday();
     this.weekdays = eachDay(
       this.startOfWeek(this.selectedDate),
       this.lastDayOfWeek(this.selectedDate),
@@ -124,6 +138,7 @@ export class CalendarComponent implements OnInit {
       this.selectedMonth = month;
       this.selectedDay = day;
       this.selectedDate = setDay(month.startDate, day);
+      this.dateChange.emit(this.selectedDate);
     }
   }
 

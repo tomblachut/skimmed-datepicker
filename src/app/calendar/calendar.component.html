@@ -1,7 +1,3 @@
-<div>
-  <label for="date" class="sr-only">Date</label>
-  <input id="date" class="form-control mb-3" type="text" [value]="date | date: 'dd-MM-yyyy'">
-</div>
 <div class="wrapper" #wrapper
      (panstart)="startPan(wrapper.offsetWidth)"
      (panmove)="pan($event)"

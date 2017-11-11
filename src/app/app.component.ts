@@ -5,4 +5,9 @@ import {Component} from '@angular/core';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
+  date = new Date();
+
+  changeDate($event) {
+    this.date = $event;
+  }
 }
