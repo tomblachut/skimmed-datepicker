@@ -61,7 +61,6 @@ export class CalendarComponent implements OnInit {
 
   private currentDay: number;
   private currentMonth: Month;
-  private currentMonthTime: number;
 
   private shownIndex: number;
   private pivotIndex: number;
@@ -92,7 +91,6 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
     const currentDate = startOfToday();
     this.currentDay = getDay(currentDate);
-    this.currentMonthTime = startOfMonth(currentDate).getTime();
     this.weekdays = generateWeekdayDates(currentDate, this.firstWeekday);
   }
 
@@ -184,7 +182,7 @@ export class CalendarComponent implements OnInit {
 
   private updateSelectedMonthRef() {
     const selectedMonthIndex = this.generatedMonths.findIndex(month => {
-      return month.startDate.getTime() === this.selectedMonthTime
+      return month.startDate.getTime() === this.selectedMonthTime;
     });
     if (selectedMonthIndex > -1) {
       this.selectedMonth = this.generatedMonths[selectedMonthIndex];
@@ -195,8 +193,10 @@ export class CalendarComponent implements OnInit {
   }
 
   private updateCurrentMonthRef() {
+    const currentMonthTime = startOfMonth(new Date()).getTime();
+
     this.currentMonth = this.generatedMonths.find(month => {
-      return month.startDate.getTime() === this.currentMonthTime
+      return month.startDate.getTime() === currentMonthTime;
     });
   }
 
