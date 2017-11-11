@@ -23,18 +23,25 @@ const log = console.log;
 })
 export class CalendarComponent implements OnInit {
   @Input()
-  set date(date: Date) {
-    log('input', date);
-    date = startOfDay(date);
-    this.selectedDate = date;
-    this.selectedMonthTime = startOfMonth(date).getTime();
-    this.selectedDay = getDay(date);
-    if (this.generatedMonths
-      && date.getTime() >= this.earliestGeneratedDate.getTime()
-      && date.getTime() <= this.latestGeneratedDate.getTime()) {
-      this.updateSelectedMonthRef();
+  set date(dirtyDate: Date) {
+    const date = startOfDay(dirtyDate);
+    if (!isNaN(date.getTime())) {
+      this.selectedDate = date;
+      this.selectedMonthTime = startOfMonth(date).getTime();
+      this.selectedDay = getDay(date);
+
+      if (this.generatedMonths
+        && date.getTime() >= this.earliestGeneratedDate.getTime()
+        && date.getTime() <= this.latestGeneratedDate.getTime()) {
+        this.updateSelectedMonthRef();
+      } else {
+        this.generateMonths(date);
+      }
     } else {
-      this.generateMonths(date);
+      this.selectedDate = undefined;
+      this.selectedMonthTime = NaN;
+      this.selectedDay = NaN;
+      this.updateSelectedMonthRef();
     }
   }
 
@@ -183,8 +190,12 @@ export class CalendarComponent implements OnInit {
     const selectedMonthIndex = this.generatedMonths.findIndex(month => {
       return month.startDate.getTime() === this.selectedMonthTime
     });
-    this.selectedMonth = this.generatedMonths[selectedMonthIndex];
-    this.shownIndex = selectedMonthIndex - this.pivotIndex;
+    if (selectedMonthIndex > -1) {
+      this.selectedMonth = this.generatedMonths[selectedMonthIndex];
+      this.shownIndex = selectedMonthIndex - this.pivotIndex;
+    } else {
+      this.selectedMonth = undefined;
+    }
   }
 
   private updateCurrentMonthRef() {
