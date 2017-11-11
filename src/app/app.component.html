@@ -1,12 +1,25 @@
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-auto m-3">
+    <div class="col-auto mt-3">
       <div>
         <label for="date" class="sr-only">Date</label>
         <input id="date" type="text" class="form-control mb-3"
-               [ngModel]="date | date:'yyyy-MM-dd'" (ngModelChange)="changeDate($event)">
+               [ngModel]="date | date:'yyyy-MM-dd'" (ngModelChange)="date = $event">
       </div>
       <tb-calendar [(date)]="date"></tb-calendar>
+    </div>
+    <div class="col-auto mt-3">
+      <div>
+        <label for="date2" class="sr-only">Date</label>
+        <input id="date2" type="text" class="form-control mb-3"
+               [ngModel]="undef | date:'yyyy-MM-dd'" (ngModelChange)="undef = $event">
+      </div>
+      <tb-calendar [(date)]="undef"></tb-calendar>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-auto">
+      <tb-calendar></tb-calendar>
     </div>
   </div>
 </div>
