@@ -34,6 +34,10 @@ button {
   position: relative;
 }
 
+.week {
+  display: flex;
+}
+
 .month {
   flex-shrink: 0;
   overflow: hidden;
@@ -49,6 +53,15 @@ button {
 .grid {
   display: flex;
   flex-wrap: wrap;
+}
+
+.shifter {
+  height: $cell-height;
+}
+
+.day {
+  border-radius: 50%;
+  display: block;
 }
 
 .cell {
@@ -100,4 +113,8 @@ button {
 
 .selected {
   border-color: gray;
+}
+
+.day:hover {
+  border-color: darkgray;
 }

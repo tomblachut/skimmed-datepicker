@@ -1,17 +1,17 @@
 import {Component, Input, OnInit} from '@angular/core';
-import * as addDays from 'date-fns/add_days';
 import * as addMonths from 'date-fns/add_months';
 import * as differenceInDays from 'date-fns/difference_in_days';
 import * as eachDay from 'date-fns/each_day';
-import * as lastDayOfMonth from 'date-fns/last_day_of_month';
 import * as startOfMonth from 'date-fns/start_of_month';
 import * as startOfToday from 'date-fns/start_of_today';
-import * as subDays from 'date-fns/sub_days';
 import * as subMonths from 'date-fns/sub_months';
 import * as __startOfWeek from 'date-fns/start_of_week';
 import * as __lastDayOfWeek from 'date-fns/last_day_of_week';
+import * as getDaysInMonth from 'date-fns/get_days_in_month'
+import * as setDay from 'date-fns/set_date'
+import * as getDay from 'date-fns/get_date'
 import {Weekday} from './models/weekdays';
-import {MonthGrid} from './models/month-grid';
+import {Month} from './models/month';
 
 @Component({
   selector: 'tb-calendar',
@@ -19,8 +19,20 @@ import {MonthGrid} from './models/month-grid';
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
+  @Input()
+  set date(date: Date) {
+    this.selectedDate = date;
+    this.selectedMonthTime = startOfMonth(date).getTime();
+    this.selectedDay = getDay(date);
+  }
 
-  @Input() date = startOfToday();
+  get date(): Date {
+    return this.selectedDate;
+  }
+
+  private selectedDate: Date;
+  private selectedMonthTime: number;
+  private selectedDay: number;
 
   @Input() headingFormat = 'MMMM y';
   @Input() weekdayFormat = 'EEE';
@@ -28,23 +40,31 @@ export class CalendarComponent implements OnInit {
   @Input() firstWeekday = Weekday.Monday;
 
   weekdays: Array<Date>;
-  renderedMonths: Array<MonthGrid>;
+  generatedMonths: Array<Month>;
+  private selectedMonth: Month;
+  private currentMonth: Month;
 
-  private todayMilli: number;
+  dayRange = Array.from(new Array(31), (x, i) => i + 1)
+
+  private currentDate = startOfToday();
+  private currentMonthDate = startOfMonth(this.currentDate);
+  private currentDay = getDay(this.currentDate);
+  private currentDateTime = this.currentDate.getTime();
+  private currentMonthTime = this.currentMonthDate.getTime();
 
   private shownIndex: number;
   private pivotIndex: number;
 
-  private wrapperWidth: number;
-  private panOffset: number;
+  private panOffset = 0;
   private isPanning = false;
+  private wrapperWidth: number;
 
-  get earliestRenderedDate(): Date {
-    return this.renderedMonths[0].origin;
+  get earliestGeneratedDate(): Date {
+    return this.generatedMonths[0].startDate;
   }
 
-  get latestRenderedDate(): Date {
-    return this.renderedMonths[this.renderedMonths.length - 1].origin;
+  get latestGeneratedDate(): Date {
+    return this.generatedMonths[this.generatedMonths.length - 1].startDate;
   }
 
   get sliderStyles() {
@@ -56,18 +76,25 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.panOffset = 0;
-    this.todayMilli = startOfToday().getTime();
-
+    this.date = startOfToday();
     this.weekdays = eachDay(
-      this.startOfWeek(this.date),
-      this.lastDayOfWeek(this.date),
+      this.startOfWeek(this.selectedDate),
+      this.lastDayOfWeek(this.selectedDate),
     );
-    this.renderedMonths = Array.from(new Array(6), (x, i) => i - 3)
-      .map(monthShift => addMonths(this.date, monthShift))
+    this.generatedMonths = Array.from(new Array(6), (x, i) => i - 3)
+      .map(monthShift => addMonths(this.selectedDate, monthShift))
       .map(this.generateMonth);
     this.pivotIndex = 3;
     this.shownIndex = 0;
+  }
+
+  select(event: MouseEvent, month: Month) {
+    if (event.target instanceof HTMLButtonElement) {
+      const day = +event.target.textContent;
+      this.selectedMonth = month;
+      this.selectedDay = day;
+      this.selectedDate = setDay(month.startDate, day);
+    }
   }
 
   startPan(wrapperWidth: number) {
@@ -92,15 +119,15 @@ export class CalendarComponent implements OnInit {
 
   showEarlier() {
     if (this.shownIndex + this.pivotIndex === 0) {
-      this.renderedMonths.unshift(this.generateMonth(subMonths(this.earliestRenderedDate, 1)));
+      this.generatedMonths.unshift(this.generateMonth(subMonths(this.earliestGeneratedDate, 1)));
       this.pivotIndex++;
     }
     this.shownIndex--;
   }
 
   showLater() {
-    if (this.shownIndex + this.pivotIndex === this.renderedMonths.length - 1) {
-      this.renderedMonths.push(this.generateMonth(addMonths(this.latestRenderedDate, 1)));
+    if (this.shownIndex + this.pivotIndex === this.generatedMonths.length - 1) {
+      this.generatedMonths.push(this.generateMonth(addMonths(this.latestGeneratedDate, 1)));
     }
     this.shownIndex++;
   }
@@ -113,40 +140,32 @@ export class CalendarComponent implements OnInit {
     return true;
   }
 
-  isToday(date: Date) {
-    return date.getTime() === this.todayMilli;
+  isToday(day: number, month: Month) {
+    return month === this.currentMonth && day === this.currentDay;
   }
 
-  isSelected(date: Date) {
-    return date.getTime() === this.date.getTime();
+  isSelected(day: number, month: Month) {
+    return month === this.selectedMonth && day === this.selectedDay;
   }
 
-  private generateMonth: (date: Date) => MonthGrid = (date) => {
-    const res = {} as MonthGrid;
+  private generateMonth: (date: Date) => Month = (date) => {
+    const monthDate = startOfMonth(date);
+    let shift = differenceInDays(monthDate, this.startOfWeek(monthDate)) || 7;
 
-    res.origin = date;
+    const month = {
+      startDate: monthDate,
+      length: getDaysInMonth(monthDate),
+      weekShift: shift,
+    };
 
-    const monthStart = startOfMonth(date);
-    const monthEnd = lastDayOfMonth(date);
-    res.days = eachDay(
-      monthStart,
-      monthEnd,
-    );
-
-    let shift = differenceInDays(monthStart, this.startOfWeek(monthStart));
-    if (shift === 0) {
-      shift += 7;
+    const monthTime = monthDate.getTime();
+    if (monthTime === this.currentMonthTime) {
+      this.currentMonth = month;
     }
-    res.earlierDays = eachDay(
-      subDays(monthStart, shift),
-      subDays(monthStart, 1),
-    );
-    res.laterDays = eachDay(
-      addDays(monthEnd, 1),
-      addDays(monthEnd, 7 * 6 - res.earlierDays.length - res.days.length),
-    );
-
-    return res;
+    if (monthTime === this.selectedMonthTime) {
+      this.selectedMonth = month;
+    }
+    return month;
   }
 
   private startOfWeek(date: Date) {
