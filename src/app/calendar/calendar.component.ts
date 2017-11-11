@@ -47,10 +47,6 @@ export class CalendarComponent implements OnInit {
 
   @Output() dateChange = new EventEmitter<Date>();
 
-  private selectedDate: Date;
-  private selectedMonthTime: number;
-  private selectedDay: number;
-
   @Input() headingFormat = 'MMMM y';
   @Input() weekdayFormat = 'EEE';
   @Input() dayFormat = 'd';
@@ -59,13 +55,15 @@ export class CalendarComponent implements OnInit {
   weekdays: Array<Date>;
   dayRange = Array.from(new Array(31), (x, i) => i + 1)
   generatedMonths: Array<Month>;
-  private selectedMonth: Month;
-  private currentMonth: Month;
 
-  private currentDate = startOfToday();
-  private currentMonthDate = startOfMonth(this.currentDate);
-  private currentDay = getDay(this.currentDate);
-  private currentMonthTime = this.currentMonthDate.getTime();
+  private selectedDate: Date;
+  private selectedDay: number;
+  private selectedMonth: Month;
+  private selectedMonthTime: number;
+
+  private currentDay: number;
+  private currentMonth: Month;
+  private currentMonthTime: number;
 
   private shownIndex: number;
   private pivotIndex: number;
@@ -94,9 +92,13 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
+    const currentDate = startOfToday();
+    this.currentDay = getDay(currentDate);
+    this.currentMonthTime = startOfMonth(currentDate).getTime();
+
     this.weekdays = eachDay(
-      this.startOfWeek(this.selectedDate),
-      this.lastDayOfWeek(this.selectedDate),
+      this.startOfWeek(currentDate),
+      this.lastDayOfWeek(currentDate),
     );
   }
 
