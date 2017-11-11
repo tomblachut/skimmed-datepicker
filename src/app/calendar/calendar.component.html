@@ -14,7 +14,7 @@
       <div class="week">
         <div class="weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
       </div>
-      <div class="days" (click)="select($event, month)">
+      <div class="days" (mousedown)="startPress()" (click)="select($event, month)">
         <div class="shifter" [style.width.px]="40 * month.weekShift"></div>
         <button *ngFor="let day of dayRange | slice:0:month.length"
                 [class.today]="isToday(day, month)"

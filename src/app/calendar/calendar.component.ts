@@ -55,8 +55,9 @@ export class CalendarComponent implements OnInit {
   private shownIndex: number;
   private pivotIndex: number;
 
-  private panOffset = 0;
+  private isClickStationary =  true;
   private isPanning = false;
+  private panOffset = 0;
   private wrapperWidth: number;
 
   get earliestGeneratedDate(): Date {
@@ -88,15 +89,12 @@ export class CalendarComponent implements OnInit {
     this.shownIndex = 0;
   }
 
-  select(event: MouseEvent, month: Month) {
-    const button = event.target as HTMLButtonElement;
-    const day = +button.textContent;
-    this.selectedMonth = month;
-    this.selectedDay = day;
-    this.selectedDate = setDay(month.startDate, day);
+  startPress() {
+    this.isClickStationary = true;
   }
 
   startPan(wrapperWidth: number) {
+    this.isClickStationary = false;
     this.isPanning = true;
     this.wrapperWidth = wrapperWidth;
   }
@@ -114,6 +112,16 @@ export class CalendarComponent implements OnInit {
       this.showEarlier();
     }
     this.panOffset = 0;
+  }
+
+  select(event: MouseEvent, month: Month) {
+    if (this.isClickStationary) {
+      const button = event.target as HTMLButtonElement;
+      const day = +button.textContent;
+      this.selectedMonth = month;
+      this.selectedDay = day;
+      this.selectedDate = setDay(month.startDate, day);
+    }
   }
 
   showEarlier() {
