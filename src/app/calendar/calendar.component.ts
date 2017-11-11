@@ -10,7 +10,7 @@ import * as getDay from 'date-fns/get_date';
 import * as startOfDay from 'date-fns/start_of_day';
 import {Weekday} from '../weekdays';
 import {Month} from '../month';
-import {generateWeekdayDates, startOfWeek} from '../utils';
+import {createEaseOut, generateWeekdayDates, startOfWeek} from '../utils';
 
 @Component({
   selector: 'tb-calendar',
@@ -72,7 +72,7 @@ export class CalendarComponent implements OnInit {
   private isPanning = false;
   private panOffset = 0;
   private wrapperWidth: number;
-
+  private easeOut = createEaseOut(1.5);
   private transitionDuration = 200;
 
   get earliestGeneratedDate(): Date {
@@ -112,11 +112,8 @@ export class CalendarComponent implements OnInit {
   }
 
   pan(event: any) {
-    if (Math.abs(event.deltaX) <= this.wrapperWidth) {
-      this.panOffset = event.deltaX / this.wrapperWidth;
-    } else {
-      this.panOffset = event.deltaX > 0 ? 1 : -1;
-    }
+    const absOffset = Math.abs(event.deltaX / this.wrapperWidth);
+    this.panOffset = Math.sign(event.deltaX) * this.easeOut(absOffset);
   }
 
   endPan() {
