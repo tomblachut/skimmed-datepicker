@@ -37,6 +37,7 @@ export class CalendarComponent implements OnInit {
 
   private wrapperWidth: number;
   private panOffset: number;
+  private isPanning = false;
 
   get earliestRenderedDate(): Date {
     return this.renderedMonths[0].origin;
@@ -48,8 +49,9 @@ export class CalendarComponent implements OnInit {
 
   get sliderStyles() {
     return {
-      left: `${-this.pivotIndex * 100}%`,
-      transform: `translateX(${(-this.shownIndex + this.panOffset) * 100}%)`,
+      'left': `${-this.pivotIndex * 100}%`,
+      'transform': `translateX(${(-this.shownIndex + this.panOffset) * 100}%)`,
+      'transition-duration': this.isPanning ? '0ms' : '200ms',
     };
   }
 
@@ -69,6 +71,7 @@ export class CalendarComponent implements OnInit {
   }
 
   startPan(wrapperWidth: number) {
+    this.isPanning = true;
     this.wrapperWidth = wrapperWidth;
   }
 
@@ -77,6 +80,7 @@ export class CalendarComponent implements OnInit {
   }
 
   endPan(event: any) {
+    this.isPanning = false;
     this.panOffset = event.deltaX / this.wrapperWidth;
     if (this.panOffset < -0.5) {
       this.showLater();
