@@ -1,18 +1,16 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import * as addMonths from 'date-fns/add_months';
 import * as differenceInDays from 'date-fns/difference_in_days';
-import * as eachDay from 'date-fns/each_day';
 import * as startOfMonth from 'date-fns/start_of_month';
 import * as startOfToday from 'date-fns/start_of_today';
 import * as subMonths from 'date-fns/sub_months';
-import * as __startOfWeek from 'date-fns/start_of_week';
-import * as __lastDayOfWeek from 'date-fns/last_day_of_week';
 import * as getDaysInMonth from 'date-fns/get_days_in_month'
 import * as setDay from 'date-fns/set_date';
 import * as getDay from 'date-fns/get_date';
 import * as startOfDay from 'date-fns/start_of_day';
-import {Weekday} from './models/weekdays';
-import {Month} from './models/month';
+import {Weekday} from '../weekdays';
+import {Month} from '../month';
+import {generateWeekdayDates, startOfWeek} from '../utils';
 
 const log = console.log;
 
@@ -50,7 +48,7 @@ export class CalendarComponent implements OnInit {
   @Input() headingFormat = 'MMMM y';
   @Input() weekdayFormat = 'EEE';
   @Input() dayFormat = 'd';
-  @Input() firstWeekday = Weekday.Monday;
+  @Input() firstWeekday: Weekday = Weekday.Monday;
 
   weekdays: Array<Date>;
   dayRange = Array.from(new Array(31), (x, i) => i + 1)
@@ -95,11 +93,7 @@ export class CalendarComponent implements OnInit {
     const currentDate = startOfToday();
     this.currentDay = getDay(currentDate);
     this.currentMonthTime = startOfMonth(currentDate).getTime();
-
-    this.weekdays = eachDay(
-      this.startOfWeek(currentDate),
-      this.lastDayOfWeek(currentDate),
-    );
+    this.weekdays = generateWeekdayDates(currentDate, this.firstWeekday);
   }
 
   startPress() {
@@ -184,7 +178,7 @@ export class CalendarComponent implements OnInit {
     return {
       startDate: monthDate,
       length: getDaysInMonth(monthDate),
-      weekShift: differenceInDays(monthDate, this.startOfWeek(monthDate)) || 7,
+      weekShift: differenceInDays(monthDate, startOfWeek(monthDate, this.firstWeekday)) || 7,
     };
   }
 
@@ -204,14 +198,6 @@ export class CalendarComponent implements OnInit {
     this.currentMonth = this.generatedMonths.find(month => {
       return month.startDate.getTime() === this.currentMonthTime
     });
-  }
-
-  private startOfWeek(date: Date) {
-    return __startOfWeek(date, {weekStartsOn: this.firstWeekday});
-  }
-
-  private lastDayOfWeek(date: Date) {
-    return __lastDayOfWeek(date, {weekStartsOn: this.firstWeekday});
   }
 
 }
