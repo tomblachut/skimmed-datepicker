@@ -12,8 +12,6 @@ import {Weekday} from '../weekdays';
 import {Month} from '../month';
 import {generateWeekdayDates, startOfWeek} from '../utils';
 
-const log = console.log;
-
 @Component({
   selector: 'tb-calendar',
   templateUrl: './calendar.component.html',
@@ -23,6 +21,10 @@ export class CalendarComponent implements OnInit {
   @Input()
   set date(dirtyDate: Date) {
     const date = startOfDay(dirtyDate);
+    if (date && this.selectedDate && date.getTime() === this.selectedDate.getTime()) {
+      return;
+    }
+
     if (!isNaN(date.getTime())) {
       this.selectedDate = date;
       this.selectedMonthTime = startOfMonth(date).getTime();
@@ -35,10 +37,10 @@ export class CalendarComponent implements OnInit {
       } else {
         this.generateMonths(date);
       }
-    } else {
+    } else if (this.generatedMonths) {
       this.selectedDate = undefined;
-      this.selectedMonthTime = NaN;
-      this.selectedDay = NaN;
+      this.selectedMonthTime = undefined;
+      this.selectedDay = undefined;
       this.updateSelectedMonthRef();
     }
   }
@@ -92,6 +94,9 @@ export class CalendarComponent implements OnInit {
     const currentDate = startOfToday();
     this.currentDay = getDay(currentDate);
     this.weekdays = generateWeekdayDates(currentDate, this.firstWeekday);
+    if (!this.generatedMonths) {
+      this.generateMonths(currentDate);
+    }
   }
 
   startPress() {
