@@ -65,7 +65,7 @@ export class CalendarComponent implements OnInit {
   private isClickFixed = true;
   private panOffset = 0;
   private wrapperWidth: number;
-  private easeOut = createEaseOut(1.5);
+  private easeOut = createEaseOut(1.3);
   private transitionDuration = 150;
   private isMoving = false;
   private isSpringingBack = false;
