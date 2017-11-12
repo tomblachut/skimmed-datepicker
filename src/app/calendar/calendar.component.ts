@@ -9,7 +9,7 @@ import * as getDay from 'date-fns/get_date';
 import * as startOfDay from 'date-fns/start_of_day';
 import {Weekday} from '../weekdays';
 import {Month} from '../month';
-import {createEaseOut, generateWeekdayDates, startOfWeek} from '../utils';
+import {createEaseOut, generateWeekdayDates, range, startOfWeek} from '../utils';
 
 interface Pane {
   order: number;
@@ -47,11 +47,12 @@ export class CalendarComponent implements OnInit {
   @Input() dayFormat = 'd';
   @Input() firstWeekday: Weekday = Weekday.Monday;
 
+  panes: Array<Pane>;
   weekdays: Array<Date>;
-  dayRange = Array.from(new Array(31), (x, i) => i + 1);
-  panes: Pane[];
-  visiblePaneIndex: number;
-  inclination = 0;
+  days = range(1, 31);
+
+  private visiblePaneIndex: number;
+  private tilt = 0;
 
   private selectedDate: Date;
   private selectedDay: number;
@@ -60,7 +61,7 @@ export class CalendarComponent implements OnInit {
   private currentDay: number;
   private currentMonthTime: number;
 
-  isSwipeAllowed = true;
+  private isSwipeAllowed = true;
   private isClickFixed = true;
   private panOffset = 0;
   private wrapperWidth: number;
@@ -68,11 +69,10 @@ export class CalendarComponent implements OnInit {
   private transitionDuration = 150;
   private isMoving = false;
 
-
   get sliderStyles() {
     return {
-      transition: this.inclination ? `transform ${this.transitionDuration}ms` : '',
-      transform: `translateX(${(-this.inclination + this.panOffset) * 100}%)`,
+      transition: this.tilt ? `transform ${this.transitionDuration}ms` : '',
+      transform: `translateX(${(-this.tilt + this.panOffset) * 100}%)`,
     };
   }
 
@@ -111,11 +111,8 @@ export class CalendarComponent implements OnInit {
   }
 
   endPan() {
-    if (this.panOffset < -0.5) {
-      this.showNext();
-      this.isSwipeAllowed = false;
-    } else if (this.panOffset > 0.5) {
-      this.showPrev();
+    if (Math.abs(this.panOffset) > 0.5) {
+      this.scroll(-Math.sign(this.panOffset));
       this.isSwipeAllowed = false;
     }
     this.panOffset = 0;
@@ -132,36 +129,26 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  showPrev() {
-    if (this.isMoving) {
-      return;
+  swipe(direction: number) {
+    if (this.isSwipeAllowed) {
+      this.scroll(direction);
     }
-    this.isMoving = true;
-    this.inclination = -1;
-    setTimeout(() => {
-      this.visiblePaneIndex = (3 + this.visiblePaneIndex - 1) % 3;
-      const index = (3 + this.visiblePaneIndex - 1) % 3;
-      const pane = this.panes[index];
-      pane.month = this.generateMonth(addMonths(pane.month.startDate, -3));
-      pane.order -= 3;
-      this.inclination = 0;
-      this.isMoving = false;
-    }, this.transitionDuration);
   }
 
-  showNext() {
+  scroll(direction: number) {
     if (this.isMoving) {
       return;
     }
     this.isMoving = true;
-    this.inclination = 1;
+    this.tilt = direction;
+
     setTimeout(() => {
-      this.visiblePaneIndex = (3 + this.visiblePaneIndex + 1) % 3;
-      const index = (3 + this.visiblePaneIndex + 1) % 3;
+      this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
+      const index = (3 + this.visiblePaneIndex + direction) % 3;
       const pane = this.panes[index];
-      pane.month = this.generateMonth(addMonths(pane.month.startDate, 3));
-      pane.order += 3;
-      this.inclination = 0;
+      pane.month = this.generateMonth(addMonths(pane.month.startDate, 3 * direction));
+      pane.order += 3 * direction;
+      this.tilt = 0;
       this.isMoving = false;
     }, this.transitionDuration);
   }

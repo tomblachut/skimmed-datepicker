@@ -2,8 +2,8 @@
      (panstart)="startPan(wrapper.offsetWidth)"
      (panmove)="pan($event)"
      (panend)="endPan()"
-     (swiperight)="isSwipeAllowed && showPrev()"
-     (swipeleft)="isSwipeAllowed && showNext()">
+     (swiperight)="swipe(-1)"
+     (swipeleft)="swipe(1)">
   <div class="slider" [ngStyle]="sliderStyles">
     <div class="month" *ngFor="let pane of panes" [style.order]="pane.order">
       <div class="heading">{{pane.month.startDate | date: headingFormat}}</div>
@@ -12,7 +12,7 @@
       </div>
       <div class="days" (pointerdown)="startPress()" (click)="select($event, pane.month)">
         <div class="shifter" [style.width.px]="40 * pane.month.weekShift"></div>
-        <button *ngFor="let day of dayRange"
+        <button *ngFor="let day of days"
                 [style.display]="pane.month.length < day ? 'none' : ''"
                 [class.today]="isToday(day, pane.month)"
                 [class.selected]="isSelected(day, pane.month)"
@@ -20,6 +20,6 @@
       </div>
     </div>
   </div>
-  <button class="pagination prev" (click)="showPrev()">&lsaquo;</button>
-  <button class="pagination next" (click)="showNext()">&rsaquo;</button>
+  <button class="pagination prev" (click)="scroll(-1)">&lsaquo;</button>
+  <button class="pagination next" (click)="scroll(1)">&rsaquo;</button>
 </div>

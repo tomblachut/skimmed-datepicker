@@ -3,6 +3,10 @@ import * as __startOfWeek from 'date-fns/start_of_week';
 import * as __lastDayOfWeek from 'date-fns/last_day_of_week';
 import {eachDay} from 'date-fns';
 
+export function range(from: number, to: number): Array<number> {
+  return Array.from(new Array(1 + to - from), (x, i) => i + from);
+}
+
 export function startOfWeek(date: Date, firstWeekday: Weekday): Date {
   return __startOfWeek(date, {weekStartsOn: firstWeekday});
 }
