@@ -1,6 +1,4 @@
-import * as addMonths from 'date-fns/add_months';
-import * as differenceInDays from 'date-fns/difference_in_days';
-import * as getDaysInMonth from 'date-fns/get_days_in_month';
+import {addMonths, differenceInDays, getDaysInMonth} from 'date-fns';
 import {startOfWeek} from './utils';
 import {Weekday} from './weekdays';
 

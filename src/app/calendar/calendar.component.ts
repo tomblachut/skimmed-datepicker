@@ -1,9 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import * as startOfMonth from 'date-fns/start_of_month';
-import * as startOfToday from 'date-fns/start_of_today';
-import * as setDay from 'date-fns/set_date';
-import * as getDay from 'date-fns/get_date';
-import * as startOfDay from 'date-fns/start_of_day';
+import {getDay, setDay, startOfDay, startOfMonth, startOfToday} from 'date-fns';
 import {Weekday} from '../weekdays';
 import {Month} from '../month';
 import {createEaseOut, generateWeekdayDates, range} from '../utils';
