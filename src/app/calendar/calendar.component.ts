@@ -69,12 +69,35 @@ export class CalendarComponent implements OnInit {
 
   isSwipeAllowed = true;
   private isClickFixed = true;
-  private isPanning = false;
   private panOffset = 0;
   private wrapperWidth: number;
   private easeOut = createEaseOut(1.5);
   private transitionDuration = 150;
-  private isTransitioning = false;
+  private isMoving = false;
+
+  panes = [
+    {
+      order: -1,
+      month: undefined,
+    }, {
+      order: 0,
+      month: undefined,
+    }, {
+      order: 1,
+      month: undefined,
+    },
+  ];
+
+  inclination = 0;
+  visiblePaneI = 1;
+
+  get prevPaneI() {
+    return (3 + this.visiblePaneI - 1) % 3;
+  }
+
+  get nextPaneI() {
+    return (this.visiblePaneI + 1) % 3;
+  }
 
   get earliestGeneratedDate(): Date {
     return this.generatedMonths[0].startDate;
@@ -86,9 +109,8 @@ export class CalendarComponent implements OnInit {
 
   get sliderStyles() {
     return {
-      'left': `${-this.pivotIndex * 100}%`,
-      'transform': `translateX(${(-this.shownIndex + this.panOffset) * 100}%)`,
-      'transition-duration': this.isPanning ? '0ms' : this.transitionDuration + 'ms',
+      transition: this.inclination ? `transform ${this.transitionDuration}ms` : '',
+      transform: `translateX(${(-this.inclination + this.panOffset) * 100}%)`,
     };
   }
 
@@ -99,6 +121,9 @@ export class CalendarComponent implements OnInit {
     if (!this.generatedMonths) {
       this.generateMonths(currentDate);
     }
+    this.panes[0].month = this.generatedMonths[0];
+    this.panes[1].month = this.generatedMonths[1];
+    this.panes[2].month = this.generatedMonths[2];
   }
 
   startPress() {
@@ -108,7 +133,6 @@ export class CalendarComponent implements OnInit {
   startPan(wrapperWidth: number) {
     this.isClickFixed = false;
     this.isSwipeAllowed = true;
-    this.isPanning = true;
     this.wrapperWidth = wrapperWidth;
   }
 
@@ -118,7 +142,6 @@ export class CalendarComponent implements OnInit {
   }
 
   endPan() {
-    this.isPanning = false;
     if (this.panOffset < -0.5) {
       this.showLater();
       this.isSwipeAllowed = false;
@@ -141,32 +164,46 @@ export class CalendarComponent implements OnInit {
   }
 
   showEarlier() {
-    if (this.isTransitioning) {
+    if (this.isMoving) {
       return;
     }
-    if (this.shownIndex + this.pivotIndex === 1) {
-      setTimeout(() => {
+    this.isMoving = true;
+    this.shownIndex--;
+    this.inclination = -1;
+    setTimeout(() => {
+      if (this.shownIndex + this.pivotIndex === 0) {
         this.generatedMonths.unshift(this.generateMonth(subMonths(this.earliestGeneratedDate, 1)));
         this.pivotIndex++;
-        this.isTransitioning = false;
-      }, this.transitionDuration);
-      this.isTransitioning = true;
-    }
-    this.shownIndex--;
+      }
+      this.visiblePaneI = (3 + this.visiblePaneI - 1) % 3;
+      const pane = this.panes[this.prevPaneI];
+      const i = this.generatedMonths.findIndex(month => month === pane.month);
+      pane.month = this.generatedMonths[i - 3];
+      pane.order -= 3;
+      this.inclination = 0;
+      this.isMoving = false;
+    }, this.transitionDuration);
   }
 
   showLater() {
-    if (this.isTransitioning) {
+    if (this.isMoving) {
       return;
     }
-    if (this.shownIndex + this.pivotIndex === this.generatedMonths.length - 2) {
-      setTimeout(() => {
-        this.generatedMonths.push(this.generateMonth(addMonths(this.latestGeneratedDate, 1)));
-        this.isTransitioning = false;
-      }, this.transitionDuration);
-      this.isTransitioning = true;
-    }
+    this.isMoving = true;
     this.shownIndex++;
+    this.inclination = 1;
+    setTimeout(() => {
+      if (this.shownIndex + this.pivotIndex === this.generatedMonths.length - 1) {
+        this.generatedMonths.push(this.generateMonth(addMonths(this.latestGeneratedDate, 1)));
+      }
+      this.visiblePaneI = (3 + this.visiblePaneI + 1) % 3;
+      const pane = this.panes[this.nextPaneI];
+      const i = this.generatedMonths.findIndex(month => month === pane.month);
+      pane.month = this.generatedMonths[i + 3];
+      pane.order += 3;
+      this.inclination = 0;
+      this.isMoving = false;
+    }, this.transitionDuration);
   }
 
   isEarlierInRange() {

@@ -5,16 +5,17 @@
      (swiperight)="isSwipeAllowed && showEarlier()"
      (swipeleft)="isSwipeAllowed && showLater()">
   <div class="slider" [ngStyle]="sliderStyles">
-    <div class="month" *ngFor="let month of generatedMonths">
-      <div class="heading">{{month.startDate | date: headingFormat}}</div>
+    <div class="month" *ngFor="let pane of panes" [style.order]="pane.order">
+      <div class="heading">{{pane.month.startDate | date: headingFormat}}</div>
       <div class="week">
         <div class="weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
       </div>
-      <div class="days" (pointerdown)="startPress()" (click)="select($event, month)">
-        <div class="shifter" [style.width.px]="40 * month.weekShift"></div>
-        <button *ngFor="let day of dayRange | slice:0:month.length"
-                [class.today]="isToday(day, month)"
-                [class.selected]="isSelected(day, month)"
+      <div class="days" (pointerdown)="startPress()" (click)="select($event, pane.month)">
+        <div class="shifter" [style.width.px]="40 * pane.month.weekShift"></div>
+        <button *ngFor="let day of dayRange"
+                [style.display]="pane.month.length < day ? 'none' : ''"
+                [class.today]="isToday(day, pane.month)"
+                [class.selected]="isSelected(day, pane.month)"
                 class="day" type="button">{{day}}</button>
       </div>
     </div>
