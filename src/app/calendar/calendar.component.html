@@ -10,7 +10,7 @@
       <div class="week">
         <div class="weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
       </div>
-      <div class="days" (pointerdown)="startPress()" (click)="select($event, pane.month)">
+      <div class="days" (pointerdown)="startPress()" (click)="selectDay($event, pane.month)">
         <div class="shifter" [style.width.px]="40 * pane.month.weekShift"></div>
         <button *ngFor="let day of days"
                 [style.display]="pane.month.length < day ? 'none' : ''"
@@ -20,6 +20,6 @@
       </div>
     </div>
   </div>
-  <button class="pagination prev" (click)="scroll(-1)">&lsaquo;</button>
-  <button class="pagination next" (click)="scroll(1)">&rsaquo;</button>
+  <button class="pagination prev" (click)="scrollPanes(-1)">&lsaquo;</button>
+  <button class="pagination next" (click)="scrollPanes(1)">&rsaquo;</button>
 </div>

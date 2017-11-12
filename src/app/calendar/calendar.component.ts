@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {getDay, setDay, startOfDay, startOfMonth, startOfToday} from 'date-fns';
 import {Weekday} from '../weekdays';
 import {Month} from '../month';
-import {createEaseOut, generateWeekdayDates, range} from '../utils';
+import {createEaseOut, generateWeekdayDates, isValidDate, range} from '../utils';
 
 interface Pane {
   order: number;
@@ -18,10 +18,10 @@ export class CalendarComponent implements OnInit {
   @Input()
   set date(dirtyDate: Date) {
     const date = startOfDay(dirtyDate);
-    if (date && this.selectedDate && date.getTime() === this.selectedDate.getTime()) {
+    if (this.selectedDate && date.getTime() === this.selectedDate.getTime()) {
       return;
     }
-    if (!isNaN(date.getTime())) {
+    if (isValidDate(date)) {
       this.selectedDate = date;
       this.selectedDay = getDay(date);
       this.selectedMonthTime = startOfMonth(date).getTime();
@@ -54,12 +54,13 @@ export class CalendarComponent implements OnInit {
   private currentDay: number;
   private currentMonthTime: number;
 
+  private easeOut = createEaseOut(1.3);
+  private transitionDuration = 150;
+  private wrapperWidth = 1;
+
   private isSwipeAllowed = true;
   private isClickFixed = true;
   private panOffset = 0;
-  private wrapperWidth: number;
-  private easeOut = createEaseOut(1.3);
-  private transitionDuration = 150;
   private isMoving = false;
   private isSpringingBack = false;
 
@@ -80,7 +81,7 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  initPanes(date: Date) {
+  private initPanes(date: Date) {
     const monthDate = startOfMonth(date);
     this.panes = [-1, 0, 1].map(i => ({
       order: i,
@@ -107,7 +108,7 @@ export class CalendarComponent implements OnInit {
 
   endPan() {
     if (Math.abs(this.panOffset) > 0.5) {
-      this.scroll(-Math.sign(this.panOffset));
+      this.scrollPanes(-Math.sign(this.panOffset));
       this.isSwipeAllowed = false;
     } else {
       this.isSpringingBack = true;
@@ -116,7 +117,7 @@ export class CalendarComponent implements OnInit {
     this.panOffset = 0;
   }
 
-  select(event: MouseEvent, month: Month) {
+  selectDay(event: MouseEvent, month: Month) {
     if (this.isClickFixed) {
       const button = event.target as HTMLButtonElement;
       const day = +button.textContent;
@@ -129,11 +130,11 @@ export class CalendarComponent implements OnInit {
 
   swipe(direction: number) {
     if (this.isSwipeAllowed) {
-      this.scroll(direction);
+      this.scrollPanes(direction);
     }
   }
 
-  scroll(direction: number) {
+  scrollPanes(direction: number) {
     if (this.isMoving) {
       return;
     }

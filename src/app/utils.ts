@@ -1,6 +1,10 @@
 import {Weekday} from './weekdays';
 import {eachDay, lastDayOfWeek as __lastDayOfWeek, startOfWeek as __startOfWeek} from 'date-fns';
 
+export function isValidDate(date: Date): boolean {
+  return !isNaN(date.getTime());
+}
+
 export function range(from: number, to: number): Array<number> {
   return Array.from(new Array(1 + to - from), (x, i) => i + from);
 }
