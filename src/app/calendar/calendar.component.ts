@@ -81,15 +81,6 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  private initPanes(date: Date) {
-    const monthDate = startOfMonth(date);
-    this.panes = [-1, 0, 1].map(i => ({
-      order: i,
-      month: Month.fromDate(monthDate, this.firstWeekday, i),
-    }));
-    this.visiblePaneIndex = 1;
-  }
-
   startPress() {
     this.isClickFixed = true;
   }
@@ -117,17 +108,6 @@ export class CalendarComponent implements OnInit {
     this.panOffset = 0;
   }
 
-  selectDay(event: MouseEvent, month: Month) {
-    if (this.isClickFixed) {
-      const button = event.target as HTMLButtonElement;
-      const day = +button.textContent;
-      this.selectedDay = day;
-      this.selectedMonthTime = month.date.getTime();
-      this.selectedDate = setDay(month.date, day);
-      this.dateChange.emit(this.selectedDate);
-    }
-  }
-
   swipe(direction: number) {
     if (this.isSwipeAllowed) {
       this.scrollPanes(direction);
@@ -152,11 +132,31 @@ export class CalendarComponent implements OnInit {
     }, this.transitionDuration);
   }
 
+  selectDay(event: MouseEvent, month: Month) {
+    if (this.isClickFixed) {
+      const button = event.target as HTMLButtonElement;
+      const day = +button.textContent;
+      this.selectedDay = day;
+      this.selectedMonthTime = month.date.getTime();
+      this.selectedDate = setDay(month.date, day);
+      this.dateChange.emit(this.selectedDate);
+    }
+  }
+
   isToday(day: number, month: Month) {
     return day === this.currentDay && month.date.getTime() === this.currentMonthTime;
   }
 
   isSelected(day: number, month: Month) {
     return day === this.selectedDay && month.date.getTime() === this.selectedMonthTime;
+  }
+
+  private initPanes(date: Date) {
+    const monthDate = startOfMonth(date);
+    this.panes = [-1, 0, 1].map(i => ({
+      order: i,
+      month: Month.fromDate(monthDate, this.firstWeekday, i),
+    }));
+    this.visiblePaneIndex = 1;
   }
 }
