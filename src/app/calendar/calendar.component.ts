@@ -18,18 +18,8 @@ export class CalendarComponent implements OnInit {
   @Input()
   set date(dirtyDate: Date) {
     const date = startOfDay(dirtyDate);
-    if (this.selectedDate && date.getTime() === this.selectedDate.getTime()) {
-      return;
-    }
-    if (isValidDate(date)) {
-      this.selectedDate = date;
-      this.selectedDay = getDay(date);
-      this.selectedMonthTime = startOfMonth(date).getTime();
-      this.initPanes(date);
-    } else {
-      this.selectedDate = undefined;
-      this.selectedDay = undefined;
-      this.selectedMonthTime = undefined;
+    if (!this.selectedDate || date.getTime() !== this.selectedDate.getTime()) {
+      this.updateSelectedDate(date);
     }
   }
 
@@ -158,5 +148,18 @@ export class CalendarComponent implements OnInit {
       month: Month.fromDate(monthDate, this.firstWeekday, i),
     }));
     this.visiblePaneIndex = 1;
+  }
+
+  private updateSelectedDate(date: any) {
+    if (isValidDate(date)) {
+      this.selectedDate = date;
+      this.selectedDay = getDay(date);
+      this.selectedMonthTime = startOfMonth(date).getTime();
+      this.initPanes(date);
+    } else {
+      this.selectedDate = undefined;
+      this.selectedDay = undefined;
+      this.selectedMonthTime = undefined;
+    }
   }
 }
