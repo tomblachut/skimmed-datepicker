@@ -73,7 +73,8 @@ export class CalendarComponent implements OnInit {
   private panOffset = 0;
   private wrapperWidth: number;
   private easeOut = createEaseOut(1.5);
-  private transitionDuration = 200;
+  private transitionDuration = 150;
+  private isTransitioning = false;
 
   get earliestGeneratedDate(): Date {
     return this.generatedMonths[0].startDate;
@@ -140,16 +141,30 @@ export class CalendarComponent implements OnInit {
   }
 
   showEarlier() {
+    if (this.isTransitioning) {
+      return;
+    }
     if (this.shownIndex + this.pivotIndex === 1) {
-      this.generatedMonths.unshift(this.generateMonth(subMonths(this.earliestGeneratedDate, 1)));
-      this.pivotIndex++;
+      setTimeout(() => {
+        this.generatedMonths.unshift(this.generateMonth(subMonths(this.earliestGeneratedDate, 1)));
+        this.pivotIndex++;
+        this.isTransitioning = false;
+      }, this.transitionDuration);
+      this.isTransitioning = true;
     }
     this.shownIndex--;
   }
 
   showLater() {
+    if (this.isTransitioning) {
+      return;
+    }
     if (this.shownIndex + this.pivotIndex === this.generatedMonths.length - 2) {
-      this.generatedMonths.push(this.generateMonth(addMonths(this.latestGeneratedDate, 1)));
+      setTimeout(() => {
+        this.generatedMonths.push(this.generateMonth(addMonths(this.latestGeneratedDate, 1)));
+        this.isTransitioning = false;
+      }, this.transitionDuration);
+      this.isTransitioning = true;
     }
     this.shownIndex++;
   }
