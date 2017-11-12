@@ -29,9 +29,8 @@ button {
 
 .slider {
   display: flex;
-  transform: translateX(0);
-  transition-property: transform;
   position: relative;
+  left: -100%;
 }
 
 .month {
