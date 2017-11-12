@@ -143,10 +143,10 @@ export class CalendarComponent implements OnInit {
 
   endPan() {
     if (this.panOffset < -0.5) {
-      this.showLater();
+      this.showNext();
       this.isSwipeAllowed = false;
     } else if (this.panOffset > 0.5) {
-      this.showEarlier();
+      this.showPrev();
       this.isSwipeAllowed = false;
     }
     this.panOffset = 0;
@@ -163,7 +163,7 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  showEarlier() {
+  showPrev() {
     if (this.isMoving) {
       return;
     }
@@ -185,7 +185,7 @@ export class CalendarComponent implements OnInit {
     }, this.transitionDuration);
   }
 
-  showLater() {
+  showNext() {
     if (this.isMoving) {
       return;
     }
@@ -204,14 +204,6 @@ export class CalendarComponent implements OnInit {
       this.inclination = 0;
       this.isMoving = false;
     }, this.transitionDuration);
-  }
-
-  isEarlierInRange() {
-    return true;
-  }
-
-  isLaterInRange() {
-    return true;
   }
 
   isToday(day: number, month: Month) {

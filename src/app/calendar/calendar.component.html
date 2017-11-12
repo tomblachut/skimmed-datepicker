@@ -2,8 +2,8 @@
      (panstart)="startPan(wrapper.offsetWidth)"
      (panmove)="pan($event)"
      (panend)="endPan()"
-     (swiperight)="isSwipeAllowed && showEarlier()"
-     (swipeleft)="isSwipeAllowed && showLater()">
+     (swiperight)="isSwipeAllowed && showPrev()"
+     (swipeleft)="isSwipeAllowed && showNext()">
   <div class="slider" [ngStyle]="sliderStyles">
     <div class="month" *ngFor="let pane of panes" [style.order]="pane.order">
       <div class="heading">{{pane.month.startDate | date: headingFormat}}</div>
@@ -20,6 +20,6 @@
       </div>
     </div>
   </div>
-  <button class="pagination prev" (click)="showEarlier()" [disabled]="!isEarlierInRange()">&lsaquo;</button>
-  <button class="pagination next" (click)="showLater()" [disabled]="!isLaterInRange()">&rsaquo;</button>
+  <button class="pagination prev" (click)="showPrev()">&lsaquo;</button>
+  <button class="pagination next" (click)="showNext()">&rsaquo;</button>
 </div>
