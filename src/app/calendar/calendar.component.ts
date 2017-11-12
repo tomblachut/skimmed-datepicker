@@ -1,15 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import * as addMonths from 'date-fns/add_months';
-import * as differenceInDays from 'date-fns/difference_in_days';
 import * as startOfMonth from 'date-fns/start_of_month';
 import * as startOfToday from 'date-fns/start_of_today';
-import * as getDaysInMonth from 'date-fns/get_days_in_month';
 import * as setDay from 'date-fns/set_date';
 import * as getDay from 'date-fns/get_date';
 import * as startOfDay from 'date-fns/start_of_day';
 import {Weekday} from '../weekdays';
 import {Month} from '../month';
-import {createEaseOut, generateWeekdayDates, range, startOfWeek} from '../utils';
+import {createEaseOut, generateWeekdayDates, range} from '../utils';
 
 interface Pane {
   order: number;
@@ -91,7 +88,7 @@ export class CalendarComponent implements OnInit {
     const monthDate = startOfMonth(date);
     this.panes = [-1, 0, 1].map(i => ({
       order: i,
-      month: this.generateMonth(addMonths(monthDate, i)),
+      month: Month.fromDate(monthDate, this.firstWeekday, i),
     }));
     this.visiblePaneIndex = 1;
   }
@@ -128,8 +125,8 @@ export class CalendarComponent implements OnInit {
       const button = event.target as HTMLButtonElement;
       const day = +button.textContent;
       this.selectedDay = day;
-      this.selectedMonthTime = month.startDate.getTime();
-      this.selectedDate = setDay(month.startDate, day);
+      this.selectedMonthTime = month.date.getTime();
+      this.selectedDate = setDay(month.date, day);
       this.dateChange.emit(this.selectedDate);
     }
   }
@@ -151,7 +148,7 @@ export class CalendarComponent implements OnInit {
       this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
       const index = (3 + this.visiblePaneIndex + direction) % 3;
       const pane = this.panes[index];
-      pane.month = this.generateMonth(addMonths(pane.month.startDate, 3 * direction));
+      pane.month = Month.fromDate(pane.month.date, this.firstWeekday, 3 * direction);
       pane.order += 3 * direction;
       this.tilt = 0;
       this.isMoving = false;
@@ -159,18 +156,10 @@ export class CalendarComponent implements OnInit {
   }
 
   isToday(day: number, month: Month) {
-    return day === this.currentDay && month.startDate.getTime() === this.currentMonthTime;
+    return day === this.currentDay && month.date.getTime() === this.currentMonthTime;
   }
 
   isSelected(day: number, month: Month) {
-    return day === this.selectedDay && month.startDate.getTime() === this.selectedMonthTime;
-  }
-
-  private generateMonth: (monthDate: Date) => Month = (monthDate) => {
-    return {
-      startDate: monthDate,
-      length: getDaysInMonth(monthDate),
-      weekShift: differenceInDays(monthDate, startOfWeek(monthDate, this.firstWeekday)) || 7,
-    };
+    return day === this.selectedDay && month.date.getTime() === this.selectedMonthTime;
   }
 }

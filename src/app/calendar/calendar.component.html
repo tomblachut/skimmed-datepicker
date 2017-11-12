@@ -6,7 +6,7 @@
      (swipeleft)="swipe(1)">
   <div class="slider" [ngStyle]="sliderStyles">
     <div class="month" *ngFor="let pane of panes" [style.order]="pane.order">
-      <div class="heading">{{pane.month.startDate | date: headingFormat}}</div>
+      <div class="heading">{{pane.month.date | date: headingFormat}}</div>
       <div class="week">
         <div class="weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
       </div>
