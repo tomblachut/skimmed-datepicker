@@ -68,10 +68,11 @@ export class CalendarComponent implements OnInit {
   private easeOut = createEaseOut(1.5);
   private transitionDuration = 150;
   private isMoving = false;
+  private isSpringingBack = false;
 
   get sliderStyles() {
     return {
-      transition: this.tilt ? `transform ${this.transitionDuration}ms` : '',
+      transition: this.tilt || this.isSpringingBack ? `transform ${this.transitionDuration}ms` : '',
       transform: `translateX(${(-this.tilt + this.panOffset) * 100}%)`,
     };
   }
@@ -102,6 +103,7 @@ export class CalendarComponent implements OnInit {
   startPan(wrapperWidth: number) {
     this.isClickFixed = false;
     this.isSwipeAllowed = true;
+    this.isSpringingBack = false;
     this.wrapperWidth = wrapperWidth;
   }
 
@@ -114,6 +116,9 @@ export class CalendarComponent implements OnInit {
     if (Math.abs(this.panOffset) > 0.5) {
       this.scroll(-Math.sign(this.panOffset));
       this.isSwipeAllowed = false;
+    } else {
+      this.isSpringingBack = true;
+      setTimeout(() => this.isSpringingBack = false, this.transitionDuration);
     }
     this.panOffset = 0;
   }
