@@ -1,27 +1,5 @@
-import {Weekday} from './weekdays';
-import {eachDay, lastDayOfWeek as __lastDayOfWeek, startOfWeek as __startOfWeek} from 'date-fns';
-
-export function isValidDate(date: Date): boolean {
-  return !isNaN(date.getTime());
-}
-
 export function range(from: number, to: number): Array<number> {
   return Array.from(new Array(1 + to - from), (x, i) => i + from);
-}
-
-export function startOfWeek(date: Date, firstWeekday: Weekday): Date {
-  return __startOfWeek(date, {weekStartsOn: firstWeekday});
-}
-
-export function lastDayOfWeek(date: Date, firstWeekday: Weekday): Date {
-  return __lastDayOfWeek(date, {weekStartsOn: firstWeekday});
-}
-
-export function generateWeekdayDates(date: Date, firstWeekday: Weekday): Array<Date> {
-  return eachDay(
-    startOfWeek(date, firstWeekday),
-    lastDayOfWeek(date, firstWeekday),
-  );
 }
 
 // kudos to @michel4ngel0

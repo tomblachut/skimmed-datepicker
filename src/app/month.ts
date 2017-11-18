@@ -1,5 +1,4 @@
-import {addMonths, differenceInDays, getDaysInMonth} from 'date-fns';
-import {startOfWeek} from './utils';
+import {addMonths, differenceInDays, getDaysInMonth, startOfWeek} from './date-utils';
 import {Weekday} from './weekdays';
 
 export class Month {

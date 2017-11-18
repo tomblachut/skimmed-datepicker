@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {getDate, setDate, startOfDay, startOfMonth, startOfToday} from 'date-fns';
+import {getDay, isValidDate, setDay, startOfDay, startOfMonth, startOfToday, weekdayDates} from '../date-utils';
 import {Weekday} from '../weekdays';
 import {Month} from '../month';
-import {createEaseOut, generateWeekdayDates, isValidDate, range} from '../utils';
+import {createEaseOut, range} from '../utils';
 
 interface Pane {
   order: number;
@@ -63,9 +63,9 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit() {
     const currentDate = startOfToday();
-    this.currentDay = getDate(currentDate);
+    this.currentDay = getDay(currentDate);
     this.currentMonthTime = startOfMonth(currentDate).getTime();
-    this.weekdays = generateWeekdayDates(currentDate, this.firstWeekday);
+    this.weekdays = weekdayDates(currentDate, this.firstWeekday);
     if (!this.panes) {
       this.initPanes(currentDate);
     }
@@ -128,7 +128,7 @@ export class CalendarComponent implements OnInit {
       const day = +button.textContent;
       this.selectedDay = day;
       this.selectedMonthTime = month.date.getTime();
-      this.selectedDate = setDate(month.date, day);
+      this.selectedDate = setDay(month.date, day);
       this.dateChange.emit(this.selectedDate);
     }
   }
@@ -153,7 +153,7 @@ export class CalendarComponent implements OnInit {
   private updateSelectedDate(date: any) {
     if (isValidDate(date)) {
       this.selectedDate = date;
-      this.selectedDay = getDate(date);
+      this.selectedDay = getDay(date);
       this.selectedMonthTime = startOfMonth(date).getTime();
       this.initPanes(date);
     } else {
