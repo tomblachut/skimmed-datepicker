@@ -1,5 +1,5 @@
 import {Weekday} from './weekdays';
-import {eachDay, lastDayOfWeek as __lastDayOfWeek, startOfWeek as __startOfWeek} from 'date-fns';
+import {eachDayOfInterval, lastDayOfWeek as __lastDayOfWeek, startOfWeek as __startOfWeek} from 'date-fns/esm';
 
 export {
   addMonths,
@@ -9,8 +9,7 @@ export {
   setDate as setDay,
   startOfDay,
   startOfMonth,
-  startOfToday,
-} from 'date-fns';
+} from 'date-fns/esm';
 
 declare function addMonths(date: Date, amount: number): Date;
 
@@ -26,23 +25,21 @@ declare function startOfDay(date: Date): Date;
 
 declare function startOfMonth(date: Date): Date;
 
-declare function startOfToday(): Date;
-
 export function isValidDate(date: Date): boolean {
   return !isNaN(date.getTime());
 }
 
 export function startOfWeek(date: Date, firstWeekday: Weekday): Date {
-  return __startOfWeek(date, {weekStartsOn: firstWeekday});
+  return __startOfWeek(date, {weekStartsOn: firstWeekday as any});
 }
 
 export function lastDayOfWeek(date: Date, firstWeekday: Weekday): Date {
-  return __lastDayOfWeek(date, {weekStartsOn: firstWeekday});
+  return __lastDayOfWeek(date, {weekStartsOn: firstWeekday as any});
 }
 
 export function weekdayDates(date: Date, firstWeekday: Weekday): Array<Date> {
-  return eachDay(
-    startOfWeek(date, firstWeekday),
-    lastDayOfWeek(date, firstWeekday),
-  );
+  return eachDayOfInterval({
+    start: startOfWeek(date, firstWeekday),
+    end: lastDayOfWeek(date, firstWeekday),
+  });
 }

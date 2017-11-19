@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {getDay, isValidDate, setDay, startOfDay, startOfMonth, startOfToday, weekdayDates} from '../util/date-utils';
+import {getDay, isValidDate, setDay, startOfDay, startOfMonth, weekdayDates} from '../util/date-utils';
 import {Weekday} from '../util/weekdays';
 import {Month} from '../util/month';
 import {createEaseOut, range} from '../util/helpers';
 
-interface Pane {
+export interface Pane {
   order: number;
   month: Month;
 }
@@ -62,7 +62,7 @@ export class DatepickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    const currentDate = startOfToday();
+    const currentDate = startOfDay(new Date());
     this.currentDay = getDay(currentDate);
     this.currentMonthTime = startOfMonth(currentDate).getTime();
     this.weekdays = weekdayDates(currentDate, this.firstWeekday);
