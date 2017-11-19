@@ -10,11 +10,11 @@ interface Pane {
 }
 
 @Component({
-  selector: 'skm-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+  selector: 'skm-datepicker',
+  templateUrl: './datepicker.component.html',
+  styleUrls: ['./datepicker.component.scss'],
 })
-export class CalendarComponent implements OnInit {
+export class DatepickerComponent implements OnInit {
   @Input()
   set date(dirtyDate: Date) {
     const date = startOfDay(dirtyDate);

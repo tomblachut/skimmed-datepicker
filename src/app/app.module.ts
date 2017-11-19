@@ -1,22 +1,19 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {LOCALE_ID, NgModule} from '@angular/core';
-import {AppComponent} from './app.component';
-import {CalendarComponent} from './calendar/calendar.component';
+import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {DatepickerModule} from './datepicker/datepicker.module';
+import {AppComponent} from './app.component';
 import 'hammerjs';
 import 'hammer-timejs';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CalendarComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-  ],
-  providers: [
-    {provide: LOCALE_ID, useValue: 'en-US'},
+    DatepickerModule,
   ],
   bootstrap: [AppComponent],
 })

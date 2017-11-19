@@ -6,7 +6,7 @@
         <input id="date" type="text" class="form-control mb-3"
                [ngModel]="date | date:'yyyy-MM-dd'" (ngModelChange)="date = $event">
       </div>
-      <skm-calendar [(date)]="date"></skm-calendar>
+      <skm-datepicker [(date)]="date"></skm-datepicker>
     </div>
     <div class="col-auto mt-3">
       <div>
@@ -14,12 +14,12 @@
         <input id="date2" type="text" class="form-control mb-3"
                [ngModel]="undef | date:'yyyy-MM-dd'" (ngModelChange)="undef = $event">
       </div>
-      <skm-calendar [(date)]="undef"></skm-calendar>
+      <skm-datepicker [(date)]="undef"></skm-datepicker>
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="col-auto">
-      <skm-calendar></skm-calendar>
+      <skm-datepicker></skm-datepicker>
     </div>
   </div>
 </div>
