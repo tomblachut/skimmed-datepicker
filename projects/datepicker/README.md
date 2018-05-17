@@ -15,7 +15,7 @@ Please visit https://tomblachut.github.io/skimmed-datepicker/ for a simple demo.
 * Customizable date formatting
 * Popover mode
 * Zoom out to year & decade views
-* Themes
+* Theming
 * Keyboard support
 
 Project structure probably needs some tweaking, IDK, I've never done Open Source Component before.

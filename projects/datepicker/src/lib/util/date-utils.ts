@@ -1,5 +1,5 @@
-import {Weekday} from './weekdays';
-import {eachDayOfInterval, lastDayOfWeek as __lastDayOfWeek, startOfWeek as __startOfWeek} from 'date-fns/esm';
+import { Weekday } from './weekdays';
+import { eachDayOfInterval, lastDayOfWeek as __lastDayOfWeek, startOfWeek as __startOfWeek } from 'date-fns/esm';
 
 export {
   addMonths,

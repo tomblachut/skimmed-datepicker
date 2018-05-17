@@ -1,5 +1,5 @@
-import {addMonths, differenceInDays, getDaysInMonth, startOfWeek} from './date-utils';
-import {Weekday} from './weekdays';
+import { addMonths, differenceInDays, getDaysInMonth, startOfWeek } from './date-utils';
+import { Weekday } from './weekdays';
 
 export class Month {
   constructor(readonly date: Date,

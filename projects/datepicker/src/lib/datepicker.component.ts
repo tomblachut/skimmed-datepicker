@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {getDay, isValidDate, setDay, startOfDay, startOfMonth, weekdayDates} from '../util/date-utils';
-import {Weekday} from '../util/weekdays';
-import {Month} from '../util/month';
-import {createEaseOut, range} from '../util/helpers';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { getDay, isValidDate, setDay, startOfDay, startOfMonth, weekdayDates } from './util/date-utils';
+import { Weekday } from './util/weekdays';
+import { Month } from './util/month';
+import { createEaseOut, range } from './util/helpers';
 
 export interface Pane {
   order: number;

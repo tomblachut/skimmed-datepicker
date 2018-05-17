@@ -1,0 +1,30 @@
+{
+  "name": "skimmed-datepicker",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Tomasz Błachut",
+    "email": "blachut.tomasz@gmail.com",
+    "url": "https://github.com/tomblachut"
+  },
+  "description": "Datepicker component for Angular, containing around 0.1% fat",
+  "keywords": [
+    "angular",
+    "component",
+    "datepicker",
+    "calendar",
+    "touch-compatible",
+    "cdk",
+    "angular2",
+    "angular6"
+  ],
+  "repository": "tomblachut/skimmed-angular",
+  "homepage": "https://tomblachut.github.io/skimmed-angular/",
+  "bugs": "https://github.com/tomblachut/skimmed-angular/issues",
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "date-fns": "^2.0.0-alpha.7 || ^2.0.0",
+    "hammerjs": "^2.0.8"
+  }
+}

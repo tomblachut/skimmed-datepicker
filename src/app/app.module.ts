@@ -1,10 +1,9 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {DatepickerModule} from './datepicker/datepicker.module';
-import {AppComponent} from './app.component';
-import 'hammerjs';
-import 'hammer-timejs';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { DatepickerModule } from 'skimmed-datepicker';
 
 @NgModule({
   declarations: [
@@ -15,6 +14,7 @@ import 'hammer-timejs';
     FormsModule,
     DatepickerModule,
   ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {
