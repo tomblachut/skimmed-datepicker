@@ -6,7 +6,7 @@
         <input id="date" type="text" class="form-control mb-3"
                [ngModel]="date | date:'yyyy-MM-dd'" (ngModelChange)="date = $event">
       </div>
-      <skm-datepicker [(date)]="date"></skm-datepicker>
+      <skm-datepicker [(ngModel)]="date"></skm-datepicker>
     </div>
     <div class="col-auto mt-3">
       <div>

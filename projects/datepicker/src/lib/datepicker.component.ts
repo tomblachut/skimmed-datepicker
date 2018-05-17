@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { getDay, isValidDate, setDay, startOfDay, startOfMonth, weekdayDates } from './util/date-utils';
 import { Weekday } from './util/weekdays';
 import { Month } from './util/month';
@@ -13,8 +14,15 @@ export interface Pane {
   selector: 'skm-datepicker',
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: DatepickerComponent,
+      multi: true,
+    },
+  ],
 })
-export class DatepickerComponent implements OnInit {
+export class DatepickerComponent implements ControlValueAccessor, OnInit {
   @Input()
   set date(dirtyDate: Date) {
     const date = startOfDay(dirtyDate);
@@ -53,6 +61,11 @@ export class DatepickerComponent implements OnInit {
   private panOffset = 0;
   private isMoving = false;
   private isSpringingBack = false;
+
+  private onChange: (date: Date) => void = () => {
+  };
+  private onTouched: () => void = () => {
+  };
 
   get sliderStyles() {
     return {
@@ -129,6 +142,7 @@ export class DatepickerComponent implements OnInit {
       this.selectedDay = day;
       this.selectedMonthTime = month.date.getTime();
       this.selectedDate = setDay(month.date, day);
+      this.onChange(this.selectedDate);
       this.dateChange.emit(this.selectedDate);
     }
   }
@@ -162,4 +176,24 @@ export class DatepickerComponent implements OnInit {
       this.selectedMonthTime = undefined;
     }
   }
+
+  // ControlValueAccessor implementation
+
+  writeValue(obj: any): void {
+    this.date = obj;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+    // TODO implement
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    // TODO implement
+  }
+
 }
