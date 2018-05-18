@@ -1,0 +1,42 @@
+$cell-width: 40px;
+$cell-height: $cell-width;
+
+button {
+  display: block;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.pane, .wrapper {
+  width: 7 * $cell-width;
+}
+
+.day, .pagination {
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+}
+
+// THEME
+button {
+  transition: border-color 100ms;
+}
+
+.day:hover {
+  border-color: darkgray;
+}
+
+.today {
+  border-color: lightgray;
+}
+
+.selected {
+  border-color: gray;
+}

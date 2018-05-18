@@ -5,35 +5,7 @@ $cell-height: $cell-width;
   display: block;
 }
 
-button {
-  display: block;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  border: 1px solid transparent;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.wrapper, .month {
-  width: 7 * $cell-width;
-}
-
-.wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-.slider {
-  display: flex;
-  position: relative;
-  left: -100%;
-}
-
-.month {
+.pane {
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -73,43 +45,4 @@ button {
   height: $cell-height - 2;
   margin: 1px;
   pointer-events: auto;
-}
-
-.day, .pagination {
-  &:not([disabled]) {
-    cursor: pointer;
-  }
-}
-
-.pagination {
-  position: absolute;
-  top: 0;
-  width: $cell-width;
-  height: $cell-height;
-  font-weight: 700;
-
-  &.prev {
-    left: 0;
-  }
-
-  &.next {
-    right: 0;
-  }
-}
-
-// THEME
-button {
-  transition: border-color 100ms;
-}
-
-.day:hover {
-  border-color: darkgray;
-}
-
-.today {
-  border-color: lightgray;
-}
-
-.selected {
-  border-color: gray;
 }

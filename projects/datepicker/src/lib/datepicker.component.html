@@ -1,27 +1,18 @@
-<div class="wrapper" #wrapper
-     (panstart)="startPan(wrapper.offsetWidth)"
-     (panmove)="pan($event)"
-     (panend)="endPan()"
-     (swiperight)="swipe(-1)"
-     (swipeleft)="swipe(1)">
-  <div class="slider" [ngStyle]="sliderStyles">
-    <div class="month" *ngFor="let pane of panes" [style.order]="pane.order">
-      <div class="heading">{{pane.month.date | date: headingFormat}}</div>
-      <div class="week">
-        <div class="weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
-      </div>
-      <div class="days" (pointerdown)="startPress()" (click)="selectDay($event, pane.month)">
-        <div class="shifter" [style.width.px]="40 * pane.month.weekShift"></div>
-        <button *ngFor="let day of days"
-                [style.display]="pane.month.length < day ? 'none' : ''"
-                [class.today]="isToday(day, pane.month)"
-                [class.selected]="isSelected(day, pane.month)"
-                class="day" type="button">
-          {{day}}
-        </button>
-      </div>
+<skm-slider [firstWeekday]="firstWeekday" [panes]="panes" [visiblePaneIndex]="visiblePaneIndex" #slider>
+  <div class="pane" *ngFor="let pane of panes" [style.order]="pane.order">
+    <div class="heading">{{pane.month.date | date: headingFormat}}</div>
+    <div class="week">
+      <div class="weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
+    </div>
+    <div class="days" (click)="selectDay($event, pane.month, slider.motionlessClick)">
+      <div class="shifter" [style.width.px]="40 * pane.month.weekShift"></div>
+      <button *ngFor="let day of days"
+              [style.display]="pane.month.length < day ? 'none' : ''"
+              [class.today]="isToday(day, pane.month)"
+              [class.selected]="isSelected(day, pane.month)"
+              class="day" type="button">
+        {{day}}
+      </button>
     </div>
   </div>
-  <button class="pagination prev" (click)="scrollPanes(-1)">&lsaquo;</button>
-  <button class="pagination next" (click)="scrollPanes(1)">&rsaquo;</button>
-</div>
+</skm-slider>

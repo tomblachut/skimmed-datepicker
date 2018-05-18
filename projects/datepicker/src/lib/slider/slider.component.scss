@@ -1,0 +1,33 @@
+$cell-width: 40px;
+$cell-height: $cell-width;
+
+:host {
+  display: block;
+}
+
+.wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.slider {
+  display: flex;
+  position: relative;
+  left: -100%;
+}
+
+.pagination {
+  position: absolute;
+  top: 0;
+  width: $cell-width;
+  height: $cell-height;
+  font-weight: 700;
+
+  &.prev {
+    left: 0;
+  }
+
+  &.next {
+    right: 0;
+  }
+}

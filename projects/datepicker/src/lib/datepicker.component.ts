@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { getDay, isValidDate, setDay, startOfDay, startOfMonth, weekdayDates } from './util/date-utils';
 import { Weekday } from './util/weekdays';
 import { Month } from './util/month';
-import { createEaseOut, range } from './util/helpers';
+import { range } from './util/helpers';
 
 export interface Pane {
   order: number;
@@ -13,7 +13,7 @@ export interface Pane {
 @Component({
   selector: 'skm-datepicker',
   templateUrl: './datepicker.component.html',
-  styleUrls: ['./datepicker.component.scss'],
+  styleUrls: ['./datepicker.component.scss', './shared.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -42,8 +42,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   weekdays: Array<Date>;
   days = range(1, 31);
 
-  private visiblePaneIndex: number;
-  private tilt = 0;
+  visiblePaneIndex: number;
 
   private selectedDate: Date;
   private selectedDay: number;
@@ -52,27 +51,10 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   private currentDay: number;
   private currentMonthTime: number;
 
-  private easeOut = createEaseOut(1.3);
-  private transitionDuration = 150;
-  private wrapperWidth = 1;
-
-  private isSwipeAllowed = true;
-  private isClickFixed = true;
-  private panOffset = 0;
-  private isMoving = false;
-  private isSpringingBack = false;
-
   private onChange: (date: Date) => void = () => {
   };
   private onTouched: () => void = () => {
   };
-
-  get sliderStyles() {
-    return {
-      transition: this.tilt || this.isSpringingBack ? `transform ${this.transitionDuration}ms` : '',
-      transform: `translateX(${(-this.tilt + this.panOffset) * 100}%)`,
-    };
-  }
 
   ngOnInit() {
     const currentDate = startOfDay(new Date());
@@ -84,59 +66,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  startPress() {
-    this.isClickFixed = true;
-  }
-
-  startPan(wrapperWidth: number) {
-    this.isClickFixed = false;
-    this.isSwipeAllowed = true;
-    this.isSpringingBack = false;
-    this.wrapperWidth = wrapperWidth;
-  }
-
-  pan(event: any) {
-    const absOffset = Math.abs(event.deltaX / this.wrapperWidth);
-    this.panOffset = Math.sign(event.deltaX) * this.easeOut(absOffset);
-  }
-
-  endPan() {
-    if (Math.abs(this.panOffset) > 0.5) {
-      this.scrollPanes(-Math.sign(this.panOffset));
-      this.isSwipeAllowed = false;
-    } else {
-      this.isSpringingBack = true;
-      setTimeout(() => this.isSpringingBack = false, this.transitionDuration);
-    }
-    this.panOffset = 0;
-  }
-
-  swipe(direction: number) {
-    if (this.isSwipeAllowed) {
-      this.scrollPanes(direction);
-    }
-  }
-
-  scrollPanes(direction: number) {
-    if (this.isMoving) {
-      return;
-    }
-    this.isMoving = true;
-    this.tilt = direction;
-
-    setTimeout(() => {
-      this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
-      const index = (3 + this.visiblePaneIndex + direction) % 3;
-      const pane = this.panes[index];
-      pane.month = Month.fromDate(pane.month.date, this.firstWeekday, 3 * direction);
-      pane.order += 3 * direction;
-      this.tilt = 0;
-      this.isMoving = false;
-    }, this.transitionDuration);
-  }
-
-  selectDay(event: MouseEvent, month: Month) {
-    if (this.isClickFixed) {
+  selectDay(event: MouseEvent, month: Month, motionlessClick: boolean) {
+    if (motionlessClick) {
       const button = event.target as HTMLButtonElement;
       const day = +button.textContent;
       this.selectedDay = day;

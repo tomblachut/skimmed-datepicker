@@ -1,0 +1,12 @@
+<div class="wrapper" #wrapper
+     (panstart)="startPan(wrapper.offsetWidth)"
+     (panmove)="pan($event)"
+     (panend)="endPan()"
+     (swiperight)="swipe(-1)"
+     (swipeleft)="swipe(1)">
+  <div (pointerdown)="startPress()" class="slider" [ngStyle]="sliderStyles">
+    <ng-content></ng-content>
+  </div>
+  <button class="pagination prev" (click)="scrollPanes(-1)">&lsaquo;</button>
+  <button class="pagination next" (click)="scrollPanes(1)">&rsaquo;</button>
+</div>
