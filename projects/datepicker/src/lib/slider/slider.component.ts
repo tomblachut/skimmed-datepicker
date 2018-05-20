@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { createEaseOut } from '../util/helpers';
-import { Weekday } from '../util/weekdays';
 
 @Component({
   selector: 'skm-slider',
@@ -8,9 +7,9 @@ import { Weekday } from '../util/weekdays';
   styleUrls: ['./slider.component.scss', '../shared.scss'],
 })
 export class SliderComponent implements OnInit {
-  @Input() firstWeekday: Weekday;
-
   @Output() slideDone = new EventEmitter<number>();
+
+  notPanning = true;
 
   get sliderStyles() {
     return {
@@ -18,8 +17,6 @@ export class SliderComponent implements OnInit {
       transform: `translateX(${(-this.tilt + this.panOffset) * 100}%)`,
     };
   }
-
-  notPanning = true;
 
   private tilt = 0;
 

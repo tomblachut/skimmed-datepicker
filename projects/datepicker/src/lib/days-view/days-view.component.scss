@@ -1,0 +1,48 @@
+$cell-width: 40px;
+$cell-height: $cell-width;
+
+:host {
+  display: block;
+}
+
+.pane {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.heading {
+  font-weight: 700;
+  text-align: center;
+  height: $cell-height;
+  line-height: $cell-height;
+}
+
+.week {
+  display: flex;
+}
+
+.weekday {
+  font-weight: 700;
+  text-align: center;
+  line-height: $cell-height;
+  width: $cell-width;
+  height: $cell-height;
+}
+
+.days {
+  display: flex;
+  flex-wrap: wrap;
+  pointer-events: none;
+}
+
+.shifter {
+  height: $cell-height;
+}
+
+.day {
+  border-radius: 50%;
+  width: $cell-width - 2;
+  height: $cell-height - 2;
+  margin: 1px;
+  pointer-events: auto;
+}
