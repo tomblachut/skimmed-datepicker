@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { getDay, isValidDate, setDay, startOfDay, startOfMonth, weekdayDates } from './util/date-utils';
 import { Weekday } from './util/weekdays';
 import { Month } from './util/month';
-import { range } from './util/helpers';
+import { noop, range } from './util/helpers';
 
 export interface Pane {
   order: number;
@@ -51,10 +51,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   private currentDay: number;
   private currentMonthTime: number;
 
-  private onChange: (date: Date) => void = () => {
-  };
-  private onTouched: () => void = () => {
-  };
+  private onChange: (date: Date) => void = noop;
+  private onTouched: () => void = noop;
 
   ngOnInit() {
     const currentDate = startOfDay(new Date());
@@ -66,8 +64,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  selectDay(event: MouseEvent, month: Month, motionlessClick: boolean) {
-    if (motionlessClick) {
+  selectDay(event: MouseEvent, month: Month, notPanning: boolean) {
+    if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const day = +button.textContent;
       this.selectedDay = day;

@@ -4,7 +4,7 @@
     <div class="week">
       <div class="weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
     </div>
-    <div class="days" (click)="selectDay($event, pane.month, slider.motionlessClick)">
+    <div class="days" (click)="selectDay($event, pane.month, slider.notPanning)">
       <div class="shifter" [style.width.px]="40 * pane.month.weekShift"></div>
       <button *ngFor="let day of days"
               [style.display]="pane.month.length < day ? 'none' : ''"

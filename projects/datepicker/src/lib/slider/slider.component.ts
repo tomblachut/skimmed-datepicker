@@ -22,7 +22,7 @@ export class SliderComponent implements OnInit {
     };
   }
 
-  motionlessClick = true;
+  notPanning = true;
 
   private tilt = 0;
 
@@ -42,11 +42,11 @@ export class SliderComponent implements OnInit {
   }
 
   startPress() {
-    this.motionlessClick = true;
+    this.notPanning = true;
   }
 
   startPan(wrapperWidth: number) {
-    this.motionlessClick = false;
+    this.notPanning = false;
     this.swipeAllowed = true;
     this.springingBack = false;
     this.wrapperWidth = wrapperWidth;

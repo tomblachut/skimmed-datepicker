@@ -4,7 +4,7 @@
      (panend)="endPan()"
      (swiperight)="swipe(-1)"
      (swipeleft)="swipe(1)">
-  <div (pointerdown)="startPress()" class="slider" [ngStyle]="sliderStyles">
+  <div class="slider" [ngStyle]="sliderStyles" (pointerdown)="startPress()">
     <ng-content></ng-content>
   </div>
   <button class="pagination prev" (click)="scrollPanes(-1)">&lsaquo;</button>
