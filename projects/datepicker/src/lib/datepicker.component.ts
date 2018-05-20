@@ -2,13 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isValidDate, startOfDay } from './util/date-utils';
 import { Weekday } from './util/weekdays';
-import { Month } from './util/month';
 import { noop } from './util/helpers';
-
-export interface Pane {
-  order: number;
-  month: Month;
-}
 
 @Component({
   selector: 'skm-datepicker',

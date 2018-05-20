@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { Weekday } from '../util/weekdays';
 import { getDay, setDay, startOfMonth, weekdayDates } from '../util/date-utils';
 import { Month } from '../util/month';
-import { Pane } from '../datepicker.component';
+import { Pane } from '../util/pane';
 import { range } from '../util/helpers';
 
 @Component({
