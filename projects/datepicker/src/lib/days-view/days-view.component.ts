@@ -20,6 +20,7 @@ export class DaysViewComponent implements OnChanges, OnInit {
   @Input() firstWeekday: Weekday;
 
   @Output() dayChange = new EventEmitter<Date>();
+  @Output() headerClick = new EventEmitter<MouseEvent>();
 
   panes: Array<Pane>;
   visiblePaneIndex: number;

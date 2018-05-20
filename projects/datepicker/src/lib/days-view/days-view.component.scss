@@ -11,6 +11,8 @@ $cell-height: $cell-width;
 }
 
 .heading {
+  width: 100%;
+  border-width: 0;
   font-weight: 700;
   text-align: center;
   height: $cell-height;

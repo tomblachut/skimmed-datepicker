@@ -18,10 +18,8 @@ button {
   width: 7 * $cell-width;
 }
 
-.day, .pagination {
-  &:not([disabled]) {
-    cursor: pointer;
-  }
+button:not([disabled]) {
+  cursor: pointer;
 }
 
 // THEME

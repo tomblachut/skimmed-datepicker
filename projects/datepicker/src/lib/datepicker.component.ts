@@ -48,6 +48,10 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     this.dateChange.emit(date);
   }
 
+  showMonths() {
+    console.log('header clicked');
+  }
+
   // ControlValueAccessor implementation
 
   writeValue(obj: any): void {

@@ -1,6 +1,8 @@
 <skm-slider (slideDone)="switchPanes($event)" #slider>
   <div class="pane" *ngFor="let pane of panes" [style.order]="pane.order">
-    <div class="heading">{{pane.month.date | date: headingFormat}}</div>
+    <button type="button" class="heading"
+            (click)="headerClick.emit($event)">{{pane.month.date | date: headingFormat}}
+    </button>
     <div class="week">
       <div class="weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
     </div>
