@@ -84,6 +84,14 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     return day === this.selectedDay && month.date.getTime() === this.selectedMonthTime;
   }
 
+  switchPanes(direction: number) {
+    this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
+    const index = (3 + this.visiblePaneIndex + direction) % 3;
+    const pane = this.panes[index];
+    pane.month = Month.fromDate(pane.month.date, this.firstWeekday, 3 * direction);
+    pane.order += 3 * direction;
+  }
+
   private initPanes(date: Date) {
     const monthDate = startOfMonth(date);
     this.panes = [-1, 0, 1].map(i => ({

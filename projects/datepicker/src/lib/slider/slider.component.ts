@@ -1,8 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { createEaseOut } from '../util/helpers';
-import { Month } from '../util/month';
 import { Weekday } from '../util/weekdays';
-import { Pane } from '../datepicker.component';
 
 @Component({
   selector: 'skm-slider',
@@ -12,8 +10,7 @@ import { Pane } from '../datepicker.component';
 export class SliderComponent implements OnInit {
   @Input() firstWeekday: Weekday;
 
-  @Input() panes: Array<Pane>;
-  @Input() visiblePaneIndex: number;
+  @Output() slideDone = new EventEmitter<number>();
 
   get sliderStyles() {
     return {
@@ -82,11 +79,7 @@ export class SliderComponent implements OnInit {
     this.tilt = direction;
 
     setTimeout(() => {
-      this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
-      const index = (3 + this.visiblePaneIndex + direction) % 3;
-      const pane = this.panes[index];
-      pane.month = Month.fromDate(pane.month.date, this.firstWeekday, 3 * direction);
-      pane.order += 3 * direction;
+      this.slideDone.emit(direction);
       this.tilt = 0;
       this.moving = false;
     }, this.transitionDuration);
