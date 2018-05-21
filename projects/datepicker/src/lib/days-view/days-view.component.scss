@@ -1,50 +1,17 @@
-$cell-width: 40px;
-$cell-height: $cell-width;
-
 :host {
   display: block;
+  height: 100%;
 }
 
-.pane {
-  flex-shrink: 0;
-  overflow: hidden;
+.skm-datepicker-weekday {
+  width: (100% / 7);
 }
 
-.heading {
-  width: 100%;
-  border-width: 0;
-  font-weight: 700;
-  text-align: center;
-  height: $cell-height;
-  line-height: $cell-height;
+.skm-datepicker-shifter {
+  height: (100% / 6);
 }
 
-.week {
-  display: flex;
-}
-
-.weekday {
-  font-weight: 700;
-  text-align: center;
-  line-height: $cell-height;
-  width: $cell-width;
-  height: $cell-height;
-}
-
-.days {
-  display: flex;
-  flex-wrap: wrap;
-  pointer-events: none;
-}
-
-.shifter {
-  height: $cell-height;
-}
-
-.day {
-  border-radius: 50%;
-  width: $cell-width - 2;
-  height: $cell-height - 2;
-  margin: 1px;
-  pointer-events: auto;
+.skm-datepicker-cell {
+  width: (100% / 7);
+  height: (100% / 6);
 }

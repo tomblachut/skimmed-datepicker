@@ -7,7 +7,7 @@ import { noop } from './util/helpers';
 @Component({
   selector: 'skm-datepicker',
   templateUrl: './datepicker.component.html',
-  styleUrls: ['./datepicker.component.scss', './shared.scss'],
+  styleUrls: ['./datepicker.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

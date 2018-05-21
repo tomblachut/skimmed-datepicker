@@ -4,7 +4,7 @@ import { createEaseOut } from '../util/helpers';
 @Component({
   selector: 'skm-slider',
   templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss', '../shared.scss'],
+  styleUrls: ['./slider.component.scss'],
 })
 export class SliderComponent implements OnInit {
   @Output() slideDone = new EventEmitter<number>();

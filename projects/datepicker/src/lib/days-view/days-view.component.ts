@@ -8,7 +8,7 @@ import { range } from '../util/helpers';
 @Component({
   selector: 'skm-days-view',
   templateUrl: './days-view.component.html',
-  styleUrls: ['./days-view.component.scss', '../shared.scss'],
+  styleUrls: ['./days-view.component.scss'],
 })
 export class DaysViewComponent implements OnChanges, OnInit {
   @Input() selectedDate: Date;
@@ -60,7 +60,13 @@ export class DaysViewComponent implements OnChanges, OnInit {
     }
   }
 
-  selectDay(event: MouseEvent, month: Month, notPanning: boolean) {
+  clickHeader(event: MouseEvent, notPanning: boolean) {
+    if (notPanning) {
+      this.headerClick.emit(event);
+    }
+  }
+
+  selectItem(event: MouseEvent, month: Month, notPanning: boolean) {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const day = +button.textContent;
@@ -68,7 +74,7 @@ export class DaysViewComponent implements OnChanges, OnInit {
     }
   }
 
-  isToday(day: number, month: Month) {
+  isCurrent(day: number, month: Month) {
     return day === this.currentDay && month.date.getTime() === this.currentMonthTime;
   }
 
