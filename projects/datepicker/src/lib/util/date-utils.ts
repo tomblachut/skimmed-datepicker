@@ -3,27 +3,15 @@ import { eachDayOfInterval, lastDayOfWeek as __lastDayOfWeek, startOfWeek as __s
 
 export {
   addMonths,
+  addYears,
   differenceInDays,
   getDaysInMonth,
   getDate as getDay,
   setDate as setDay,
   startOfDay,
   startOfMonth,
+  startOfYear,
 } from 'date-fns/esm';
-
-declare function addMonths(date: Date, amount: number): Date;
-
-declare function differenceInDays(from: Date, to: Date): number;
-
-declare function getDaysInMonth(date: Date): number;
-
-declare function getDay(date: Date): number;
-
-declare function setDay(date: Date, day: number): Date;
-
-declare function startOfDay(date: Date): Date;
-
-declare function startOfMonth(date: Date): Date;
 
 export function isValidDate(date: Date): boolean {
   return !isNaN(date.getTime());
