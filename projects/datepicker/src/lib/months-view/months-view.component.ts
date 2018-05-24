@@ -14,14 +14,13 @@ export class MonthsViewComponent implements OnChanges {
 
   @Input() yearFormat: string;
 
-  @Output() monthChange = new EventEmitter<Date>();
+  @Output() dateChange = new EventEmitter<Date>();
   @Output() headerClick = new EventEmitter<MouseEvent>();
 
   panes: Array<YearPane>;
-  visiblePaneIndex: number;
+  readonly months: string[];
 
-  months: string[];
-
+  private visiblePaneIndex: number;
   private selectedMonthNumber: number;
   private selectedYearTime: number;
   private currentMonthNumber: number;
@@ -57,7 +56,7 @@ export class MonthsViewComponent implements OnChanges {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const month = +button.dataset.index;
-      this.monthChange.emit(setMonth(year, month));
+      this.dateChange.emit(setMonth(year, month));
     }
   }
 

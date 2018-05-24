@@ -19,15 +19,14 @@ export class DaysViewComponent implements OnChanges, OnInit {
   @Input() dayFormat: string;
   @Input() firstWeekday: Weekday;
 
-  @Output() dayChange = new EventEmitter<Date>();
+  @Output() dateChange = new EventEmitter<Date>();
   @Output() headerClick = new EventEmitter<MouseEvent>();
 
   panes: Array<Pane>;
-  visiblePaneIndex: number;
-
-  days = range(1, 31);
+  readonly days = range(1, 31);
   weekdays: Array<Date>;
 
+  private visiblePaneIndex: number;
   private selectedDay: number;
   private selectedMonthTime: number;
   private currentDay: number;
@@ -70,7 +69,7 @@ export class DaysViewComponent implements OnChanges, OnInit {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const day = +button.textContent;
-      this.dayChange.emit(setDay(month.date, day));
+      this.dateChange.emit(setDay(month.date, day));
     }
   }
 

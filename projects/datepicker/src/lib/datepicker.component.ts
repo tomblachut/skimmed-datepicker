@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isValidDate, startOfDay } from './util/date-utils';
 import { Weekday } from './util/weekdays';
 import { noop } from './util/helpers';
+import { DatepickerView } from './util/datepicker-view';
 
 @Component({
   selector: 'skm-datepicker',
@@ -36,7 +37,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   selectedDate: Date;
   currentDate: Date;
 
-  view = 'days';
+  view = DatepickerView.Days;
+  readonly DatepickerView = DatepickerView;
 
   private onChange: (date: Date) => void = noop;
   private onTouched: () => void = noop;
@@ -60,7 +62,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   }
 
   showMonths() {
-    this.view = 'months';
+    this.view = DatepickerView.Months;
   }
 
   showYears() {
