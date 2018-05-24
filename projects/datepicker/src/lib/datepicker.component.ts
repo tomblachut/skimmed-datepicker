@@ -27,6 +27,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   @Output() dateChange = new EventEmitter<Date>();
 
+  @Input() yearFormat = 'y';
   @Input() headingFormat = 'MMMM y';
   @Input() weekdayFormat = 'EEE';
   @Input() dayFormat = 'd';
@@ -34,6 +35,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   selectedDate: Date;
   currentDate: Date;
+
+  view = 'days';
 
   private onChange: (date: Date) => void = noop;
   private onTouched: () => void = noop;
@@ -48,8 +51,20 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     this.dateChange.emit(date);
   }
 
+  selectMonth(date: Date) {
+    console.log('month', date);
+  }
+
+  selectYear(date: Date) {
+    console.log('year', date);
+  }
+
   showMonths() {
-    console.log('header clicked');
+    this.view = 'months';
+  }
+
+  showYears() {
+    console.log('month header clicked');
   }
 
   // ControlValueAccessor implementation

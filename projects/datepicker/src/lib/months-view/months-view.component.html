@@ -1,0 +1,17 @@
+<skm-slider (slideDone)="switchPanes($event)" #slider>
+  <div class="skm-datepicker-pane" *ngFor="let pane of panes" [style.order]="pane.order">
+    <button type="button" class="skm-datepicker-header"
+            (click)="clickHeader($event, slider.notPanning)">{{pane.year | date: yearFormat}}
+    </button>
+    <div class="skm-datepicker-grid" (click)="selectItem($event, pane.year, slider.notPanning)">
+      <div *ngFor="let month of months; let i = index" class="skm-datepicker-cell">
+        <button [attr.data-index]="i"
+                [class.skm-datepicker-current]="isCurrent(i, pane.year)"
+                [class.skm-datepicker-selected]="isSelected(i, pane.year)"
+                class="skm-datepicker-item skm-datepicker-month" type="button">
+          {{month}}
+        </button>
+      </div>
+    </div>
+  </div>
+</skm-slider>

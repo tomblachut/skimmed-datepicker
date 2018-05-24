@@ -8,6 +8,8 @@ export {
   getDaysInMonth,
   getDate as getDay,
   setDate as setDay,
+  setMonth,
+  setYear,
   startOfDay,
   startOfMonth,
   startOfYear,
