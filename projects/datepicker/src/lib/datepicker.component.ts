@@ -66,7 +66,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   }
 
   showYears() {
-    console.log('month header clicked');
+    this.view = DatepickerView.Years;
   }
 
   // ControlValueAccessor implementation

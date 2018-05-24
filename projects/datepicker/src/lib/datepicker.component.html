@@ -13,3 +13,8 @@
                  [yearFormat]="yearFormat"
                  (headerClick)="showYears()"
                  (dateChange)="selectMonth($event)"></skm-months-view>
+<skm-years-view *ngIf="view === DatepickerView.Years"
+                [selectedDate]="selectedDate"
+                [currentDate]="currentDate"
+                [yearFormat]="yearFormat"
+                (dateChange)="selectMonth($event)"></skm-years-view>

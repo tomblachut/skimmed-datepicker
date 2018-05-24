@@ -4,6 +4,7 @@ import { DatepickerComponent } from './datepicker.component';
 import { SliderComponent } from './slider/slider.component';
 import { DaysViewComponent } from './days-view/days-view.component';
 import { MonthsViewComponent } from './months-view/months-view.component';
+import { YearsViewComponent } from './years-view/years-view.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { MonthsViewComponent } from './months-view/months-view.component';
     SliderComponent,
     DaysViewComponent,
     MonthsViewComponent,
+    YearsViewComponent,
   ],
   exports: [
     DatepickerComponent,
