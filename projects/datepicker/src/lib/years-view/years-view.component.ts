@@ -59,8 +59,10 @@ export class YearsViewComponent implements OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    pane.start = pane.start + 3 * this.years.length * direction;
-    pane.order += 3 * direction;
+    this.panes[index] = {
+      order: pane.order + 3 * direction,
+      start: pane.start + 3 * this.years.length * direction,
+    };
   }
 
   private initPanes(date: Date) {

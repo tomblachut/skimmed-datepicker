@@ -72,8 +72,10 @@ export class MonthsViewComponent implements OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    pane.year = addYears(pane.year, 3 * direction);
-    pane.order += 3 * direction;
+    this.panes[index] = {
+      order: pane.order + 3 * direction,
+      year: addYears(pane.year, 3 * direction),
+    };
   }
 
   private initPanes(date: Date) {
