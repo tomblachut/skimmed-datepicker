@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isValidDate, startOfDay } from './util/date-utils';
-import { Weekday } from './util/weekdays';
-import { noop } from './util/helpers';
-import { DatepickerView } from './util/datepicker-view';
+import { isValidDate, startOfDay } from '../util/date-utils';
+import { Weekday } from '../util/weekdays';
+import { noop } from '../util/helpers';
+import { DatepickerView } from './datepicker-view';
 
 @Component({
   selector: 'skm-datepicker',
