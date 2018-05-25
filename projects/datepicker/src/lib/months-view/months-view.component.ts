@@ -11,6 +11,7 @@ import { MonthsPane } from './months-pane';
 export class MonthsViewComponent implements OnChanges {
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
+  @Input() initialDate: Date;
 
   @Input() yearFormat: string;
 
@@ -35,14 +36,17 @@ export class MonthsViewComponent implements OnChanges {
       if (this.selectedDate) {
         this.selectedMonthNumber = this.selectedDate.getMonth();
         this.selectedYearTime = startOfYear(this.selectedDate).getTime();
-        this.initPanes(this.selectedDate);
       } else {
+        this.selectedMonthNumber = undefined;
         this.selectedYearTime = undefined;
       }
     }
     if ('currentDate' in changes) {
       this.currentMonthNumber = this.currentDate.getMonth();
       this.currentYearTime = startOfYear(this.currentDate).getTime();
+    }
+    if ('initialDate' in changes) {
+      this.initPanes(this.initialDate);
     }
   }
 

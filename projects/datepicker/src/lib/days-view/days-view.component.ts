@@ -12,6 +12,7 @@ import { DaysPane } from './days-pane';
 export class DaysViewComponent implements OnChanges, OnInit {
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
+  @Input() initialDate: Date;
 
   @Input() headingFormat: string;
   @Input() weekdayFormat: string;
@@ -39,7 +40,6 @@ export class DaysViewComponent implements OnChanges, OnInit {
       if (this.selectedDate) {
         this.selectedDay = getDay(this.selectedDate);
         this.selectedMonthTime = startOfMonth(this.selectedDate).getTime();
-        this.initPanes(this.selectedDate);
       } else {
         this.selectedDay = undefined;
         this.selectedMonthTime = undefined;
@@ -49,13 +49,13 @@ export class DaysViewComponent implements OnChanges, OnInit {
       this.currentDay = getDay(this.currentDate);
       this.currentMonthTime = startOfMonth(this.currentDate).getTime();
     }
+    if ('initialDate' in changes) {
+      this.initPanes(this.initialDate);
+    }
   }
 
   ngOnInit() {
     this.weekdays = weekdayDates(this.currentDate, this.firstWeekday);
-    if (!this.panes) {
-      this.initPanes(this.currentDate);
-    }
   }
 
   clickHeader(event: MouseEvent, notPanning: boolean) {

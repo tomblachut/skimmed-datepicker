@@ -11,6 +11,7 @@ import { YearsPane } from './years-pane';
 export class YearsViewComponent implements OnChanges {
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
+  @Input() initialDate: Date;
 
   @Input() yearFormat: string;
 
@@ -27,13 +28,15 @@ export class YearsViewComponent implements OnChanges {
     if ('selectedDate' in changes) {
       if (this.selectedDate) {
         this.selectedYear = this.selectedDate.getFullYear();
-        this.initPanes(this.selectedDate);
       } else {
         this.selectedYear = undefined;
       }
     }
     if ('currentDate' in changes) {
       this.currentYear = this.currentDate.getFullYear();
+    }
+    if ('initialDate' in changes) {
+      this.initPanes(this.initialDate);
     }
   }
 

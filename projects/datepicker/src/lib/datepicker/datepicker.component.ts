@@ -23,6 +23,9 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     const date = startOfDay(dirtyDate);
     if (!this.selectedDate || date.getTime() !== this.selectedDate.getTime()) {
       this.selectedDate = isValidDate(date) ? date : undefined;
+      if (this.selectedDate) {
+        this.initialDate = this.selectedDate;
+      }
     }
   }
 
@@ -36,6 +39,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   selectedDate: Date;
   currentDate: Date;
+  initialDate: Date;
 
   view = DatepickerView.Days;
   readonly DatepickerView = DatepickerView;
@@ -45,6 +49,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit() {
     this.currentDate = startOfDay(new Date());
+    this.initialDate = this.selectedDate || this.currentDate;
   }
 
   selectDay(date: Date) {

@@ -1,6 +1,7 @@
 <skm-days-view *ngIf="view === DatepickerView.Days"
                [selectedDate]="selectedDate"
                [currentDate]="currentDate"
+               [initialDate]="initialDate"
                [headingFormat]="headingFormat"
                [weekdayFormat]="weekdayFormat"
                [dayFormat]="dayFormat"
@@ -10,11 +11,13 @@
 <skm-months-view *ngIf="view === DatepickerView.Months"
                  [selectedDate]="selectedDate"
                  [currentDate]="currentDate"
+                 [initialDate]="initialDate"
                  [yearFormat]="yearFormat"
                  (headerClick)="showYears()"
                  (dateChange)="selectMonth($event)"></skm-months-view>
 <skm-years-view *ngIf="view === DatepickerView.Years"
                 [selectedDate]="selectedDate"
                 [currentDate]="currentDate"
+                [initialDate]="initialDate"
                 [yearFormat]="yearFormat"
                 (dateChange)="selectMonth($event)"></skm-years-view>
