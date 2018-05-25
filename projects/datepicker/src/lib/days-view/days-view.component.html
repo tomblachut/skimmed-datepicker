@@ -10,10 +10,11 @@
       <div class="skm-datepicker-shifter" [style.width.%]="100 / 7 * pane.weekShift"></div>
       <div *ngFor="let day of days"
            class="skm-datepicker-cell"
-           [style.display]="pane.length < day ? 'none' : ''">
+           [hidden]="pane.length < day">
         <button [class.skm-datepicker-current]="isCurrent(day, pane.start)"
                 [class.skm-datepicker-selected]="isSelected(day, pane.start)"
-                class="skm-datepicker-item skm-datepicker-day" type="button">
+                class="skm-datepicker-item skm-datepicker-day"
+                type="button">
           {{day}}
         </button>
       </div>
