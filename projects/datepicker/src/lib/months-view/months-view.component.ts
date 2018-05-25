@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
 import { addYears, setMonth, startOfYear } from '../util/date-utils';
-import { YearPane } from '../util/year-pane';
+import { MonthsPane } from './months-pane';
 
 @Component({
   selector: 'skm-months-view',
@@ -17,7 +17,7 @@ export class MonthsViewComponent implements OnChanges {
   @Output() dateChange = new EventEmitter<Date>();
   @Output() headerClick = new EventEmitter<MouseEvent>();
 
-  panes: Array<YearPane>;
+  panes: Array<MonthsPane>;
   readonly months: string[];
 
   private visiblePaneIndex: number;

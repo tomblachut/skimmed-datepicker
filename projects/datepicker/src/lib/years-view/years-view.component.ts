@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { startOfYear } from '../util/date-utils';
-import { YearsPane } from '../util/years-pane';
 import { range } from '../util/helpers';
+import { startOfYear } from '../util/date-utils';
+import { YearsPane } from './years-pane';
 
 @Component({
   selector: 'skm-years-view',
