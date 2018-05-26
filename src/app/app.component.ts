@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  date = new Date().setFullYear(1995);
+  date = new Date().setFullYear(1995, 0, 17);
   undef: Date;
 }
