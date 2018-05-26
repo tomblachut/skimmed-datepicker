@@ -6,7 +6,7 @@ import { slide } from './slide.animation';
 @Component({
   selector: 'skm-slider',
   templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss'],
+  styleUrls: ['./slider.component.scss', '../datepicker.shared.scss'],
   animations: [slide()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

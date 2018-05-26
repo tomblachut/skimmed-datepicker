@@ -1,0 +1,28 @@
+.skm-flex {
+  display: flex;
+}
+
+.skm-datepicker-pane {
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.skm-datepicker-grid {
+  flex: 1 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  pointer-events: none;
+}
+
+.skm-datepicker-cell {
+  display: flex;
+  pointer-events: auto;
+}
+
+.skm-datepicker-item {
+  flex: 1;
+}

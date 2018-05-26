@@ -19,7 +19,7 @@ import { zoom, ZoomDirection } from '../util/zoom.animation';
 @Component({
   selector: 'skm-days-view',
   templateUrl: './days-view.component.html',
-  styleUrls: ['./days-view.component.scss'],
+  styleUrls: ['./days-view.component.scss', '../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

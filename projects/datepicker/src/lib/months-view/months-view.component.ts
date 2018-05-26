@@ -18,7 +18,7 @@ import { zoom, ZoomDirection } from '../util/zoom.animation';
 @Component({
   selector: 'skm-months-view',
   templateUrl: './months-view.component.html',
-  styleUrls: ['./months-view.component.scss'],
+  styleUrls: ['./months-view.component.scss', '../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -7,7 +7,7 @@ import { zoom, ZoomDirection } from '../util/zoom.animation';
 @Component({
   selector: 'skm-years-view',
   templateUrl: './years-view.component.html',
-  styleUrls: ['./years-view.component.scss'],
+  styleUrls: ['./years-view.component.scss', '../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

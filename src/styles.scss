@@ -18,17 +18,6 @@ $weekday-label-height: $base-grid-item-size !default;
 $datepicker-width: $base-grid-item-size * 7;
 $datepicker-height: $header-height + $weekday-label-height + $base-grid-item-size * 6;
 
-.skm-datepicker {
-  width: $datepicker-width;
-  height: $datepicker-height;
-  border: 1px solid lightgray;
-  border-radius: 0.25rem;
-}
-
-.skm-flex {
-  display: flex;
-}
-
 button {
   display: block;
   text-align: center;
@@ -36,6 +25,7 @@ button {
   padding: 0;
   background: transparent;
   border: 1px solid transparent;
+  transition: border-color 150ms;
 
   &:focus {
     outline: none;
@@ -46,12 +36,11 @@ button:not([disabled]) {
   cursor: pointer;
 }
 
-.skm-datepicker-pane {
-  flex-shrink: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+.skm-datepicker {
+  width: $datepicker-width;
+  height: $datepicker-height;
+  border: 1px solid lightgray;
+  border-radius: 0.25rem;
 }
 
 .skm-datepicker-pagination {
@@ -59,10 +48,6 @@ button:not([disabled]) {
   height: $header-height;
   font-weight: 700;
   border-radius: 50%;
-}
-
-.skm-datepicker-pagination:hover {
-  border-color: darkgray;
 }
 
 .skm-datepicker-header {
@@ -80,36 +65,11 @@ button:not([disabled]) {
   line-height: $weekday-label-height;
 }
 
-.skm-datepicker-grid {
-  flex: 1 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  pointer-events: none;
-  //background: slategray;
-}
-
-.skm-datepicker-cell {
-  display: flex;
-  pointer-events: auto;
-  //background: indianred;
-}
-
-.skm-datepicker-item {
-  flex: 1;
-  //background: cornflowerblue;
-}
-
-// THEME
-button {
-  transition: border-color 150ms;
-}
-
 .skm-datepicker-item {
   margin: 1px;
 }
 
-.skm-datepicker-item:hover {
+.skm-datepicker-item:hover, .skm-datepicker-pagination:hover {
   border-color: darkgray;
 }
 
@@ -120,3 +80,15 @@ button {
 .skm-datepicker-selected {
   border-color: gray;
 }
+
+//.skm-datepicker-grid {
+//  background: slategray;
+//}
+//
+//.skm-datepicker-cell {
+//  background: indianred;
+//}
+//
+//.skm-datepicker-item {
+//  background: cornflowerblue;
+//}

@@ -9,7 +9,7 @@ import { ZoomDirection } from '../util/zoom.animation';
 @Component({
   selector: 'skm-datepicker',
   templateUrl: './datepicker.component.html',
-  styleUrls: ['./datepicker.component.scss'],
+  styleUrls: ['./datepicker.component.scss', '../datepicker.shared.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
