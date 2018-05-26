@@ -1,23 +1,25 @@
-<skm-days-view *ngIf="view === DatepickerView.Days"
-               [selectedDate]="selectedDate"
-               [currentDate]="currentDate"
-               [initialDate]="initialDate"
-               [headingFormat]="headingFormat"
-               [weekdayFormat]="weekdayFormat"
-               [dayFormat]="dayFormat"
-               [firstWeekday]="firstWeekday"
-               (headerClick)="switchView($event, DatepickerView.Months)"
-               (dateChange)="selectDay($event)"></skm-days-view>
-<skm-months-view *ngIf="view === DatepickerView.Months"
+<div class="skm-datepicker" [ngSwitch]="view">
+  <skm-days-view class="skm-datepicker-view" *ngSwitchCase="DatepickerView.Days"
                  [selectedDate]="selectedDate"
                  [currentDate]="currentDate"
                  [initialDate]="initialDate"
-                 [yearFormat]="yearFormat"
-                 (headerClick)="switchView($event, DatepickerView.Years)"
-                 (dateChange)="switchView($event, DatepickerView.Days)"></skm-months-view>
-<skm-years-view *ngIf="view === DatepickerView.Years"
-                [selectedDate]="selectedDate"
-                [currentDate]="currentDate"
-                [initialDate]="initialDate"
-                [yearFormat]="yearFormat"
-                (dateChange)="switchView($event, DatepickerView.Months)"></skm-years-view>
+                 [headingFormat]="headingFormat"
+                 [weekdayFormat]="weekdayFormat"
+                 [dayFormat]="dayFormat"
+                 [firstWeekday]="firstWeekday"
+                 (headerClick)="switchView($event, DatepickerView.Months)"
+                 (dateChange)="selectDay($event)"></skm-days-view>
+  <skm-months-view class="skm-datepicker-view" *ngSwitchCase="DatepickerView.Months"
+                   [selectedDate]="selectedDate"
+                   [currentDate]="currentDate"
+                   [initialDate]="initialDate"
+                   [yearFormat]="yearFormat"
+                   (headerClick)="switchView($event, DatepickerView.Years)"
+                   (dateChange)="switchView($event, DatepickerView.Days)"></skm-months-view>
+  <skm-years-view class="skm-datepicker-view" *ngSwitchCase="DatepickerView.Years"
+                  [selectedDate]="selectedDate"
+                  [currentDate]="currentDate"
+                  [initialDate]="initialDate"
+                  [yearFormat]="yearFormat"
+                  (dateChange)="switchView($event, DatepickerView.Months)"></skm-years-view>
+</div>

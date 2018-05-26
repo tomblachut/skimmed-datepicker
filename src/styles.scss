@@ -18,7 +18,7 @@ $weekday-label-height: $base-grid-item-size !default;
 $datepicker-width: $base-grid-item-size * 7;
 $datepicker-height: $header-height + $weekday-label-height + $base-grid-item-size * 6;
 
-skm-datepicker {
+.skm-datepicker {
   width: $datepicker-width;
   height: $datepicker-height;
   border: 1px solid lightgray;

@@ -1,3 +1,11 @@
-:host {
+.skm-datepicker {
+  position: relative;
+  overflow: hidden;
+}
+
+.skm-datepicker-view {
   display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
