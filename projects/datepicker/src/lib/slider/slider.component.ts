@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy } from '../../../../../node_modules/@angular/co
   selector: 'skm-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
-  animations: [slide(150)],
+  animations: [slide()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SliderComponent {

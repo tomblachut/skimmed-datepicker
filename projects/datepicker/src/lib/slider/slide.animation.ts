@@ -1,6 +1,6 @@
 import { animate, AnimationTriggerMetadata, state, style, transition, trigger } from '@angular/animations';
 
-export function slide(timing: number | string): AnimationTriggerMetadata {
+export function slide(timing: number | string = 150): AnimationTriggerMetadata {
   return trigger('slide', [
     state('panning', style({
       transform: 'translateX({{x}}%)',
