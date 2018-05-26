@@ -2,7 +2,8 @@ import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, S
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
 import { addYears, setMonth, startOfYear } from '../util/date-utils';
 import { MonthsPane } from './months-pane';
-import { ChangeDetectionStrategy } from '../../../../../node_modules/@angular/core';
+import { ChangeDetectionStrategy, HostBinding } from '../../../../../node_modules/@angular/core';
+import { zoom } from '../util/zoom.animation';
 
 @Component({
   selector: 'skm-months-view',
@@ -17,8 +18,8 @@ export class MonthsViewComponent implements OnChanges {
 
   @Input() yearFormat: string;
 
-  @Output() dateChange = new EventEmitter<Date>();
-  @Output() headerClick = new EventEmitter<Date>();
+  @Output() readonly dateChange = new EventEmitter<Date>();
+  @Output() readonly headerClick = new EventEmitter<Date>();
 
   panes: Array<MonthsPane>;
   readonly months: ReadonlyArray<string>;

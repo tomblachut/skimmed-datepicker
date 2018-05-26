@@ -21,12 +21,12 @@ export class DaysViewComponent implements OnChanges {
   @Input() dayFormat: string;
   @Input() firstWeekday: WeekDay;
 
-  @Output() dateChange = new EventEmitter<Date>();
-  @Output() headerClick = new EventEmitter<Date>();
+  @Output() readonly dateChange = new EventEmitter<Date>();
+  @Output() readonly headerClick = new EventEmitter<Date>();
 
   panes: Array<DaysPane>;
   readonly days = range(1, 31);
-  weekdays: ReadonlyArray<string>;
+  readonly weekdays: ReadonlyArray<string>;
 
   private visiblePaneIndex: number;
   private selectedDay: number;

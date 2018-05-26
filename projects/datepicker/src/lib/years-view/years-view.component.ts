@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { range } from '../util/helpers';
 import { startOfYear } from '../util/date-utils';
 import { YearsPane } from './years-pane';
-import { ChangeDetectionStrategy } from '../../../../../node_modules/@angular/core';
+import { ChangeDetectionStrategy, HostBinding } from '../../../../../node_modules/@angular/core';
+import { zoom } from '../util/zoom.animation';
 
 @Component({
   selector: 'skm-years-view',
@@ -17,7 +18,7 @@ export class YearsViewComponent implements OnChanges {
 
   @Input() yearFormat: string;
 
-  @Output() dateChange = new EventEmitter<Date>();
+  @Output() readonly dateChange = new EventEmitter<Date>();
 
   panes: Array<YearsPane>;
   readonly years = range(0, 19);
