@@ -46,13 +46,13 @@ export class SliderComponent {
     }
   }
 
-  clickPagination(direction: -1 | 1): void {
+  clickPagination(direction: number): void {
     this.changeSlideTrigger();
-    setTimeout(() => this.changeSlideTrigger(direction));
+    setTimeout(() => this.changeSlideTrigger(direction as -1 | 1));
   }
 
-  scrollSlider(direction: -1 | 1): void {
-    this.changeSlideTrigger(direction);
+  swipe(direction: number): void {
+    this.changeSlideTrigger(direction as -1 | 1);
   }
 
   done(event: AnimationEvent): void {

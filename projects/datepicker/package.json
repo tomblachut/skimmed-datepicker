@@ -22,6 +22,7 @@
   "homepage": "https://tomblachut.github.io/skimmed-angular/",
   "bugs": "https://github.com/tomblachut/skimmed-angular/issues",
   "peerDependencies": {
+    "@angular/animations": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
     "date-fns": "^2.0.0-alpha.7 || ^2.0.0",
