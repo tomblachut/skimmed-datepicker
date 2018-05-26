@@ -4,9 +4,9 @@
      (panend)="endPan()"
      (swiperight)="swipe(-1)"
      (swipeleft)="swipe(1)">
-  <div class="slider" [@slide]="slideTrigger" (@slide.done)="done($event)" (pointerdown)="startPress()">
+  <div class="skm-datepicker-slider" [@slide]="slideTrigger" (@slide.done)="done($event)" (pointerdown)="startPress()">
     <ng-content></ng-content>
   </div>
-  <button class="pagination prev" (click)="clickPagination(-1)">&lsaquo;</button>
-  <button class="pagination next" (click)="clickPagination(1)">&rsaquo;</button>
+  <button class="skm-datepicker-pagination skm-prev" (click)="clickPagination(-1)">&lsaquo;</button>
+  <button class="skm-datepicker-pagination skm-next" (click)="clickPagination(1)">&rsaquo;</button>
 </div>

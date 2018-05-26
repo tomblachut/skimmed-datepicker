@@ -54,6 +54,17 @@ button:not([disabled]) {
   overflow: hidden;
 }
 
+.skm-datepicker-pagination {
+  width: $header-height;
+  height: $header-height;
+  font-weight: 700;
+  border-radius: 50%;
+}
+
+.skm-datepicker-pagination:hover {
+  border-color: darkgray;
+}
+
 .skm-datepicker-header {
   width: 100%;
   border-width: 0;
@@ -91,7 +102,7 @@ button:not([disabled]) {
 
 // THEME
 button {
-  transition: border-color 100ms;
+  transition: border-color 150ms;
 }
 
 .skm-datepicker-item {

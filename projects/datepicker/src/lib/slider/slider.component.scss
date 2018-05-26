@@ -1,36 +1,25 @@
-$cell-width: 40px;
-$cell-height: $cell-width;
-
-:host {
-  display: block;
-  height: 100%;
-}
-
 .skm-datepicker-wrapper {
   position: relative;
   overflow: hidden;
   height: 100%;
 }
 
-.slider {
+.skm-datepicker-slider {
   display: flex;
   position: relative;
   left: -100%;
   height: 100%;
 }
 
-.pagination {
+.skm-datepicker-pagination {
   position: absolute;
   top: 0;
-  width: $cell-width;
-  height: $cell-height;
-  font-weight: 700;
 
-  &.prev {
+  &.skm-prev {
     left: 0;
   }
 
-  &.next {
+  &.skm-next {
     right: 0;
   }
 }
