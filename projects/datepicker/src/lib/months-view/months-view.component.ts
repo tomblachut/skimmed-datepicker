@@ -54,43 +54,42 @@ export class MonthsViewComponent implements OnChanges {
     }
   }
 
-  clickHeader(notPanning: boolean) {
+  clickHeader(notPanning: boolean): void {
     if (notPanning) {
-      this.headerClick.emit(this.visiblePane.year);
+      this.headerClick.emit(this.visiblePane.yearDate);
     }
   }
 
-  selectItem(event: MouseEvent, year: Date, notPanning: boolean) {
+  selectItem(event: MouseEvent, yearDate: Date, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const month = +button.dataset.index;
-      this.dateChange.emit(setMonth(year, month));
+      this.dateChange.emit(setMonth(yearDate, month));
     }
   }
 
-  isCurrent(month: number, year: Date) {
-    return month === this.currentMonthNumber && year.getTime() === this.currentYearTime;
+  isCurrent(month: number, yearDate: Date): boolean {
+    return month === this.currentMonthNumber && yearDate.getTime() === this.currentYearTime;
   }
 
-  isSelected(month: number, year: Date) {
-    return month === this.selectedMonthNumber && year.getTime() === this.selectedYearTime;
+  isSelected(month: number, yearDate: Date): boolean {
+    return month === this.selectedMonthNumber && yearDate.getTime() === this.selectedYearTime;
   }
 
-  switchPanes(direction: number) {
+  switchPanes(direction: number): void {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
-    const pane = this.panes[index];
     this.panes[index] = {
-      order: pane.order + 3 * direction,
-      year: addYears(pane.year, 3 * direction),
+      order: this.visiblePane.order + 3 * direction,
+      yearDate: addYears(this.visiblePane.yearDate, 3 * direction),
     };
   }
 
-  private initPanes(date: Date) {
+  private initPanes(date: Date): void {
     const monthDate = startOfYear(date);
     this.panes = [-1, 0, 1].map(i => ({
       order: i,
-      year: addYears(monthDate, i),
+      yearDate: addYears(monthDate, i),
     }));
     this.visiblePaneIndex = 1;
   }

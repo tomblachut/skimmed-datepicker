@@ -1,18 +1,18 @@
 <skm-slider (slideDone)="switchPanes($event)" #slider>
   <div class="skm-datepicker-pane" *ngFor="let pane of panes" [style.order]="pane.order">
     <button type="button" class="skm-datepicker-header"
-            (click)="clickHeader(slider.notPanning)">{{pane.start | date: headingFormat}}
+            (click)="clickHeader(slider.notPanning)">{{pane.monthDate | date: headingFormat}}
     </button>
     <div class="skm-flex">
       <div class="skm-datepicker-weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
     </div>
-    <div class="skm-datepicker-grid" (click)="selectItem($event, pane.start, slider.notPanning)">
+    <div class="skm-datepicker-grid" (click)="selectItem($event, pane.monthDate, slider.notPanning)">
       <div class="skm-datepicker-shifter" [style.width.%]="100 / 7 * pane.weekShift"></div>
       <div *ngFor="let day of days"
            class="skm-datepicker-cell"
            [hidden]="pane.length < day">
-        <button [class.skm-datepicker-current]="isCurrent(day, pane.start)"
-                [class.skm-datepicker-selected]="isSelected(day, pane.start)"
+        <button [class.skm-datepicker-current]="isCurrent(day, pane.monthDate)"
+                [class.skm-datepicker-selected]="isSelected(day, pane.monthDate)"
                 class="skm-datepicker-item skm-datepicker-day"
                 type="button">
           {{day}}

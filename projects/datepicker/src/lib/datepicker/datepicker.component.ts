@@ -48,33 +48,33 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   private onChange: (date: Date) => void = noop;
   private onTouched: () => void = noop;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentDate = startOfDay(new Date());
     this.initialDate = this.selectedDate || this.currentDate;
   }
 
-  selectDay(date: Date) {
+  selectDay(date: Date): void {
     this.selectedDate = date;
     this.onChange(date);
     this.dateChange.emit(date);
   }
 
-  selectMonth(date: Date) {
+  selectMonth(date: Date): void {
     this.view = DatepickerView.Days;
     this.initialDate = date;
   }
 
-  selectYear(date: Date) {
+  selectYear(date: Date): void {
     this.view = DatepickerView.Months;
     this.initialDate = date;
   }
 
-  showMonths(date: Date) {
+  showMonths(date: Date): void {
     this.view = DatepickerView.Months;
     this.initialDate = date;
   }
 
-  showYears(date: Date) {
+  showYears(date: Date): void {
     this.view = DatepickerView.Years;
     this.initialDate = date;
   }

@@ -20,6 +20,10 @@ export class YearsViewComponent implements OnChanges {
   panes: Array<YearsPane>;
   readonly years = range(0, 15);
 
+  get visiblePane(): YearsPane {
+    return this.panes[this.visiblePaneIndex];
+  }
+
   private visiblePaneIndex: number;
   private selectedYear: number;
   private currentYear: number;
@@ -40,7 +44,7 @@ export class YearsViewComponent implements OnChanges {
     }
   }
 
-  selectItem(event: MouseEvent, start: number, notPanning: boolean) {
+  selectItem(event: MouseEvent, start: number, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const offset = +button.dataset.index;
@@ -50,25 +54,24 @@ export class YearsViewComponent implements OnChanges {
     }
   }
 
-  isCurrent(offset: number, start: number) {
+  isCurrent(offset: number, start: number): boolean {
     return offset + start === this.currentYear;
   }
 
-  isSelected(offset: number, start: number) {
+  isSelected(offset: number, start: number): boolean {
     return offset + start === this.selectedYear;
   }
 
-  switchPanes(direction: number) {
+  switchPanes(direction: number): void {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
-    const pane = this.panes[index];
     this.panes[index] = {
-      order: pane.order + 3 * direction,
-      start: pane.start + 3 * this.years.length * direction,
+      order: this.visiblePane.order + 3 * direction,
+      start: this.visiblePane.start + 3 * direction * this.years.length,
     };
   }
 
-  private initPanes(date: Date) {
+  private initPanes(date: Date): void {
     const origin = date.getFullYear();
     const adjusted = origin - (origin % this.years.length);
     this.panes = [-1, 0, 1].map(i => ({

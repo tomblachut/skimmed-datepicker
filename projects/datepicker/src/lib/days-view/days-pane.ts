@@ -1,6 +1,6 @@
 export interface DaysPane {
   order: number;
-  start: Date;
+  monthDate: Date;
   weekShift: number;
   length: number;
 }

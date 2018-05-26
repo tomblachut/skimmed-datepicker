@@ -58,40 +58,39 @@ export class DaysViewComponent implements OnChanges, OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.weekdays = weekdayDates(this.currentDate, this.firstWeekday);
   }
 
-  clickHeader(notPanning: boolean) {
+  clickHeader(notPanning: boolean): void {
     if (notPanning) {
-      this.headerClick.emit(this.visiblePane.start);
+      this.headerClick.emit(this.visiblePane.monthDate);
     }
   }
 
-  selectItem(event: MouseEvent, start: Date, notPanning: boolean) {
+  selectItem(event: MouseEvent, monthDate: Date, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const day = +button.textContent;
-      this.dateChange.emit(setDay(start, day));
+      this.dateChange.emit(setDay(monthDate, day));
     }
   }
 
-  isCurrent(day: number, start: Date) {
-    return day === this.currentDay && start.getTime() === this.currentMonthTime;
+  isCurrent(day: number, monthDate: Date): boolean {
+    return day === this.currentDay && monthDate.getTime() === this.currentMonthTime;
   }
 
-  isSelected(day: number, start: Date) {
-    return day === this.selectedDay && start.getTime() === this.selectedMonthTime;
+  isSelected(day: number, monthDate: Date): boolean {
+    return day === this.selectedDay && monthDate.getTime() === this.selectedMonthTime;
   }
 
-  switchPanes(direction: number) {
+  switchPanes(direction: number): void {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
-    const pane = this.panes[index];
-    this.panes[index] = makePane(pane.order + 3 * direction, pane.start, this.firstWeekday, 3 * direction);
+    this.panes[index] = makePane(this.visiblePane.order, this.visiblePane.monthDate, this.firstWeekday, 3 * direction);
   }
 
-  private initPanes(date: Date) {
+  private initPanes(date: Date): void {
     const monthDate = startOfMonth(date);
     this.panes = [-1, 0, 1].map(i => makePane(i, monthDate, this.firstWeekday, i));
     this.visiblePaneIndex = 1;
@@ -99,12 +98,12 @@ export class DaysViewComponent implements OnChanges, OnInit {
 
 }
 
-function makePane(order: number, start: Date, firstWeekday: Weekday, add = 0): DaysPane {
-  start = addMonths(start, add);
+function makePane(baseOrder: number, monthDate: Date, firstWeekday: Weekday, add: number): DaysPane {
+  monthDate = addMonths(monthDate, add);
   return {
-    order,
-    start,
-    weekShift: differenceInDays(start, startOfWeek(start, firstWeekday)) || 7,
-    length: getDaysInMonth(start),
+    order: baseOrder + add,
+    monthDate,
+    weekShift: differenceInDays(monthDate, startOfWeek(monthDate, firstWeekday)) || 7,
+    length: getDaysInMonth(monthDate),
   };
 }
