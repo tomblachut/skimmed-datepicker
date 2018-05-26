@@ -1,9 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-// transition(':increment', animate(timing, style({
-//   transform: 'translateX({{x}}%)',
-// }))),
-
 export const slide = (timing: number | string) => trigger('slide', [
   state('pan', style({
     transform: 'translateX({{x}}%)',

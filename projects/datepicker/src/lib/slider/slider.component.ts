@@ -17,11 +17,10 @@ export class SliderComponent {
 
   private easeOut = createEaseOut(1.3);
   private wrapperWidth = 1;
-  private swipeAllowed = true;
   private panOffset = 0;
 
   constructor() {
-    this.changeSlide('rest');
+    this.changeSlideTrigger('rest');
   }
 
   startPress(): void {
@@ -30,48 +29,43 @@ export class SliderComponent {
 
   startPan(wrapperWidth: number): void {
     this.notPanning = false;
-    this.swipeAllowed = true;
     this.wrapperWidth = wrapperWidth;
   }
 
   pan(event: any): void {
     const absOffset = Math.abs(event.deltaX / this.wrapperWidth);
     this.panOffset = Math.sign(event.deltaX) * this.easeOut(absOffset);
-    this.changeSlide('pan', this.panOffset);
+    this.changeSlideTrigger('pan', this.panOffset);
   }
 
   endPan(): void {
     if (Math.abs(this.panOffset) > 0.5) {
-      this.scrollPanes(-Math.sign(this.panOffset));
-      this.swipeAllowed = false;
+      this.scrollSlider(-Math.sign(this.panOffset));
     } else {
-      this.changeSlide('rest');
+      this.changeSlideTrigger();
     }
   }
 
-  swipe(direction: number): void {
-    // if (this.swipeAllowed) {
-    //   console.log('swipe');
-    // }
-    this.scrollPanes(direction);
+  clickPagination(direction: number): void {
+    this.changeSlideTrigger();
+    setTimeout(() => this.scrollSlider(direction));
   }
 
-  scrollPanes(direction: number): void {
-    this.changeSlide(direction > 0 ? 'tiltRight' : 'tiltLeft');
+  scrollSlider(direction: number): void {
+    this.changeSlideTrigger(direction > 0 ? 'tiltRight' : 'tiltLeft');
   }
 
   done(event: AnimationEvent): void {
-    // console.log(event.fromState, '=>', event.toState);
     if (event.toState === 'tiltRight') {
       this.slideDone.emit(1);
-      this.changeSlide('rest');
+      this.changeSlideTrigger();
     } else if (event.toState === 'tiltLeft') {
       this.slideDone.emit(-1);
-      this.changeSlide('rest');
+      this.changeSlideTrigger();
     }
   }
 
-  private changeSlide(value: 'pan' | 'rest' | 'tiltRight' | 'tiltLeft', offset = 0): void {
+  private changeSlideTrigger(value: 'pan' | 'rest' | 'tiltRight' | 'tiltLeft' = 'rest', offset = 0): void {
     this.slideTrigger = {
       value: value,
       params: {x: offset * 100},
