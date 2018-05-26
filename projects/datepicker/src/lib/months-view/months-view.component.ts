@@ -19,7 +19,7 @@ export class MonthsViewComponent implements OnChanges {
   @Output() headerClick = new EventEmitter<Date>();
 
   panes: Array<MonthsPane>;
-  readonly months: string[];
+  readonly months: ReadonlyArray<string>;
 
   get visiblePane(): MonthsPane {
     return this.panes[this.visiblePaneIndex];

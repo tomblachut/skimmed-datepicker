@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { WeekDay } from '@angular/common';
-import { addMonths, differenceInDays, getDay, getDaysInMonth, setDay, startOfMonth, startOfWeek, weekdayDates } from '../util/date-utils';
+import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angular/common';
+import { addMonths, getDay, getDaysInMonth, setDay, startOfMonth } from '../util/date-utils';
 import { range } from '../util/helpers';
 import { DaysPane } from './days-pane';
 
@@ -9,7 +9,7 @@ import { DaysPane } from './days-pane';
   templateUrl: './days-view.component.html',
   styleUrls: ['./days-view.component.scss'],
 })
-export class DaysViewComponent implements OnChanges, OnInit {
+export class DaysViewComponent implements OnChanges {
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
   @Input() initialDate: Date;
@@ -24,7 +24,7 @@ export class DaysViewComponent implements OnChanges, OnInit {
 
   panes: Array<DaysPane>;
   readonly days = range(1, 31);
-  weekdays: Array<Date>;
+  weekdays: ReadonlyArray<string>;
 
   get visiblePane(): DaysPane {
     return this.panes[this.visiblePaneIndex];
@@ -36,7 +36,8 @@ export class DaysViewComponent implements OnChanges, OnInit {
   private currentDay: number;
   private currentMonthTime: number;
 
-  constructor() {
+  constructor(@Inject(LOCALE_ID) private locale: string) {
+    this.weekdays = getLocaleDayNames(locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -56,10 +57,6 @@ export class DaysViewComponent implements OnChanges, OnInit {
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
     }
-  }
-
-  ngOnInit(): void {
-    this.weekdays = weekdayDates(this.currentDate, this.firstWeekday);
   }
 
   clickHeader(notPanning: boolean): void {
@@ -98,12 +95,12 @@ export class DaysViewComponent implements OnChanges, OnInit {
 
 }
 
-function makePane(baseOrder: number, monthDate: Date, firstWeekday: WeekDay, add: number): DaysPane {
-  monthDate = addMonths(monthDate, add);
+function makePane(baseOrder: number, date: Date, firstWeekDay: WeekDay, add: number): DaysPane {
+  const monthDate = addMonths(date, add);
   return {
     order: baseOrder + add,
     monthDate,
-    weekShift: differenceInDays(monthDate, startOfWeek(monthDate, firstWeekday)) || 7,
+    weekShift: (monthDate.getDay() - firstWeekDay + 7) % 7 || 7, // Defaulting to full week makes for more a balanced day cells layout
     length: getDaysInMonth(monthDate),
   };
 }
