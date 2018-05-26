@@ -13,14 +13,14 @@ export class SliderComponent {
   @Output() slideDone = new EventEmitter<number>();
   notPanning = true;
 
-  slideTrigger;
+  slideTrigger: object;
 
   private easeOut = createEaseOut(1.3);
   private wrapperWidth = 1;
   private panOffset = 0;
 
   constructor() {
-    this.changeSlideTrigger('rest');
+    this.changeSlideTrigger();
   }
 
   startPress(): void {
@@ -35,37 +35,34 @@ export class SliderComponent {
   pan(event: any): void {
     const absOffset = Math.abs(event.deltaX / this.wrapperWidth);
     this.panOffset = Math.sign(event.deltaX) * this.easeOut(absOffset);
-    this.changeSlideTrigger('pan', this.panOffset);
+    this.changeSlideTrigger('panning', this.panOffset);
   }
 
   endPan(): void {
     if (Math.abs(this.panOffset) > 0.5) {
-      this.scrollSlider(-Math.sign(this.panOffset));
+      this.changeSlideTrigger(-Math.sign(this.panOffset) as -1 | 1);
     } else {
       this.changeSlideTrigger();
     }
   }
 
-  clickPagination(direction: number): void {
+  clickPagination(direction: -1 | 1): void {
     this.changeSlideTrigger();
-    setTimeout(() => this.scrollSlider(direction));
+    setTimeout(() => this.changeSlideTrigger(direction));
   }
 
-  scrollSlider(direction: number): void {
-    this.changeSlideTrigger(direction > 0 ? 'tiltRight' : 'tiltLeft');
+  scrollSlider(direction: -1 | 1): void {
+    this.changeSlideTrigger(direction);
   }
 
   done(event: AnimationEvent): void {
-    if (event.toState === 'tiltRight') {
-      this.slideDone.emit(1);
-      this.changeSlideTrigger();
-    } else if (event.toState === 'tiltLeft') {
-      this.slideDone.emit(-1);
+    if (typeof event.toState as string | number === 'number') {
+      this.slideDone.emit(event.toState as any);
       this.changeSlideTrigger();
     }
   }
 
-  private changeSlideTrigger(value: 'pan' | 'rest' | 'tiltRight' | 'tiltLeft' = 'rest', offset = 0): void {
+  private changeSlideTrigger(value: 'panning' | 'idle' | -1 | 1 = 'idle', offset = 0): void {
     this.slideTrigger = {
       value: value,
       params: {x: offset * 100},

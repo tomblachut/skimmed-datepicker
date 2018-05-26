@@ -1,14 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 export const slide = (timing: number | string) => trigger('slide', [
-  state('pan', style({
+  state('panning', style({
     transform: 'translateX({{x}}%)',
   }), {params: {x: 0}}),
-  transition('* => tiltRight', animate(timing, style({
+  transition('* => 1', animate(timing, style({
     transform: 'translateX(-100%)',
   }))),
-  transition('* => tiltLeft', animate(timing, style({
+  transition('* => -1', animate(timing, style({
     transform: 'translateX(100%)',
   }))),
-  transition('pan => rest', animate(timing)),
+  transition('panning => idle', animate(timing)),
 ]);
