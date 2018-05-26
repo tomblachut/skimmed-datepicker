@@ -25,6 +25,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
       this.selectedDate = isValidDate(date) ? date : undefined;
       if (this.selectedDate) {
         this.initialDate = this.selectedDate;
+        this.view = DatepickerView.Days;
       }
     }
   }
