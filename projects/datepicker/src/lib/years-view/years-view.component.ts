@@ -20,10 +20,6 @@ export class YearsViewComponent implements OnChanges {
   panes: Array<YearsPane>;
   readonly years = range(0, 15);
 
-  get visiblePane(): YearsPane {
-    return this.panes[this.visiblePaneIndex];
-  }
-
   private visiblePaneIndex: number;
   private selectedYear: number;
   private currentYear: number;
@@ -65,9 +61,10 @@ export class YearsViewComponent implements OnChanges {
   switchPanes(direction: number): void {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
+    const pane = this.panes[index];
     this.panes[index] = {
-      order: this.visiblePane.order + 3 * direction,
-      start: this.visiblePane.start + 3 * direction * this.years.length,
+      order: pane.order + 3 * direction,
+      start: pane.start + 3 * direction * this.years.length,
     };
   }
 

@@ -21,10 +21,6 @@ export class MonthsViewComponent implements OnChanges {
   panes: Array<MonthsPane>;
   readonly months: ReadonlyArray<string>;
 
-  get visiblePane(): MonthsPane {
-    return this.panes[this.visiblePaneIndex];
-  }
-
   private visiblePaneIndex: number;
   private selectedMonthNumber: number;
   private selectedYearTime: number;
@@ -56,7 +52,7 @@ export class MonthsViewComponent implements OnChanges {
 
   clickHeader(notPanning: boolean): void {
     if (notPanning) {
-      this.headerClick.emit(this.visiblePane.yearDate);
+      this.headerClick.emit(this.panes[this.visiblePaneIndex].yearDate);
     }
   }
 
@@ -79,9 +75,10 @@ export class MonthsViewComponent implements OnChanges {
   switchPanes(direction: number): void {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
+    const pane = this.panes[index];
     this.panes[index] = {
-      order: this.visiblePane.order + 3 * direction,
-      yearDate: addYears(this.visiblePane.yearDate, 3 * direction),
+      order: pane.order + 3 * direction,
+      yearDate: addYears(pane.yearDate, 3 * direction),
     };
   }
 
