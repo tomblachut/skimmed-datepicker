@@ -6,18 +6,18 @@
                [weekdayFormat]="weekdayFormat"
                [dayFormat]="dayFormat"
                [firstWeekday]="firstWeekday"
-               (headerClick)="showMonths($event)"
+               (headerClick)="switchView($event, DatepickerView.Months)"
                (dateChange)="selectDay($event)"></skm-days-view>
 <skm-months-view *ngIf="view === DatepickerView.Months"
                  [selectedDate]="selectedDate"
                  [currentDate]="currentDate"
                  [initialDate]="initialDate"
                  [yearFormat]="yearFormat"
-                 (headerClick)="showYears($event)"
-                 (dateChange)="selectMonth($event)"></skm-months-view>
+                 (headerClick)="switchView($event, DatepickerView.Years)"
+                 (dateChange)="switchView($event, DatepickerView.Days)"></skm-months-view>
 <skm-years-view *ngIf="view === DatepickerView.Years"
                 [selectedDate]="selectedDate"
                 [currentDate]="currentDate"
                 [initialDate]="initialDate"
                 [yearFormat]="yearFormat"
-                (dateChange)="selectYear($event)"></skm-years-view>
+                (dateChange)="switchView($event, DatepickerView.Months)"></skm-years-view>
