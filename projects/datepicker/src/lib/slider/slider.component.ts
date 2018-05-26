@@ -1,13 +1,15 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { createEaseOut } from '../util/helpers';
 import { AnimationEvent } from '@angular/animations';
 import { slide } from './slide.animation';
+import { ChangeDetectionStrategy } from '../../../../../node_modules/@angular/core';
 
 @Component({
   selector: 'skm-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
   animations: [slide(150)],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SliderComponent {
   @Output() slideDone = new EventEmitter<number>();
@@ -19,7 +21,7 @@ export class SliderComponent {
   private wrapperWidth = 1;
   private panOffset = 0;
 
-  constructor() {
+  constructor(private cd: ChangeDetectorRef) {
     this.changeSlideTrigger();
   }
 
@@ -48,7 +50,10 @@ export class SliderComponent {
 
   clickPagination(direction: number): void {
     this.changeSlideTrigger();
-    setTimeout(() => this.changeSlideTrigger(direction as -1 | 1));
+    setTimeout(() => {
+      this.changeSlideTrigger(direction as -1 | 1);
+      this.cd.markForCheck();
+    });
   }
 
   swipe(direction: number): void {
@@ -58,7 +63,6 @@ export class SliderComponent {
   done(event: AnimationEvent): void {
     if (typeof event.toState as string | number === 'number') {
       this.slideDone.emit(event.toState as any);
-      this.changeSlideTrigger();
     }
   }
 

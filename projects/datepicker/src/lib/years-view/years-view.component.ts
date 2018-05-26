@@ -2,11 +2,13 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { range } from '../util/helpers';
 import { startOfYear } from '../util/date-utils';
 import { YearsPane } from './years-pane';
+import { ChangeDetectionStrategy } from '../../../../../node_modules/@angular/core';
 
 @Component({
   selector: 'skm-years-view',
   templateUrl: './years-view.component.html',
   styleUrls: ['./years-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class YearsViewComponent implements OnChanges {
   @Input() selectedDate: Date;

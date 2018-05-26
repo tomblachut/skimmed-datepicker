@@ -2,11 +2,13 @@ import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, S
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
 import { addYears, setMonth, startOfYear } from '../util/date-utils';
 import { MonthsPane } from './months-pane';
+import { ChangeDetectionStrategy } from '../../../../../node_modules/@angular/core';
 
 @Component({
   selector: 'skm-months-view',
   templateUrl: './months-view.component.html',
   styleUrls: ['./months-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthsViewComponent implements OnChanges {
   @Input() selectedDate: Date;

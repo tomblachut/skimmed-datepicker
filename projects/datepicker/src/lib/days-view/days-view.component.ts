@@ -3,11 +3,13 @@ import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angula
 import { addMonths, getDay, getDaysInMonth, setDay, startOfMonth } from '../util/date-utils';
 import { range } from '../util/helpers';
 import { DaysPane } from './days-pane';
+import { ChangeDetectionStrategy } from '../../../../../node_modules/@angular/core';
 
 @Component({
   selector: 'skm-days-view',
   templateUrl: './days-view.component.html',
   styleUrls: ['./days-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DaysViewComponent implements OnChanges {
   @Input() selectedDate: Date;
