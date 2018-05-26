@@ -1,4 +1,4 @@
 export interface YearsPane {
-  order: number;
-  start: number;
+  readonly order: number;
+  readonly start: number;
 }
