@@ -1,17 +1,30 @@
-import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Inject,
+  Input,
+  LOCALE_ID,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
 import { addYears, setMonth, startOfYear } from '../util/date-utils';
 import { MonthsPane } from './months-pane';
-import { ChangeDetectionStrategy, HostBinding } from '../../../../../node_modules/@angular/core';
-import { zoom } from '../util/zoom.animation';
+import { zoom, ZoomDirection } from '../util/zoom.animation';
 
 @Component({
   selector: 'skm-months-view',
   templateUrl: './months-view.component.html',
   styleUrls: ['./months-view.component.scss'],
+  animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthsViewComponent implements OnChanges {
+  @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
+
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
   @Input() initialDate: Date;

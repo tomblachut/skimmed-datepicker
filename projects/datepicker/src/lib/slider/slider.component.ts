@@ -1,8 +1,7 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { createEaseOut } from '../util/helpers';
 import { AnimationEvent } from '@angular/animations';
 import { slide } from './slide.animation';
-import { ChangeDetectionStrategy } from '../../../../../node_modules/@angular/core';
 
 @Component({
   selector: 'skm-slider',

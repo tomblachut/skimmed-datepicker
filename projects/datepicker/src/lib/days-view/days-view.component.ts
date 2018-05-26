@@ -1,17 +1,31 @@
-import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Inject,
+  Input,
+  LOCALE_ID,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angular/common';
 import { addMonths, getDay, getDaysInMonth, setDay, startOfMonth } from '../util/date-utils';
 import { range } from '../util/helpers';
 import { DaysPane } from './days-pane';
-import { ChangeDetectionStrategy } from '../../../../../node_modules/@angular/core';
+import { zoom, ZoomDirection } from '../util/zoom.animation';
 
 @Component({
   selector: 'skm-days-view',
   templateUrl: './days-view.component.html',
   styleUrls: ['./days-view.component.scss'],
+  animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DaysViewComponent implements OnChanges {
+  @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
+
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
   @Input() initialDate: Date;

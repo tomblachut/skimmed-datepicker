@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { WeekDay } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isValidDate, startOfDay } from '../util/date-utils';
 import { noop } from '../util/helpers';
 import { DatepickerView } from './datepicker-view';
+import { ZoomDirection } from '../util/zoom.animation';
 
 @Component({
   selector: 'skm-datepicker',
@@ -43,11 +44,15 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   currentDate: Date;
   initialDate: Date;
 
+  zoomDirection: ZoomDirection;
   view = DatepickerView.Days;
   readonly DatepickerView = DatepickerView;
 
   private onChange: (date: Date) => void = noop;
   private onTouched: () => void = noop;
+
+  constructor(private cd: ChangeDetectorRef) {
+  }
 
   ngOnInit(): void {
     this.currentDate = startOfDay(new Date());
@@ -60,9 +65,13 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     this.dateChange.emit(date);
   }
 
-  switchView(date: Date, view: DatepickerView) {
-    this.view = view;
-    this.initialDate = date;
+  switchView(date: Date, view: DatepickerView, direction: ZoomDirection) {
+    this.zoomDirection = direction;
+    setTimeout(() => {
+      this.initialDate = date;
+      this.view = view;
+      this.cd.markForCheck();
+    });
   }
 
   // ControlValueAccessor implementation
