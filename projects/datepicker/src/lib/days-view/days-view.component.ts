@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Weekday } from '../util/weekdays';
+import { WeekDay } from '@angular/common';
 import { addMonths, differenceInDays, getDay, getDaysInMonth, setDay, startOfMonth, startOfWeek, weekdayDates } from '../util/date-utils';
 import { range } from '../util/helpers';
 import { DaysPane } from './days-pane';
@@ -17,7 +17,7 @@ export class DaysViewComponent implements OnChanges, OnInit {
   @Input() headingFormat: string;
   @Input() weekdayFormat: string;
   @Input() dayFormat: string;
-  @Input() firstWeekday: Weekday;
+  @Input() firstWeekday: WeekDay;
 
   @Output() dateChange = new EventEmitter<Date>();
   @Output() headerClick = new EventEmitter<Date>();
@@ -98,7 +98,7 @@ export class DaysViewComponent implements OnChanges, OnInit {
 
 }
 
-function makePane(baseOrder: number, monthDate: Date, firstWeekday: Weekday, add: number): DaysPane {
+function makePane(baseOrder: number, monthDate: Date, firstWeekday: WeekDay, add: number): DaysPane {
   monthDate = addMonths(monthDate, add);
   return {
     order: baseOrder + add,
