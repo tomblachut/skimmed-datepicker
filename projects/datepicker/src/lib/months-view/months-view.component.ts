@@ -16,10 +16,14 @@ export class MonthsViewComponent implements OnChanges {
   @Input() yearFormat: string;
 
   @Output() dateChange = new EventEmitter<Date>();
-  @Output() headerClick = new EventEmitter<MouseEvent>();
+  @Output() headerClick = new EventEmitter<Date>();
 
   panes: Array<MonthsPane>;
   readonly months: string[];
+
+  get visiblePane(): MonthsPane {
+    return this.panes[this.visiblePaneIndex];
+  }
 
   private visiblePaneIndex: number;
   private selectedMonthNumber: number;
@@ -50,9 +54,9 @@ export class MonthsViewComponent implements OnChanges {
     }
   }
 
-  clickHeader(event: MouseEvent, notPanning: boolean) {
+  clickHeader(notPanning: boolean) {
     if (notPanning) {
-      this.headerClick.emit(event);
+      this.headerClick.emit(this.visiblePane.year);
     }
   }
 

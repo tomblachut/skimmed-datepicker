@@ -59,19 +59,23 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   }
 
   selectMonth(date: Date) {
-    console.log('month', date);
+    this.view = DatepickerView.Days;
+    this.initialDate = date;
   }
 
   selectYear(date: Date) {
-    console.log('year', date);
-  }
-
-  showMonths() {
     this.view = DatepickerView.Months;
+    this.initialDate = date;
   }
 
-  showYears() {
+  showMonths(date: Date) {
+    this.view = DatepickerView.Months;
+    this.initialDate = date;
+  }
+
+  showYears(date: Date) {
     this.view = DatepickerView.Years;
+    this.initialDate = date;
   }
 
   // ControlValueAccessor implementation

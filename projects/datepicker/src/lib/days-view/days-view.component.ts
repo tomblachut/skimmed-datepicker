@@ -20,11 +20,15 @@ export class DaysViewComponent implements OnChanges, OnInit {
   @Input() firstWeekday: Weekday;
 
   @Output() dateChange = new EventEmitter<Date>();
-  @Output() headerClick = new EventEmitter<MouseEvent>();
+  @Output() headerClick = new EventEmitter<Date>();
 
   panes: Array<DaysPane>;
   readonly days = range(1, 31);
   weekdays: Array<Date>;
+
+  get visiblePane(): DaysPane {
+    return this.panes[this.visiblePaneIndex];
+  }
 
   private visiblePaneIndex: number;
   private selectedDay: number;
@@ -58,9 +62,9 @@ export class DaysViewComponent implements OnChanges, OnInit {
     this.weekdays = weekdayDates(this.currentDate, this.firstWeekday);
   }
 
-  clickHeader(event: MouseEvent, notPanning: boolean) {
+  clickHeader(notPanning: boolean) {
     if (notPanning) {
-      this.headerClick.emit(event);
+      this.headerClick.emit(this.visiblePane.start);
     }
   }
 

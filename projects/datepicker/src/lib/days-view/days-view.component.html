@@ -1,7 +1,7 @@
 <skm-slider (slideDone)="switchPanes($event)" #slider>
   <div class="skm-datepicker-pane" *ngFor="let pane of panes" [style.order]="pane.order">
     <button type="button" class="skm-datepicker-header"
-            (click)="clickHeader($event, slider.notPanning)">{{pane.start | date: headingFormat}}
+            (click)="clickHeader(slider.notPanning)">{{pane.start | date: headingFormat}}
     </button>
     <div class="skm-flex">
       <div class="skm-datepicker-weekday" *ngFor="let name of weekdays">{{name | date: weekdayFormat}}</div>
