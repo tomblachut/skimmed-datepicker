@@ -18,7 +18,7 @@ export class YearsViewComponent implements OnChanges {
   @Output() dateChange = new EventEmitter<Date>();
 
   panes: Array<YearsPane>;
-  readonly years = range(0, 15);
+  readonly years = range(0, 19);
 
   private visiblePaneIndex: number;
   private selectedYear: number;
@@ -71,6 +71,7 @@ export class YearsViewComponent implements OnChanges {
   private initPanes(date: Date): void {
     const origin = date.getFullYear();
     const adjusted = origin - (origin % this.years.length);
+    console.log(this.years.length);
     this.panes = [-1, 0, 1].map(i => ({
       order: i,
       start: adjusted + i * this.years.length,
