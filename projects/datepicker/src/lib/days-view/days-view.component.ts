@@ -82,7 +82,7 @@ export class DaysViewComponent implements OnChanges {
   selectItem(event: MouseEvent, monthDate: Date, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
-      const day = +button.textContent;
+      const day = +button.dataset.index + 1;
       if (this.deselectEnabled && monthDate.getTime() === this.selectedMonthTime && day === this.selectedDay) {
         this.dateChange.emit(undefined);
       } else {
@@ -91,7 +91,8 @@ export class DaysViewComponent implements OnChanges {
     }
   }
 
-  makeItemClasses(day: number, monthDate: Date) {
+  makeItemClasses(index: number, monthDate: Date) {
+    const day = index + 1;
     return [
       'skm-datepicker-item',
       'skm-datepicker-day',
