@@ -1,25 +1,36 @@
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-auto mt-3 theme-a">
+    <div class="col mt-3 text-center">
       <div>
         <label for="date" class="sr-only">Date</label>
         <input id="date" type="text" class="form-control mb-3"
                [ngModel]="date | date:'yyyy-MM-dd'" (ngModelChange)="date = $event">
       </div>
-      <skm-datepicker [(ngModel)]="date"></skm-datepicker>
+      <skm-datepicker class="d-inline-block theme-a" [(ngModel)]="date"></skm-datepicker>
     </div>
-    <div class="col-auto mt-3 theme-b">
+    <div class="col mt-3 text-center">
       <div>
         <label for="date2" class="sr-only">Date</label>
         <input id="date2" type="text" class="form-control mb-3"
                [ngModel]="undef | date:'yyyy-MM-dd'" (ngModelChange)="undef = $event">
       </div>
-      <skm-datepicker [(date)]="undef"></skm-datepicker>
+      <skm-datepicker class="d-inline-block theme-b"
+                      [(date)]="undef"
+                      [dayLabels]="customDayLabels"
+                      [weekDayLabels]="customWeekDayLabels"
+                      [monthLabels]="customMonthLabels"></skm-datepicker>
+      <div>
+        <small>
+          (Inaccurate example because Romans used Julian calendar,
+          whereas Javascriptians use Gregorian one.
+          Not to mention emojis)
+        </small>
+      </div>
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="col-auto">
-      <skm-datepicker></skm-datepicker>
+      <!--<skm-datepicker></skm-datepicker>-->
     </div>
   </div>
 </div>

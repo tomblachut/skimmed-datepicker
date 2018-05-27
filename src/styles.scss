@@ -98,7 +98,7 @@ button:not([disabled]) {
   }
 
   .skm-datepicker {
-    width: 300px;
+    width: 350px;
     height: 400px;
     color: white;
     background: #FAD7A1;
@@ -117,6 +117,7 @@ button:not([disabled]) {
     width: 70px;
     height: 70px;
     font-weight: 700;
+    font-size: 2rem;
     background: #F97794;
     border-bottom: 5px solid white;
   }
@@ -129,20 +130,24 @@ button:not([disabled]) {
     border-bottom: 5px solid white;
   }
 
-  .skm-datepicker-item:hover, .skm-datepicker-pagination:hover {
+  .skm-datepicker-item:hover {
     background: #FCCF31;
   }
 
+  .skm-datepicker-header:hover, .skm-datepicker-pagination:hover {
+    background: #e97778;
+  }
+
   .skm-datepicker-current {
-    background: #faba7e;
+    background: #FEB692;
   }
 
   .skm-datepicker-selected {
-    background: #F55555;
+    background: #E96D71;
   }
 
   .skm-datepicker-selected:hover {
-    background: #f5486c;
+    background: #F97794;
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { range } from '../../projects/datepicker/src/lib/util/helpers';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,24 @@ import { Component } from '@angular/core';
 export class AppComponent {
   date = new Date().setFullYear(1995, 0, 17);
   undef: Date;
+
+  customDayLabels = range(1, 31).map(romanize);
+  customWeekDayLabels = ['😆', '😞', '😕', '😐', '😉', '😊', '😁'];
+  customMonthLabels = ['☃️', '🌨️', '☂️', '🌳', '🌷', '☀️', '🌻', '🌊', '🍄', '🌰', '🍂', '🎄'];
+}
+
+// https://stackoverflow.com/a/9083076/1879175
+function romanize(num) {
+  const digits = String(+num).split('');
+  const key = [
+    '', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM',
+    '', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC',
+    '', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX',
+  ];
+  let roman = '';
+  let i = 3;
+  while (i--) {
+    roman = (key[+digits.pop() + (i * 10)] || '') + roman;
+  }
+  return Array(+digits.join('') + 1).join('M') + roman;
 }
