@@ -6,9 +6,7 @@
                  [zoomDirection]="zoomDirection"
                  [deselectEnabled]="deselectEnabled"
                  [headingFormat]="headingFormat"
-                 [weekdayFormat]="weekdayFormat"
-                 [dayFormat]="dayFormat"
-                 [firstWeekday]="firstWeekday"
+                 [firstWeekDay]="firstWeekday"
                  [dayLabels]="dayLabels"
                  [weekDayLabels]="weekDayLabels"
                  (headerClick)="switchView($event, DatepickerView.Months, 'out')"
@@ -27,6 +25,5 @@
                   [currentDate]="currentDate"
                   [initialDate]="initialDate"
                   [zoomDirection]="zoomDirection"
-                  [yearFormat]="yearFormat"
                   (dateChange)="switchView($event, DatepickerView.Months, 'in')"></skm-years-view>
 </div>

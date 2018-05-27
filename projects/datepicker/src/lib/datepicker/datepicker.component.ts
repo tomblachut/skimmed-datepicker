@@ -38,8 +38,6 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   @Input() yearFormat = 'y';
   @Input() headingFormat = 'MMMM y';
-  @Input() weekdayFormat = 'EEE';
-  @Input() dayFormat = 'd';
   @Input() firstWeekday = WeekDay.Monday;
 
   @Input() dayLabels: string[];

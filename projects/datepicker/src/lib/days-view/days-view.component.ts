@@ -33,10 +33,7 @@ export class DaysViewComponent implements OnChanges {
   @Input() deselectEnabled: boolean;
 
   @Input() headingFormat: string;
-  @Input() weekdayFormat: string;
-  @Input() dayFormat: string;
-  @Input() firstWeekday: WeekDay;
-
+  @Input() firstWeekDay: WeekDay;
   @Input() dayLabels: string[];
   @Input() weekDayLabels: string[];
 
@@ -113,12 +110,12 @@ export class DaysViewComponent implements OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    this.panes[index] = makePane(pane.monthDate, this.firstWeekday, 3 * direction, pane.order);
+    this.panes[index] = makePane(pane.monthDate, this.firstWeekDay, 3 * direction, pane.order);
   }
 
   private initPanes(date: Date): void {
     const monthDate = startOfMonth(date);
-    this.panes = [-1, 0, 1].map(i => makePane(monthDate, this.firstWeekday, i));
+    this.panes = [-1, 0, 1].map(i => makePane(monthDate, this.firstWeekDay, i));
     this.visiblePaneIndex = 1;
   }
 

@@ -18,8 +18,6 @@ export class YearsViewComponent implements OnChanges {
   @Input() currentDate: Date;
   @Input() initialDate: Date;
 
-  @Input() yearFormat: string;
-
   @Output() readonly dateChange = new EventEmitter<Date>();
 
   panes: Array<YearsPane>;
