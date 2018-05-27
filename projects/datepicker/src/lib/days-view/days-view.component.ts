@@ -38,12 +38,12 @@ export class DaysViewComponent implements OnChanges {
   @Input() firstWeekday: WeekDay;
 
   @Input() dayLabels: string[];
+  @Input() weekDayLabels: string[];
 
   @Output() readonly dateChange = new EventEmitter<Date>();
   @Output() readonly headerClick = new EventEmitter<Date>();
 
   panes: Array<DaysPane>;
-  readonly weekdays: ReadonlyArray<string>;
 
   private visiblePaneIndex: number;
   private selectedDay: number;
@@ -52,7 +52,6 @@ export class DaysViewComponent implements OnChanges {
   private currentMonthTime: number;
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
-    this.weekdays = getLocaleDayNames(locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -74,6 +73,11 @@ export class DaysViewComponent implements OnChanges {
     }
     if ('dayLabels' in changes) {
       this.dayLabels = this.dayLabels ? this.dayLabels.slice(0, 31) : range(1, 31).map(String);
+    }
+    if ('weekDayLabels' in changes) {
+      this.weekDayLabels = this.weekDayLabels
+        ? this.weekDayLabels.slice(0, 7)
+        : getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
     }
   }
 

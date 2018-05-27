@@ -4,8 +4,8 @@
             (click)="clickHeader(slider.notPanning)">{{pane.monthDate | date: headingFormat}}
     </button>
     <div class="skm-flex">
-      <div class="skm-datepicker-weekday" *ngFor="let name of weekdays | slice:firstWeekday">{{name}}</div>
-      <div class="skm-datepicker-weekday" *ngFor="let name of weekdays | slice:0:firstWeekday">{{name}}</div>
+      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:firstWeekday">{{label}}</div>
+      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:0:firstWeekday">{{label}}</div>
     </div>
     <div class="skm-datepicker-grid" (click)="selectItem($event, pane.monthDate, slider.notPanning)">
       <div class="skm-datepicker-shifter" [style.width.%]="100 / 7 * pane.weekShift"></div>
