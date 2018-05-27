@@ -11,7 +11,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angular/common';
-import { addMonths, getDay, getDaysInMonth, setDay, startOfMonth } from '../util/date-utils';
+import { addMonths, getDaysInMonth, setDate, startOfMonth } from '../util/date-utils';
 import { range } from '../util/helpers';
 import { DaysPane } from './days-pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
@@ -29,6 +29,8 @@ export class DaysViewComponent implements OnChanges {
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
   @Input() initialDate: Date;
+
+  @Input() deselectEnabled: boolean;
 
   @Input() headingFormat: string;
   @Input() weekdayFormat: string;
@@ -55,7 +57,7 @@ export class DaysViewComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if ('selectedDate' in changes) {
       if (this.selectedDate) {
-        this.selectedDay = getDay(this.selectedDate);
+        this.selectedDay = this.selectedDate.getDate();
         this.selectedMonthTime = startOfMonth(this.selectedDate).getTime();
       } else {
         this.selectedDay = undefined;
@@ -63,7 +65,7 @@ export class DaysViewComponent implements OnChanges {
       }
     }
     if ('currentDate' in changes) {
-      this.currentDay = getDay(this.currentDate);
+      this.currentDay = this.currentDate.getDate();
       this.currentMonthTime = startOfMonth(this.currentDate).getTime();
     }
     if ('initialDate' in changes) {
@@ -81,7 +83,11 @@ export class DaysViewComponent implements OnChanges {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const day = +button.textContent;
-      this.dateChange.emit(setDay(monthDate, day));
+      if (this.deselectEnabled && monthDate.getTime() === this.selectedMonthTime && day === this.selectedDay) {
+        this.dateChange.emit(undefined);
+      } else {
+        this.dateChange.emit(setDate(monthDate, day));
+      }
     }
   }
 

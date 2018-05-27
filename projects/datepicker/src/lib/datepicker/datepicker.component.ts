@@ -34,6 +34,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   @Output() dateChange = new EventEmitter<Date>();
 
+  @Input() deselectEnabled: boolean;
+
   @Input() yearFormat = 'y';
   @Input() headingFormat = 'MMMM y';
   @Input() weekdayFormat = 'EEE';
