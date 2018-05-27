@@ -44,6 +44,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   @Input() dayLabels: string[];
   @Input() weekDayLabels: string[];
+  @Input() monthLabels: string[];
 
   selectedDate: Date;
   currentDate: Date;

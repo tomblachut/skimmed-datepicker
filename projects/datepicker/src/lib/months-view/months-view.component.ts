@@ -30,12 +30,12 @@ export class MonthsViewComponent implements OnChanges {
   @Input() initialDate: Date;
 
   @Input() yearFormat: string;
+  @Input() monthLabels: string[];
 
   @Output() readonly dateChange = new EventEmitter<Date>();
   @Output() readonly headerClick = new EventEmitter<Date>();
 
   panes: Array<MonthsPane>;
-  readonly months: ReadonlyArray<string>;
 
   private visiblePaneIndex: number;
   private selectedMonthNumber: number;
@@ -44,7 +44,6 @@ export class MonthsViewComponent implements OnChanges {
   private currentYearTime: number;
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
-    this.months = getLocaleMonthNames(locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -63,6 +62,11 @@ export class MonthsViewComponent implements OnChanges {
     }
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
+    }
+    if ('monthLabels' in changes) {
+      this.monthLabels = this.monthLabels
+        ? this.monthLabels.slice(0, 12)
+        : getLocaleMonthNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
     }
   }
 

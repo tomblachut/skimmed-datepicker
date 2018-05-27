@@ -4,9 +4,9 @@
             (click)="clickHeader(slider.notPanning)">{{pane.yearDate | date: yearFormat}}
     </button>
     <div class="skm-datepicker-grid" (click)="selectItem($event, pane.yearDate, slider.notPanning)">
-      <div *ngFor="let month of months; let i = index" class="skm-datepicker-cell">
+      <div *ngFor="let label of monthLabels; let i = index" class="skm-datepicker-cell">
         <button [attr.data-index]="i" [ngClass]="makeItemClasses(i, pane.yearDate)" type="button">
-          {{month}}
+          {{label}}
         </button>
       </div>
     </div>

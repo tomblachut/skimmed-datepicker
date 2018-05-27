@@ -19,6 +19,7 @@
                    [initialDate]="initialDate"
                    [zoomDirection]="zoomDirection"
                    [yearFormat]="yearFormat"
+                   [monthLabels]="monthLabels"
                    (headerClick)="switchView($event, DatepickerView.Years, 'out')"
                    (dateChange)="switchView($event, DatepickerView.Days, 'in')"></skm-months-view>
   <skm-years-view class="skm-datepicker-view" *ngSwitchCase="DatepickerView.Years"
