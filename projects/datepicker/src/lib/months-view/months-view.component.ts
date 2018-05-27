@@ -80,12 +80,13 @@ export class MonthsViewComponent implements OnChanges {
     }
   }
 
-  isCurrent(month: number, yearDate: Date): boolean {
-    return month === this.currentMonthNumber && yearDate.getTime() === this.currentYearTime;
-  }
-
-  isSelected(month: number, yearDate: Date): boolean {
-    return month === this.selectedMonthNumber && yearDate.getTime() === this.selectedYearTime;
+  makeItemClasses(month: number, yearDate: Date) {
+    return [
+      'skm-datepicker-item',
+      'skm-datepicker-month',
+      (month === this.currentMonthNumber && yearDate.getTime() === this.currentYearTime) ? 'skm-datepicker-current' : '',
+      (month === this.selectedMonthNumber && yearDate.getTime() === this.selectedYearTime) ? 'skm-datepicker-selected' : '',
+    ];
   }
 
   switchPanes(direction: number): void {

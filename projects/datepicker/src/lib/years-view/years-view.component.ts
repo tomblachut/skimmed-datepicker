@@ -55,12 +55,13 @@ export class YearsViewComponent implements OnChanges {
     }
   }
 
-  isCurrent(offset: number, start: number): boolean {
-    return offset + start === this.currentYear;
-  }
-
-  isSelected(offset: number, start: number): boolean {
-    return offset + start === this.selectedYear;
+  makeItemClasses(offset: number, start: number) {
+    return [
+      'skm-datepicker-item',
+      'skm-datepicker-year',
+      (offset + start === this.currentYear) ? 'skm-datepicker-current' : '',
+      (offset + start === this.selectedYear) ? 'skm-datepicker-selected' : '',
+    ];
   }
 
   switchPanes(direction: number): void {

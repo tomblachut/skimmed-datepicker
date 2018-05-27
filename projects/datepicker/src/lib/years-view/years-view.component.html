@@ -5,11 +5,7 @@
     </button>
     <div class="skm-datepicker-grid" (click)="selectItem($event, pane.start, slider.notPanning)">
       <div *ngFor="let year of years; let i = index" class="skm-datepicker-cell">
-        <button [attr.data-index]="i"
-                [class.skm-datepicker-current]="isCurrent(i, pane.start)"
-                [class.skm-datepicker-selected]="isSelected(i, pane.start)"
-                class="skm-datepicker-item skm-datepicker-year"
-                type="button">
+        <button [attr.data-index]="i" [ngClass]="makeItemClasses(i, pane.start)" type="button">
           {{pane.start + year}}
         </button>
       </div>

@@ -91,12 +91,13 @@ export class DaysViewComponent implements OnChanges {
     }
   }
 
-  isCurrent(day: number, monthDate: Date): boolean {
-    return day === this.currentDay && monthDate.getTime() === this.currentMonthTime;
-  }
-
-  isSelected(day: number, monthDate: Date): boolean {
-    return day === this.selectedDay && monthDate.getTime() === this.selectedMonthTime;
+  makeItemClasses(day: number, monthDate: Date) {
+    return [
+      'skm-datepicker-item',
+      'skm-datepicker-day',
+      (day === this.currentDay && monthDate.getTime() === this.currentMonthTime) ? 'skm-datepicker-current' : '',
+      (day === this.selectedDay && monthDate.getTime() === this.selectedMonthTime) ? 'skm-datepicker-selected' : '',
+    ];
   }
 
   switchPanes(direction: number): void {
