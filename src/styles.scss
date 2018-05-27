@@ -23,9 +23,6 @@ button {
   text-align: center;
   margin: 0;
   padding: 0;
-  background: transparent;
-  border: 1px solid transparent;
-  transition: border-color 150ms;
 
   &:focus {
     outline: none;
@@ -36,49 +33,118 @@ button:not([disabled]) {
   cursor: pointer;
 }
 
-.skm-datepicker {
-  width: $datepicker-width;
-  height: $datepicker-height;
-  border: 1px solid lightgray;
-  border-radius: 0.25rem;
+.theme-a {
+  button {
+    background: transparent;
+    border: 1px solid transparent;
+    transition: border-color 150ms;
+  }
+
+  .skm-datepicker {
+    width: $datepicker-width;
+    height: $datepicker-height;
+    border: 1px solid lightgray;
+    border-radius: 0.25rem;
+  }
+
+  .skm-datepicker-pagination {
+    width: $header-height;
+    height: $header-height;
+    font-weight: 700;
+    border-radius: 50%;
+  }
+
+  .skm-datepicker-header {
+    border-width: 0;
+    font-weight: 700;
+    text-align: center;
+    height: $header-height;
+    line-height: $header-height;
+  }
+
+  .skm-datepicker-weekday {
+    font-weight: 700;
+    text-align: center;
+    line-height: $weekday-label-height;
+  }
+
+  .skm-datepicker-item {
+    margin: 1px;
+  }
+
+  .skm-datepicker-item:hover, .skm-datepicker-pagination:hover {
+    border-color: darkgray;
+  }
+
+  .skm-datepicker-current {
+    border-color: lightgray;
+  }
+
+  .skm-datepicker-selected {
+    border-color: gray;
+  }
 }
 
-.skm-datepicker-pagination {
-  width: $header-height;
-  height: $header-height;
+.theme-b {
   font-weight: 700;
-  border-radius: 50%;
-}
+  text-transform: uppercase;
 
-.skm-datepicker-header {
-  width: 100%;
-  border-width: 0;
-  font-weight: 700;
-  text-align: center;
-  height: $header-height;
-  line-height: $header-height;
-}
+  button {
+    background: transparent;
+    border: 0;
+    font: inherit;
+    color: inherit;
+    transition: background 150ms;
+  }
 
-.skm-datepicker-weekday {
-  font-weight: 700;
-  text-align: center;
-  line-height: $weekday-label-height;
-}
+  .skm-datepicker {
+    width: 300px;
+    height: 400px;
+    color: white;
+    background: #FAD7A1;
+  }
 
-.skm-datepicker-item {
-  margin: 1px;
-}
+  .skm-datepicker-header {
+    font-weight: 700;
+    text-align: center;
+    height: 70px;
+    line-height: 70px;
+    background: #E96D71;
+    border-bottom: 5px solid white;
+  }
 
-.skm-datepicker-item:hover, .skm-datepicker-pagination:hover {
-  border-color: darkgray;
-}
+  .skm-datepicker-pagination {
+    width: 70px;
+    height: 70px;
+    font-weight: 700;
+    background: #F97794;
+    border-bottom: 5px solid white;
+  }
 
-.skm-datepicker-current {
-  border-color: lightgray;
-}
+  .skm-datepicker-weekday {
+    font-weight: 700;
+    text-align: center;
+    line-height: $weekday-label-height;
+    background: #FEB692;
+    border-bottom: 5px solid white;
+  }
 
-.skm-datepicker-selected {
-  border-color: gray;
+  .skm-datepicker-item:hover, .skm-datepicker-pagination:hover {
+    background: #FCCF31;
+  }
+
+  .skm-datepicker-current {
+    background: #faba7e;
+  }
+
+  .skm-datepicker-selected {
+    background: #F55555;
+  }
+
+  .skm-datepicker-selected:hover {
+    background: #f5486c;
+  }
+
 }
 
 //.skm-datepicker-grid {
