@@ -37,11 +37,12 @@ export class DaysViewComponent implements OnChanges {
   @Input() dayFormat: string;
   @Input() firstWeekday: WeekDay;
 
+  @Input() dayLabels: string[];
+
   @Output() readonly dateChange = new EventEmitter<Date>();
   @Output() readonly headerClick = new EventEmitter<Date>();
 
   panes: Array<DaysPane>;
-  readonly days = range(1, 31);
   readonly weekdays: ReadonlyArray<string>;
 
   private visiblePaneIndex: number;
@@ -70,6 +71,9 @@ export class DaysViewComponent implements OnChanges {
     }
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
+    }
+    if ('dayLabels' in changes) {
+      this.dayLabels = this.dayLabels ? this.dayLabels.slice(0, 31) : range(1, 31).map(String);
     }
   }
 

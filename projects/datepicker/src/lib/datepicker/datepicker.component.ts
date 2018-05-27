@@ -42,6 +42,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   @Input() dayFormat = 'd';
   @Input() firstWeekday = WeekDay.Monday;
 
+  @Input() dayLabels: string[];
+
   selectedDate: Date;
   currentDate: Date;
   initialDate: Date;
