@@ -98,7 +98,8 @@ button:not([disabled]) {
   }
 
   .skm-datepicker {
-    width: 350px;
+    max-width: 350px;
+    margin: auto;
     height: 400px;
     color: white;
     background: #FAD7A1;

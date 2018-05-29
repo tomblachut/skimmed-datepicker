@@ -14,7 +14,7 @@
         <input id="date2" type="text" class="form-control mb-3"
                [ngModel]="undef | date:'yyyy-MM-dd'" (ngModelChange)="undef = $event">
       </div>
-      <skm-datepicker class="d-inline-block theme-b"
+      <skm-datepicker class="theme-b"
                       [(date)]="undef"
                       [dayLabels]="customDayLabels"
                       [weekDayLabels]="customWeekDayLabels"
