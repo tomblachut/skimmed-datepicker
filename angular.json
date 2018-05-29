@@ -1,18 +1,19 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss",
+      "changeDetection": "OnPush"
+    }
+  },
   "newProjectRoot": "projects",
   "projects": {
-    "skimmed-angular": {
+    "docs": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss"
-        }
-      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -22,6 +23,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
+            "baseHref": "/skimmed-datepicker/",
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -54,18 +56,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "skimmed-angular:build"
+            "browserTarget": "docs:build",
+            "port": 4242,
+            "host": "0.0.0.0",
+            "hmrWarning": false
           },
           "configurations": {
             "production": {
-              "browserTarget": "skimmed-angular:build:production"
+              "browserTarget": "docs:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "skimmed-angular:build"
+            "browserTarget": "docs:build"
           }
         },
         "test": {
@@ -92,28 +97,6 @@
               "src/tsconfig.app.json",
               "src/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "skimmed-angular-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "skimmed-angular:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -162,5 +145,5 @@
       }
     }
   },
-  "defaultProject": "skimmed-angular"
+  "defaultProject": "docs"
 }
