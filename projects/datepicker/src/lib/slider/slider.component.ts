@@ -20,6 +20,8 @@ export class SliderComponent {
   private wrapperWidth = 1;
   private panOffset = 0;
 
+  private lastDoneEventToState: string | number;
+
   constructor(private cd: ChangeDetectorRef) {
     this.changeSlideTrigger();
   }
@@ -60,6 +62,11 @@ export class SliderComponent {
   }
 
   done(event: AnimationEvent): void {
+    if (event.toState === this.lastDoneEventToState) {
+      // workaround for https://github.com/angular/angular/issues/24084
+      return;
+    }
+    this.lastDoneEventToState = event.toState;
     if (typeof event.toState as string | number === 'number') {
       this.slideDone.emit(event.toState as any);
     }
