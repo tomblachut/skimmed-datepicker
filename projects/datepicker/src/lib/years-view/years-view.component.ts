@@ -43,6 +43,15 @@ export class YearsViewComponent implements OnChanges {
     }
   }
 
+  makeItemClasses(offset: number, start: number): string {
+    return [
+      'skm-datepicker-item',
+      'skm-datepicker-year',
+      (offset + start === this.currentYear) ? 'skm-datepicker-current' : '',
+      (offset + start === this.selectedYear) ? 'skm-datepicker-selected' : '',
+    ].join(' ');
+  }
+
   selectItem(event: MouseEvent, start: number, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
@@ -51,15 +60,6 @@ export class YearsViewComponent implements OnChanges {
       date.setFullYear(offset + start);
       this.dateChange.emit(date);
     }
-  }
-
-  makeItemClasses(offset: number, start: number) {
-    return [
-      'skm-datepicker-item',
-      'skm-datepicker-year',
-      (offset + start === this.currentYear) ? 'skm-datepicker-current' : '',
-      (offset + start === this.selectedYear) ? 'skm-datepicker-selected' : '',
-    ];
   }
 
   switchPanes(direction: number): void {

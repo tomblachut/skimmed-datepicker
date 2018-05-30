@@ -78,6 +78,16 @@ export class DaysViewComponent implements OnChanges {
     }
   }
 
+  makeItemClasses(index: number, monthDate: Date): string {
+    const day = index + 1;
+    return [
+      'skm-datepicker-item',
+      'skm-datepicker-day',
+      (day === this.currentDay && monthDate.getTime() === this.currentMonthTime) ? 'skm-datepicker-current' : '',
+      (day === this.selectedDay && monthDate.getTime() === this.selectedMonthTime) ? 'skm-datepicker-selected' : '',
+    ].join(' ');
+  }
+
   clickHeader(notPanning: boolean): void {
     if (notPanning) {
       this.headerClick.emit(this.panes[this.visiblePaneIndex].monthDate);
@@ -94,16 +104,6 @@ export class DaysViewComponent implements OnChanges {
         this.dateChange.emit(setDate(monthDate, day));
       }
     }
-  }
-
-  makeItemClasses(index: number, monthDate: Date) {
-    const day = index + 1;
-    return [
-      'skm-datepicker-item',
-      'skm-datepicker-day',
-      (day === this.currentDay && monthDate.getTime() === this.currentMonthTime) ? 'skm-datepicker-current' : '',
-      (day === this.selectedDay && monthDate.getTime() === this.selectedMonthTime) ? 'skm-datepicker-selected' : '',
-    ];
   }
 
   switchPanes(direction: number): void {

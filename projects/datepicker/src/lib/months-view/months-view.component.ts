@@ -70,6 +70,15 @@ export class MonthsViewComponent implements OnChanges {
     }
   }
 
+  makeItemClasses(month: number, yearDate: Date): string {
+    return [
+      'skm-datepicker-item',
+      'skm-datepicker-month',
+      (month === this.currentMonthNumber && yearDate.getTime() === this.currentYearTime) ? 'skm-datepicker-current' : '',
+      (month === this.selectedMonthNumber && yearDate.getTime() === this.selectedYearTime) ? 'skm-datepicker-selected' : '',
+    ].join(' ');
+  }
+
   clickHeader(notPanning: boolean): void {
     if (notPanning) {
       this.headerClick.emit(this.panes[this.visiblePaneIndex].yearDate);
@@ -82,15 +91,6 @@ export class MonthsViewComponent implements OnChanges {
       const month = +button.dataset.index;
       this.dateChange.emit(setMonth(yearDate, month));
     }
-  }
-
-  makeItemClasses(month: number, yearDate: Date) {
-    return [
-      'skm-datepicker-item',
-      'skm-datepicker-month',
-      (month === this.currentMonthNumber && yearDate.getTime() === this.currentYearTime) ? 'skm-datepicker-current' : '',
-      (month === this.selectedMonthNumber && yearDate.getTime() === this.selectedYearTime) ? 'skm-datepicker-selected' : '',
-    ];
   }
 
   switchPanes(direction: number): void {

@@ -10,7 +10,7 @@
     <div class="skm-datepicker-grid" (click)="selectItem($event, pane.monthDate, slider.notPanning)">
       <div class="skm-datepicker-shifter" [style.width.%]="100 / 7 * pane.weekShift"></div>
       <div *ngFor="let label of dayLabels; let i = index" class="skm-datepicker-cell" [hidden]="pane.length <= i">
-        <button [attr.data-index]="i" [ngClass]="makeItemClasses(i, pane.monthDate)" type="button">
+        <button [attr.data-index]="i" [class]="makeItemClasses(i, pane.monthDate)" type="button">
           {{label}}
         </button>
       </div>
