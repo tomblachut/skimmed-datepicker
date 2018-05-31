@@ -3,17 +3,13 @@
     <button type="button" class="skm-datepicker-header"
             (click)="clickHeader(slider.notPanning)">{{pane.monthDate | date: headingFormat}}
     </button>
-    <div class="skm-flex">
-      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:firstWeekDay">{{label}}</div>
-      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:0:firstWeekDay">{{label}}</div>
-    </div>
-    <div class="skm-datepicker-grid" (click)="selectItem($event, pane.monthDate, slider.notPanning)">
-      <div class="skm-datepicker-shifter" [style.width.%]="100 / 7 * pane.weekShift"></div>
-      <div *ngFor="let label of dayLabels; let i = index" class="skm-datepicker-cell" [hidden]="pane.length <= i">
-        <button [attr.data-index]="i" [class]="makeItemClasses(i, pane.monthDate)" type="button">
-          {{label}}
-        </button>
-      </div>
-    </div>
+    <skm-days-content [pane]="pane"
+                      [selectedDay]="selectedDay"
+                      [selectedMonthTime]="selectedMonthTime"
+                      [currentDay]="currentDay"
+                      [currentMonthTime]="currentMonthTime"
+                      [firstWeekDay]="firstWeekDay"
+                      [weekDayLabels]="weekDayLabels"
+                      [dayLabels]="dayLabels"></skm-days-content>
   </div>
 </skm-slider>

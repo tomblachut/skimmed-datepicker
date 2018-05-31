@@ -3,12 +3,11 @@
     <button type="button" class="skm-datepicker-header"
             (click)="clickHeader(slider.notPanning)">{{pane.yearDate | date: yearFormat}}
     </button>
-    <div class="skm-datepicker-grid" (click)="selectItem($event, pane.yearDate, slider.notPanning)">
-      <div *ngFor="let label of monthLabels; let i = index" class="skm-datepicker-cell">
-        <button [attr.data-index]="i" [class]="makeItemClasses(i, pane.yearDate)" type="button">
-          {{label}}
-        </button>
-      </div>
-    </div>
+    <skm-months-content [pane]="pane"
+                        [selectedMonthNumber]="selectedMonthNumber"
+                        [selectedYearTime]="selectedYearTime"
+                        [currentMonthNumber]="currentMonthNumber"
+                        [currentYearTime]="currentYearTime"
+                        [monthLabels]="monthLabels"></skm-months-content>
   </div>
 </skm-slider>

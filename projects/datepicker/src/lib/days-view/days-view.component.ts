@@ -19,7 +19,7 @@ import { zoom, ZoomDirection } from '../util/zoom.animation';
 @Component({
   selector: 'skm-days-view',
   templateUrl: './days-view.component.html',
-  styleUrls: ['./days-view.component.scss', '../datepicker.shared.scss'],
+  styleUrls: ['../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,19 +34,19 @@ export class DaysViewComponent implements OnChanges {
 
   @Input() headingFormat: string;
   @Input() firstWeekDay: WeekDay;
-  @Input() dayLabels: string[];
   @Input() weekDayLabels: string[];
+  @Input() dayLabels: string[];
 
   @Output() readonly dateChange = new EventEmitter<Date>();
   @Output() readonly headerClick = new EventEmitter<Date>();
 
   panes: Array<DaysPane>;
 
+  selectedDay: number;
+  selectedMonthTime: number;
+  currentDay: number;
+  currentMonthTime: number;
   private visiblePaneIndex: number;
-  private selectedDay: number;
-  private selectedMonthTime: number;
-  private currentDay: number;
-  private currentMonthTime: number;
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
   }
@@ -76,16 +76,6 @@ export class DaysViewComponent implements OnChanges {
         ? this.weekDayLabels.slice(0, 7)
         : getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
     }
-  }
-
-  makeItemClasses(index: number, monthDate: Date): string {
-    const day = index + 1;
-    return [
-      'skm-datepicker-item',
-      'skm-datepicker-day',
-      (day === this.currentDay && monthDate.getTime() === this.currentMonthTime) ? 'skm-datepicker-current' : '',
-      (day === this.selectedDay && monthDate.getTime() === this.selectedMonthTime) ? 'skm-datepicker-selected' : '',
-    ].join(' ');
   }
 
   clickHeader(notPanning: boolean): void {

@@ -7,7 +7,7 @@ import { zoom, ZoomDirection } from '../util/zoom.animation';
 @Component({
   selector: 'skm-years-view',
   templateUrl: './years-view.component.html',
-  styleUrls: ['./years-view.component.scss', '../datepicker.shared.scss'],
+  styleUrls: ['../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -23,6 +23,8 @@ export class YearsViewComponent implements OnChanges {
   panes: Array<YearsPane>;
   readonly years = range(0, 19);
 
+  selectedYear: number;
+  currentYear: number;
   private visiblePaneIndex: number;
   private selectedYear: number;
   private currentYear: number;
@@ -41,15 +43,6 @@ export class YearsViewComponent implements OnChanges {
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
     }
-  }
-
-  makeItemClasses(offset: number, start: number): string {
-    return [
-      'skm-datepicker-item',
-      'skm-datepicker-year',
-      (offset + start === this.currentYear) ? 'skm-datepicker-current' : '',
-      (offset + start === this.selectedYear) ? 'skm-datepicker-selected' : '',
-    ].join(' ');
   }
 
   selectItem(event: MouseEvent, start: number, notPanning: boolean): void {

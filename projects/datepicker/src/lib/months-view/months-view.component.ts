@@ -18,7 +18,7 @@ import { zoom, ZoomDirection } from '../util/zoom.animation';
 @Component({
   selector: 'skm-months-view',
   templateUrl: './months-view.component.html',
-  styleUrls: ['./months-view.component.scss', '../datepicker.shared.scss'],
+  styleUrls: ['../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -37,11 +37,11 @@ export class MonthsViewComponent implements OnChanges {
 
   panes: Array<MonthsPane>;
 
+  selectedMonthNumber: number;
+  selectedYearTime: number;
+  currentMonthNumber: number;
+  currentYearTime: number;
   private visiblePaneIndex: number;
-  private selectedMonthNumber: number;
-  private selectedYearTime: number;
-  private currentMonthNumber: number;
-  private currentYearTime: number;
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
   }
@@ -68,15 +68,6 @@ export class MonthsViewComponent implements OnChanges {
         ? this.monthLabels.slice(0, 12)
         : getLocaleMonthNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
     }
-  }
-
-  makeItemClasses(month: number, yearDate: Date): string {
-    return [
-      'skm-datepicker-item',
-      'skm-datepicker-month',
-      (month === this.currentMonthNumber && yearDate.getTime() === this.currentYearTime) ? 'skm-datepicker-current' : '',
-      (month === this.selectedMonthNumber && yearDate.getTime() === this.selectedYearTime) ? 'skm-datepicker-selected' : '',
-    ].join(' ');
   }
 
   clickHeader(notPanning: boolean): void {

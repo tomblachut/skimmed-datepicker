@@ -5,6 +5,9 @@ import { SliderComponent } from './slider/slider.component';
 import { DaysViewComponent } from './days-view/days-view.component';
 import { MonthsViewComponent } from './months-view/months-view.component';
 import { YearsViewComponent } from './years-view/years-view.component';
+import { DaysContentComponent } from './days-content/days-content.component';
+import { MonthsContentComponent } from './months-content/months-content.component';
+import { YearsContentComponent } from './years-content/years-content.component';
 
 @NgModule({
   imports: [
@@ -16,6 +19,9 @@ import { YearsViewComponent } from './years-view/years-view.component';
     DaysViewComponent,
     MonthsViewComponent,
     YearsViewComponent,
+    DaysContentComponent,
+    MonthsContentComponent,
+    YearsContentComponent,
   ],
   exports: [
     DatepickerComponent,

@@ -3,12 +3,9 @@
     <button type="button" class="skm-datepicker-header">
       {{pane.start}} &ndash; {{pane.start + years.length - 1}}
     </button>
-    <div class="skm-datepicker-grid" (click)="selectItem($event, pane.start, slider.notPanning)">
-      <div *ngFor="let year of years; let i = index" class="skm-datepicker-cell">
-        <button [attr.data-index]="i" [class]="makeItemClasses(i, pane.start)" type="button">
-          {{pane.start + year}}
-        </button>
-      </div>
-    </div>
+    <skm-years-content [pane]="pane"
+                       [years]="years"
+                       [selectedYear]="selectedYear"
+                       [currentYear]="currentYear"></skm-years-content>
   </div>
 </skm-slider>
