@@ -26,8 +26,6 @@ export class YearsViewComponent implements OnChanges {
   selectedYear: number;
   currentYear: number;
   private visiblePaneIndex: number;
-  private selectedYear: number;
-  private currentYear: number;
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('selectedDate' in changes) {
@@ -43,6 +41,10 @@ export class YearsViewComponent implements OnChanges {
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
     }
+  }
+
+  trackContent(index: number) {
+    return index;
   }
 
   selectItem(event: MouseEvent, start: number, notPanning: boolean): void {

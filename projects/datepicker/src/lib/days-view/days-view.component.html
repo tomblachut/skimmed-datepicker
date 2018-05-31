@@ -1,7 +1,7 @@
 <skm-slider (slideDone)="switchPanes($event)" #slider>
-  <div class="skm-datepicker-pane" *ngFor="let pane of panes" [style.order]="pane.order">
-    <button type="button" class="skm-datepicker-header"
-            (click)="clickHeader(slider.notPanning)">{{pane.monthDate | date: headingFormat}}
+  <div class="skm-datepicker-pane" *ngFor="let pane of panes; trackBy: trackContent" [style.order]="pane.order">
+    <button type="button" class="skm-datepicker-header" (click)="clickHeader(slider.notPanning)">
+      {{pane.monthDate | date: headingFormat}}
     </button>
     <skm-days-content [pane]="pane"
                       [selectedDay]="selectedDay"

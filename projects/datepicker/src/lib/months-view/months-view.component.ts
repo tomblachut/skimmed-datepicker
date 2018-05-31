@@ -70,6 +70,10 @@ export class MonthsViewComponent implements OnChanges {
     }
   }
 
+  trackContent(index: number) {
+    return index;
+  }
+
   clickHeader(notPanning: boolean): void {
     if (notPanning) {
       this.headerClick.emit(this.panes[this.visiblePaneIndex].yearDate);
