@@ -7,8 +7,8 @@
                  [deselectEnabled]="deselectEnabled"
                  [headingFormat]="headingFormat"
                  [firstWeekDay]="firstWeekDay"
-                 [dayLabels]="dayLabels"
                  [weekDayLabels]="weekDayLabels"
+                 [dayLabels]="dayLabels"
                  (headerClick)="switchView($event, DatepickerView.Months, 'out')"
                  (dateChange)="selectDay($event)"></skm-days-view>
   <skm-months-view class="skm-datepicker-view" *ngSwitchCase="DatepickerView.Months"
