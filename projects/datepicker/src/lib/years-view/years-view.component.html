@@ -1,6 +1,6 @@
 <skm-slider [prevDisabled]="prevDisabled" [nextDisabled]="nextDisabled" (slideDone)="switchPanes($event)" #slider>
   <div class="skm-datepicker-pane" *ngFor="let pane of panes; trackBy: trackContent" [style.order]="pane.order">
-    <button type="button" class="skm-datepicker-header">
+    <button type="button" class="skm-datepicker-header" disabled>
       {{pane.start}} &ndash; {{pane.start + years.length - 1}}
     </button>
     <skm-years-content [pane]="pane"

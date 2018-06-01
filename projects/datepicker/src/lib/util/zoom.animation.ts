@@ -12,7 +12,7 @@ const smallerStyle = style({
   opacity: 0,
 });
 
-export function zoom(timing: number | string = 200): AnimationTriggerMetadata {
+export function zoom(timing: number | string = 175): AnimationTriggerMetadata {
   return trigger('zoom', [
     transition('void => in', [
       biggerStyle,
