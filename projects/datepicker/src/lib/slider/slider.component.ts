@@ -46,7 +46,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   private readonly easeOut = createEaseOut(1.3);
 
   constructor(private cd: ChangeDetectorRef) {
-    this.changeSlideTrigger();
+    this.cd.detach();
   }
 
   ngAfterViewInit(): void {
@@ -80,10 +80,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
 
   clickPagination(direction: number): void {
     this.changeSlideTrigger();
-    setTimeout(() => {
-      this.changeSlideTrigger(direction as -1 | 1);
-      this.cd.detectChanges();
-    });
+    setTimeout(() => this.changeSlideTrigger(direction as -1 | 1));
   }
 
   startPress(): void {
@@ -99,22 +96,18 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     const absOffset = Math.abs(event.deltaX / this.wrapperWidth);
     this.panOffset = Math.sign(event.deltaX) * this.easeOut(absOffset);
     this.changeSlideTrigger('panning', this.panOffset);
-    this.cd.detectChanges();
   }
 
   private endPan(): void {
     if (Math.abs(this.panOffset) > 0.5) {
       this.changeSlideTrigger(-Math.sign(this.panOffset) as -1 | 1);
-      this.cd.detectChanges();
     } else if (this.slideTrigger.value === 'panning') {
       this.changeSlideTrigger();
-      this.cd.detectChanges();
     }
   }
 
   private swipe(direction: number): void {
     this.changeSlideTrigger(direction as -1 | 1);
-    this.cd.detectChanges();
   }
 
   private changeSlideTrigger(value: 'panning' | 'idle' | -1 | 1 = 'idle', offset = 0): void {
@@ -122,6 +115,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
       value: value,
       params: {x: offset * 100},
     };
+    this.cd.detectChanges();
   }
 
 }
