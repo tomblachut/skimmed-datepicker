@@ -1,4 +1,4 @@
-<skm-slider (slideDone)="switchPanes($event)" #slider>
+<skm-slider [prevDisabled]="prevDisabled" [nextDisabled]="nextDisabled" (slideDone)="switchPanes($event)" #slider>
   <div class="skm-datepicker-pane" *ngFor="let pane of panes; trackBy: trackContent" [style.order]="pane.order">
     <button type="button" class="skm-datepicker-header">
       {{pane.start}} &ndash; {{pane.start + years.length - 1}}
@@ -6,6 +6,8 @@
     <skm-years-content [pane]="pane"
                        [years]="years"
                        [selectedYear]="selectedYear"
-                       [currentYear]="currentYear"></skm-years-content>
+                       [currentYear]="currentYear"
+                       [minYear]="minYear"
+                       [maxYear]="maxYear"></skm-years-content>
   </div>
 </skm-slider>

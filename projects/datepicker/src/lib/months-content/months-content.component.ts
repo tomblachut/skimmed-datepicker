@@ -16,6 +16,10 @@ export class MonthsContentComponent {
   @Input() selectedYearTime: number;
   @Input() currentMonthNumber: number;
   @Input() currentYearTime: number;
+  @Input() minMonthNumber: number;
+  @Input() minYearTime: number;
+  @Input() maxMonthNumber: number;
+  @Input() maxYearTime: number;
 
   @Input() monthLabels: string[];
 
@@ -31,6 +35,12 @@ export class MonthsContentComponent {
       (month === this.currentMonthNumber && yearDate.getTime() === this.currentYearTime) ? 'skm-datepicker-current' : '',
       (month === this.selectedMonthNumber && yearDate.getTime() === this.selectedYearTime) ? 'skm-datepicker-selected' : '',
     ].join(' ');
+  }
+
+  isDisabled(month: number, yearDate: Date): boolean {
+    const yearTime = yearDate.getTime();
+    return (yearTime < this.minYearTime || yearTime === this.minYearTime && month < this.minMonthNumber)
+      || (yearTime > this.maxYearTime || yearTime === this.maxYearTime && month > this.maxMonthNumber);
   }
 
 }

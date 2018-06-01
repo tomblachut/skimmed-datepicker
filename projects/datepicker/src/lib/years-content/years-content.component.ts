@@ -15,6 +15,8 @@ export class YearsContentComponent {
 
   @Input() selectedYear: number;
   @Input() currentYear: number;
+  @Input() minYear: number;
+  @Input() maxYear: number;
 
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 
@@ -22,12 +24,18 @@ export class YearsContentComponent {
   }
 
   makeItemClasses(offset: number, start: number): string {
+    const year = offset + start;
     return [
       'skm-datepicker-item',
       'skm-datepicker-year',
-      (offset + start === this.currentYear) ? 'skm-datepicker-current' : '',
-      (offset + start === this.selectedYear) ? 'skm-datepicker-selected' : '',
+      (year === this.currentYear) ? 'skm-datepicker-current' : '',
+      (year === this.selectedYear) ? 'skm-datepicker-selected' : '',
     ].join(' ');
+  }
+
+  isDisabled(offset: number, start: number): boolean {
+    const year = offset + start;
+    return (year < this.minYear) || (year > this.maxYear);
   }
 
 }

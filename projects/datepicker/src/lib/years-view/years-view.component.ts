@@ -17,23 +17,31 @@ export class YearsViewComponent implements OnChanges {
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
   @Input() initialDate: Date;
+  @Input() minDate: Date;
+  @Input() maxDate: Date;
 
   @Output() readonly dateChange = new EventEmitter<Date>();
 
-  panes: Array<YearsPane>;
-  readonly years = range(0, 19);
-
   selectedYear: number;
   currentYear: number;
+  minYear: number;
+  maxYear: number;
+
+  readonly years = range(0, 19);
+  panes: Array<YearsPane>;
+  prevDisabled = false;
+  nextDisabled = false;
   private visiblePaneIndex: number;
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('selectedDate' in changes) {
-      if (this.selectedDate) {
-        this.selectedYear = this.selectedDate.getFullYear();
-      } else {
-        this.selectedYear = undefined;
-      }
+      this.selectedYear = this.selectedDate ? this.selectedDate.getFullYear() : undefined;
+    }
+    if ('minDate' in changes) {
+      this.minYear = this.minDate ? this.minDate.getFullYear() : undefined;
+    }
+    if ('maxDate' in changes) {
+      this.maxYear = this.maxDate ? this.maxDate.getFullYear() : undefined;
     }
     if ('currentDate' in changes) {
       this.currentYear = this.currentDate.getFullYear();
@@ -65,6 +73,7 @@ export class YearsViewComponent implements OnChanges {
       order: pane.order + 3 * direction,
       start: pane.start + 3 * direction * this.years.length,
     };
+    this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
   private initPanes(date: Date): void {
@@ -75,6 +84,12 @@ export class YearsViewComponent implements OnChanges {
       start: adjusted + i * this.years.length,
     }));
     this.visiblePaneIndex = 1;
+    this.updateDisabledStatus(0, 2);
+  }
+
+  private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
+    this.prevDisabled = this.panes[prevIndex].start < this.minYear;
+    this.nextDisabled = this.panes[nextIndex].start > this.maxYear;
   }
 
 }

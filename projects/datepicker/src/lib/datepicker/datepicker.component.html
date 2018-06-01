@@ -17,6 +17,8 @@
                    [selectedDate]="selectedDate"
                    [currentDate]="currentDate"
                    [initialDate]="initialDate"
+                   [minDate]="min"
+                   [maxDate]="max"
                    [zoomDirection]="zoomDirection"
                    [yearFormat]="yearFormat"
                    [monthLabels]="monthLabels"
@@ -26,6 +28,8 @@
                   [selectedDate]="selectedDate"
                   [currentDate]="currentDate"
                   [initialDate]="initialDate"
+                  [minDate]="min"
+                  [maxDate]="max"
                   [zoomDirection]="zoomDirection"
                   (dateChange)="switchView($event, DatepickerView.Months, 'in')"></skm-years-view>
 </div>

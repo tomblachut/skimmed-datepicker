@@ -38,9 +38,9 @@ button[disabled] {
 
 .skm-datepicker-cell {
   display: flex;
-  pointer-events: auto;
 }
 
 .skm-datepicker-item {
   flex: 1;
+  pointer-events: auto;
 }

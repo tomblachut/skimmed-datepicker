@@ -28,6 +28,8 @@ export class MonthsViewComponent implements OnChanges {
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
   @Input() initialDate: Date;
+  @Input() minDate: Date;
+  @Input() maxDate: Date;
 
   @Input() yearFormat: string;
   @Input() monthLabels: string[];
@@ -35,12 +37,18 @@ export class MonthsViewComponent implements OnChanges {
   @Output() readonly dateChange = new EventEmitter<Date>();
   @Output() readonly headerClick = new EventEmitter<Date>();
 
-  panes: Array<MonthsPane>;
-
   selectedMonthNumber: number;
   selectedYearTime: number;
   currentMonthNumber: number;
   currentYearTime: number;
+  minMonthNumber: number;
+  minYearTime: number;
+  maxMonthNumber: number;
+  maxYearTime: number;
+
+  panes: Array<MonthsPane>;
+  prevDisabled = false;
+  nextDisabled = false;
   private visiblePaneIndex: number;
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
@@ -59,6 +67,24 @@ export class MonthsViewComponent implements OnChanges {
     if ('currentDate' in changes) {
       this.currentMonthNumber = this.currentDate.getMonth();
       this.currentYearTime = startOfYear(this.currentDate).getTime();
+    }
+    if ('minDate' in changes) {
+      if (this.minDate) {
+        this.minMonthNumber = this.minDate.getMonth();
+        this.minYearTime = startOfYear(this.minDate).getTime();
+      } else {
+        this.minMonthNumber = undefined;
+        this.minYearTime = undefined;
+      }
+    }
+    if ('maxDate' in changes) {
+      if (this.maxDate) {
+        this.maxMonthNumber = this.maxDate.getMonth();
+        this.maxYearTime = startOfYear(this.maxDate).getTime();
+      } else {
+        this.maxMonthNumber = undefined;
+        this.maxYearTime = undefined;
+      }
     }
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
@@ -96,6 +122,7 @@ export class MonthsViewComponent implements OnChanges {
       order: pane.order + 3 * direction,
       yearDate: addYears(pane.yearDate, 3 * direction),
     };
+    this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
   private initPanes(date: Date): void {
@@ -105,6 +132,12 @@ export class MonthsViewComponent implements OnChanges {
       yearDate: addYears(monthDate, i),
     }));
     this.visiblePaneIndex = 1;
+    this.updateDisabledStatus(0, 2);
+  }
+
+  private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
+    this.prevDisabled = this.panes[prevIndex].yearDate.getTime() < this.minYearTime;
+    this.nextDisabled = this.panes[nextIndex].yearDate.getTime() > this.maxYearTime;
   }
 
 }
