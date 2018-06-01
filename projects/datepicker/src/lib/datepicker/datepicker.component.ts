@@ -82,6 +82,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   writeValue(obj: any): void {
     this.date = obj;
+    this.cd.markForCheck();
   }
 
   registerOnChange(fn: any): void {
@@ -95,6 +96,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   setDisabledState(isDisabled: boolean): void {
     // TODO implement
+    this.cd.markForCheck();
   }
 
 }
