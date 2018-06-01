@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { WeekDay } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isValidDate, startOfDay } from '../util/date-utils';
@@ -19,7 +29,7 @@ import { ZoomDirection } from '../util/zoom.animation';
     },
   ],
 })
-export class DatepickerComponent implements ControlValueAccessor, OnInit {
+export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnInit {
   @Input()
   set date(dirtyDate: Date) {
     const date = startOfDay(dirtyDate);
@@ -33,6 +43,9 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   }
 
   @Output() dateChange = new EventEmitter<Date>();
+
+  @Input() min: Date;
+  @Input() max: Date;
 
   @Input() deselectEnabled: boolean;
 
@@ -56,6 +69,17 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   private onTouched: () => void = noop;
 
   constructor(private cd: ChangeDetectorRef) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('min' in changes) {
+      const date = startOfDay(this.min);
+      this.min = isValidDate(date) ? date : undefined;
+    }
+    if ('max' in changes) {
+      const date = startOfDay(this.max);
+      this.max = isValidDate(date) ? date : undefined;
+    }
   }
 
   ngOnInit(): void {

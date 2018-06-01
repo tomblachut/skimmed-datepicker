@@ -1,5 +1,5 @@
 <div class="skm-datepicker-slider" [@slide]="slideTrigger" (@slide.done)="done($event)">
   <ng-content></ng-content>
 </div>
-<button class="skm-datepicker-pagination skm-prev" (click)="clickPagination(-1)">&lsaquo;</button>
-<button class="skm-datepicker-pagination skm-next" (click)="clickPagination(1)">&rsaquo;</button>
+<button class="skm-datepicker-pagination skm-prev" (click)="slide(-1)" [disabled]="prevDisabled">&lsaquo;</button>
+<button class="skm-datepicker-pagination skm-next" (click)="slide(1)" [disabled]="nextDisabled">&rsaquo;</button>

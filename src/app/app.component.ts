@@ -16,8 +16,13 @@ export class AppComponent {
   date = new Date();
   undef: Date;
 
+  min = new Date();
+  max = new Date();
+
   constructor() {
     this.date.setFullYear(1995, 0, 17);
+    this.min.setFullYear(1994, 11, 25);
+    this.max.setFullYear(1996, 2, 10);
   }
 
   tryUpdate(text: string, field: keyof AppComponent): void {

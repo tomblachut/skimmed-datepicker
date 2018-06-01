@@ -6,7 +6,7 @@
         <input id="date" type="text" class="form-control mb-3"
                [ngModel]="date | date:format" (ngModelChange)="tryUpdate($event, 'date')">
       </div>
-      <skm-datepicker class="d-inline-block theme-a" [(ngModel)]="date"></skm-datepicker>
+      <skm-datepicker class="d-inline-block theme-a" [(ngModel)]="date" [min]="min" [max]="max"></skm-datepicker>
     </div>
     <div class="col mt-3 text-center">
       <div>

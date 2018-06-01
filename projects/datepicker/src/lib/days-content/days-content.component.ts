@@ -17,6 +17,10 @@ export class DaysContentComponent {
   @Input() selectedMonthTime: number;
   @Input() currentDay: number;
   @Input() currentMonthTime: number;
+  @Input() minDay: number;
+  @Input() minMonthTime: number;
+  @Input() maxDay: number;
+  @Input() maxMonthTime: number;
 
   @Input() firstWeekDay: WeekDay;
   @Input() weekDayLabels: string[];
@@ -35,6 +39,13 @@ export class DaysContentComponent {
       (day === this.currentDay && monthDate.getTime() === this.currentMonthTime) ? 'skm-datepicker-current' : '',
       (day === this.selectedDay && monthDate.getTime() === this.selectedMonthTime) ? 'skm-datepicker-selected' : '',
     ].join(' ');
+  }
+
+  isDisabled(index: number, monthDate: Date): boolean {
+    const day = index + 1;
+    const monthTime = monthDate.getTime();
+    return (monthTime < this.minMonthTime || monthTime === this.minMonthTime && day < this.minDay)
+      || (monthTime > this.maxMonthTime || monthTime === this.maxMonthTime && day > this.maxDay);
   }
 
 }

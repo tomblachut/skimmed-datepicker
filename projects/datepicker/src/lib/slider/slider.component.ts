@@ -5,8 +5,11 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
+  OnChanges,
   OnDestroy,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { createEaseOut } from '../util/helpers';
 import { AnimationEvent } from '@angular/animations';
@@ -30,7 +33,10 @@ export interface AnimationTrigger {
   animations: [slide()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SliderComponent implements AfterViewInit, OnDestroy {
+export class SliderComponent implements OnChanges, AfterViewInit, OnDestroy {
+  @Input() prevDisabled = false;
+  @Input() nextDisabled = false;
+
   @Output() slideDone = new EventEmitter<number>();
   notPanning = true;
 
@@ -45,6 +51,10 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
 
   constructor(private hostRef: ElementRef, private cd: ChangeDetectorRef) {
     this.cd.detach();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.changeSlideTrigger();
   }
 
   ngAfterViewInit(): void {
@@ -79,7 +89,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  clickPagination(direction: number): void {
+  slide(direction: number): void {
     this.changeSlideTrigger();
     setTimeout(() => this.changeSlideTrigger(direction as -1 | 1));
   }
@@ -94,9 +104,10 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   }
 
   private pan(event: any): void {
+    const multiplier = (event.deltaX > 0 && this.prevDisabled || event.deltaX < 0 && this.nextDisabled) ? 0.1 : 1;
     const absOffset = Math.abs(event.deltaX / this.wrapperWidth);
     this.panOffset = Math.sign(event.deltaX) * this.easeOut(absOffset);
-    this.changeSlideTrigger('panning', this.panOffset);
+    this.changeSlideTrigger('panning', this.panOffset * multiplier);
   }
 
   private endPan(): void {
@@ -113,7 +124,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
 
   private changeSlideTrigger(value: 'panning' | 'idle' | -1 | 1 = 'idle', offset = 0): void {
     this.slideTrigger = {
-      value: value,
+      value: (value === -1 && this.prevDisabled || value === 1 && this.nextDisabled) ? 'idle' : value,
       params: {x: offset * 100},
     };
     this.cd.detectChanges();

@@ -1,4 +1,4 @@
-<skm-slider (slideDone)="switchPanes($event)" #slider>
+<skm-slider [prevDisabled]="prevDisabled" [nextDisabled]="nextDisabled" (slideDone)="switchPanes($event)" #slider>
   <div class="skm-datepicker-pane" *ngFor="let pane of panes; trackBy: trackContent" [style.order]="pane.order">
     <button type="button" class="skm-datepicker-header" (click)="clickHeader(slider.notPanning)">
       {{pane.monthDate | date: headingFormat}}
@@ -8,6 +8,10 @@
                       [selectedMonthTime]="selectedMonthTime"
                       [currentDay]="currentDay"
                       [currentMonthTime]="currentMonthTime"
+                      [minDay]="minDay"
+                      [minMonthTime]="minMonthTime"
+                      [maxDay]="maxDay"
+                      [maxMonthTime]="maxMonthTime"
                       [firstWeekDay]="firstWeekDay"
                       [weekDayLabels]="weekDayLabels"
                       [dayLabels]="dayLabels"></skm-days-content>

@@ -29,6 +29,8 @@ export class DaysViewComponent implements OnChanges {
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
   @Input() initialDate: Date;
+  @Input() minDate: Date;
+  @Input() maxDate: Date;
 
   @Input() deselectEnabled: boolean;
 
@@ -40,12 +42,18 @@ export class DaysViewComponent implements OnChanges {
   @Output() readonly dateChange = new EventEmitter<Date>();
   @Output() readonly headerClick = new EventEmitter<Date>();
 
-  panes: Array<DaysPane>;
-
   selectedDay: number;
   selectedMonthTime: number;
   currentDay: number;
   currentMonthTime: number;
+  minDay: number;
+  minMonthTime: number;
+  maxDay: number;
+  maxMonthTime: number;
+
+  panes: Array<DaysPane>;
+  prevDisabled = false;
+  nextDisabled = false;
   private visiblePaneIndex: number;
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
@@ -64,6 +72,24 @@ export class DaysViewComponent implements OnChanges {
     if ('currentDate' in changes) {
       this.currentDay = this.currentDate.getDate();
       this.currentMonthTime = startOfMonth(this.currentDate).getTime();
+    }
+    if ('minDate' in changes) {
+      if (this.minDate) {
+        this.minDay = this.minDate.getDate();
+        this.minMonthTime = startOfMonth(this.minDate).getTime();
+      } else {
+        this.minDay = undefined;
+        this.minMonthTime = undefined;
+      }
+    }
+    if ('maxDate' in changes) {
+      if (this.maxDate) {
+        this.maxDay = this.maxDate.getDate();
+        this.maxMonthTime = startOfMonth(this.maxDate).getTime();
+      } else {
+        this.maxDay = undefined;
+        this.maxMonthTime = undefined;
+      }
     }
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
@@ -105,12 +131,19 @@ export class DaysViewComponent implements OnChanges {
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
     this.panes[index] = makePane(pane.monthDate, this.firstWeekDay, 3 * direction, pane.order);
+    this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
   private initPanes(date: Date): void {
     const monthDate = startOfMonth(date);
     this.panes = [-1, 0, 1].map(i => makePane(monthDate, this.firstWeekDay, i));
     this.visiblePaneIndex = 1;
+    this.updateDisabledStatus(0, 2);
+  }
+
+  private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
+    this.prevDisabled = this.panes[prevIndex].monthDate.getTime() < this.minMonthTime;
+    this.nextDisabled = this.panes[nextIndex].monthDate.getTime() > this.maxMonthTime;
   }
 
 }
