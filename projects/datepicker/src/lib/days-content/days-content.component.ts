@@ -22,7 +22,7 @@ export class DaysContentComponent {
   @Input() weekDayLabels: string[];
   @Input() dayLabels: string[];
 
-  @HostBinding('class') private hostClass = 'skm-datepicker-content';
+  @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 
   constructor(readonly slider: SliderComponent, readonly daysView: DaysViewComponent) {
   }

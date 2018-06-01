@@ -16,7 +16,7 @@ export class YearsContentComponent {
   @Input() selectedYear: number;
   @Input() currentYear: number;
 
-  @HostBinding('class') private hostClass = 'skm-datepicker-content';
+  @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 
   constructor(readonly slider: SliderComponent, readonly yearsView: YearsViewComponent) {
   }
