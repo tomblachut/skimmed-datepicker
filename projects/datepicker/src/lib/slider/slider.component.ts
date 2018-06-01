@@ -7,7 +7,6 @@ import {
   EventEmitter,
   OnDestroy,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { createEaseOut } from '../util/helpers';
 import { AnimationEvent } from '@angular/animations';
@@ -41,17 +40,19 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   private panOffset = 0;
   private lastDoneEventToState: string | number;
 
-  @ViewChild('wrapper') private wrapperRef: ElementRef;
   private readonly ngUnsubscribe$ = new Subject();
   private readonly easeOut = createEaseOut(1.3);
 
-  constructor(private cd: ChangeDetectorRef) {
+  constructor(private hostRef: ElementRef, private cd: ChangeDetectorRef) {
     this.cd.detach();
   }
 
   ngAfterViewInit(): void {
+    const host = this.hostRef.nativeElement;
+    fromEvent(host, 'mousedown').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.startPress());
+
     if ('Hammer' in window) {
-      const hammer = new Hammer(this.wrapperRef.nativeElement);
+      const hammer = new Hammer(host);
 
       fromEvent(hammer, 'panstart').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.startPan());
       fromEvent(hammer, 'panmove').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(e => this.pan(e));
@@ -83,13 +84,13 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => this.changeSlideTrigger(direction as -1 | 1));
   }
 
-  startPress(): void {
+  private startPress(): void {
     this.notPanning = true;
   }
 
   private startPan(): void {
     this.notPanning = false;
-    this.wrapperWidth = this.wrapperRef.nativeElement.offsetWidth;
+    this.wrapperWidth = this.hostRef.nativeElement.offsetWidth;
   }
 
   private pan(event: any): void {

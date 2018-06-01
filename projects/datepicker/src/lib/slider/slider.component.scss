@@ -1,6 +1,6 @@
-.skm-datepicker-wrapper {
+:host {
+  display: block;
   position: relative;
-  overflow: hidden;
   height: 100%;
 }
 
