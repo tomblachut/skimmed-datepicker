@@ -4,7 +4,7 @@
       <div>
         <label for="date" class="sr-only">Date</label>
         <input id="date" type="text" class="form-control mb-3"
-               [ngModel]="date | date:'yyyy-MM-dd'" (ngModelChange)="date = $event">
+               [ngModel]="date | date:format" (ngModelChange)="tryUpdate($event, 'date')">
       </div>
       <skm-datepicker class="d-inline-block theme-a" [(ngModel)]="date"></skm-datepicker>
     </div>
@@ -12,7 +12,7 @@
       <div>
         <label for="date2" class="sr-only">Date</label>
         <input id="date2" type="text" class="form-control mb-3"
-               [ngModel]="undef | date:'yyyy-MM-dd'" (ngModelChange)="undef = $event">
+               [ngModel]="undef | date:format" (ngModelChange)="tryUpdate($event, 'undef')">
       </div>
       <skm-datepicker class="theme-b"
                       [(date)]="undef"

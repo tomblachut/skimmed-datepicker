@@ -7,12 +7,29 @@ import { range } from '../../projects/datepicker/src/lib/util/helpers';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  date = new Date().setFullYear(1995, 0, 17);
-  undef: Date;
+  format = 'yyyy-MM-dd';
 
   customDayLabels = range(1, 31).map(romanize);
   customWeekDayLabels = ['😆', '😞', '😕', '😐', '😉', '😊', '😁'];
   customMonthLabels = ['☃️', '🌨️', '☂️', '🌳', '🌷', '☀️', '🌻', '🌊', '🍄', '🌰', '🍂', '🎄'];
+
+  date = new Date();
+  undef: Date;
+
+  constructor() {
+    this.date.setFullYear(1995, 0, 17);
+  }
+
+  tryUpdate(text: string, field: keyof AppComponent): void {
+    text = text && text.trim() || '';
+    if (text && text.length === this.format.length) {
+      const date = new Date(text);
+      if (!isNaN(date.getTime()) && (this[field] as Date).getTime() !== date.getTime()) {
+        this[field] = date;
+      }
+    }
+  }
+
 }
 
 // https://stackoverflow.com/a/9083076/1879175
