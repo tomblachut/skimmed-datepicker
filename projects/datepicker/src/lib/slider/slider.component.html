@@ -1,10 +1,5 @@
-<div class="skm-datepicker-wrapper" #wrapper
-     (panstart)="startPan(wrapper.offsetWidth)"
-     (panmove)="pan($event)"
-     (panend)="endPan()"
-     (swiperight)="swipe(-1)"
-     (swipeleft)="swipe(1)">
-  <div class="skm-datepicker-slider" [@slide]="slideTrigger" (@slide.done)="done($event)" (pointerdown)="startPress()">
+<div class="skm-datepicker-wrapper" #wrapper>
+  <div class="skm-datepicker-slider" [@slide]="slideTrigger" (@slide.done)="done($event)" (mousedown)="startPress()">
     <ng-content></ng-content>
   </div>
   <button class="skm-datepicker-pagination skm-prev" (click)="clickPagination(-1)">&lsaquo;</button>
