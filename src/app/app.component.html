@@ -1,17 +1,25 @@
-<div class="container">
-  <div class="row">
-    <div class="col text-center">
-      <h1 class="mt-5 mb-4">Skimmed Datepicker</h1>
-      <p>Datepicker without bloat. Compatible with <b>Angular 6</b> and up</p>
-      <pre><code>npm i skimmed-datepicker</code></pre>
-      <div class="mb-5">
-        <a class="btn btn-dark mr-3" href="https://github.com/tomblachut/skimmed-datepicker">GitHub</a>
-        <a class="btn btn-secondary" href="https://www.npmjs.com/package/skimmed-datepicker">npm</a>
-      </div>
+<header>
+  <div class="container">
+    <h1 class="pt-5 pb-0">The last datepicker you'll ever need</h1>
+    <img src="/skimmed-datepicker/assets/logo.svg" alt="Logo" class="my-4">
+    <!--<div class="logo">Skimmed Datepicker</div>-->
+    <div class="mb-3">
+      <div class="d-inline-block snippet p-3"><code>npm i skimmed-datepicker</code></div>
+    </div>
+    <p>MIT licensed. Compatible with <b>Angular 6</b> and up</p>
+    <div class="pb-5">
+      <a class="btn btn-light mr-3" href="https://github.com/tomblachut/skimmed-datepicker">GitHub</a>
+      <a class="btn btn-outline-light" href="https://www.npmjs.com/package/skimmed-datepicker">npm</a>
     </div>
   </div>
-  <div class="row justify-content-center">
-    <div class="col mt-3 text-center">
+</header>
+<div class="container">
+  <div class="row mt-4 text-center">
+    <div class="col-md mb-4 d-flex flex-column justify-content-center text-md-right">
+      <h2>Swipe it.<br>Tab it.<br>Click it.</h2>
+      <div>Lacks only voice commands but that would be silly I guess</div>
+    </div>
+    <div class="col-md mb-4">
       <div>
         <label for="date" class="sr-only">Date</label>
         <input id="date" type="text" class="form-control mb-3"
@@ -19,30 +27,30 @@
       </div>
       <skm-datepicker class="d-inline-block theme-a" [(ngModel)]="date" [min]="min" [max]="max"></skm-datepicker>
     </div>
-    <div class="col mt-3 text-center">
+  </div>
+  <div class="row text-center">
+    <div class="col-md mb-4 d-flex flex-column justify-content-center text-md-left">
+      <h2>Allows you to do stupid things</h2>
       <div>
-        <label for="date2" class="sr-only">Date</label>
-        <input id="date2" type="text" class="form-control mb-3"
-               [ngModel]="undef | date:format" (ngModelChange)="tryUpdate($event, 'undef')">
+        (Inaccurate example because Romans used Julian calendar, whereas Javascriptians use Gregorian one)
       </div>
+    </div>
+    <div class="col-md mb-4 order-md-first">
       <skm-datepicker class="theme-b"
-                      [(date)]="undef"
                       [deselectEnabled]="true"
                       [weekDayLabels]="customWeekDayLabels"
-                      [monthLabels]="customMonthLabels"></skm-datepicker>
-    </div>
-  </div>
-  <div class="row justify-content-center my-4">
-    <div class="col text-center">
-      <skm-datepicker class="d-inline-block theme-a" [(ngModel)]="date" [min]="min" [max]="max"></skm-datepicker>
-    </div>
-    <div class="col text-center">
-      <skm-datepicker class="theme-b" [deselectEnabled]="true" [dayLabels]="customDayLabels"></skm-datepicker>
-      <div>
-        <small>
-          (Inaccurate example because Romans used Julian calendar, whereas Javascriptians use Gregorian one)
-        </small>
-      </div>
+                      [monthLabels]="customMonthLabels"
+                      [dayLabels]="customDayLabels"></skm-datepicker>
     </div>
   </div>
 </div>
+<footer class="text-center py-4">
+  <div class="container">
+    <div class="mb-3">&copy; 2017-2018 Tomasz Błachut. MIT licensed.</div>
+    <div class="d-inline-flex flex-column text-uppercase">
+      <div class="align-self-start">Make</div>
+      <div class="align-self-center">the edge</div>
+      <div class="align-self-end">bleed</div>
+    </div>
+  </div>
+</footer>
