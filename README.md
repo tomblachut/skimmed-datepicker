@@ -1,5 +1,5 @@
 <h1 align="center">Skimmed Datepicker</h1>
-<p align="center">Datepicker without bloat. Work in progress, but already pretty fancy &amp; usable.</p>
+<p align="center">Datepicker without bloat. Work in progress, but already pretty fancy &amp; usable</p>
 <p align="center">Compatible with <b>Angular 6</b> and up</p>
 
 <p align="center">
@@ -18,6 +18,7 @@
 * 🖱️ Mouse friendly
 * 💧 Minimal required styles
 * 🎨 Maximally themeable
+* ⛔ Specify min & max dates
 * 🏷️ Customizable labels & date formats
 * 🔎 Transitions smoothly between daily, monthly & yearly views
 * 🛣️ Doesn't block whole page panning (critical on touch devices)
@@ -57,7 +58,7 @@
     ```
     npm i hammerjs
     ```
-    A popular place, also recommended by [Angular Material](https://material.angular.io/guide/getting-started) is `src/main.ts`.
+    A popular place, recommended by [Angular Material](https://material.angular.io/guide/getting-started), is `src/main.ts`.
     ```typescript
     import 'hammerjs';
     ```
@@ -70,23 +71,26 @@
     ```
 
 ## Configuration
-TODO: Freeze API & document everything
-```typescript
-@Input() date: Date;
-@Output() dateChange: EventEmitter<Date>;
+`TODO: Freeze API & document everything`
 
-@Input() deselectEnabled: boolean;
-@Input() yearFormat = 'y';
-@Input() headingFormat = 'MMMM y';
-@Input() firstWeekDay = WeekDay.Monday;
-@Input() dayLabels: string[];
-@Input() weekDayLabels: string[];
-@Input() monthLabels: string[];
+```typescript
+date: Date;
+min: Date;
+max: Date;
+
+deselectEnabled: boolean;
+yearFormat = 'y';
+headingFormat = 'MMMM y';
+firstWeekDay = WeekDay.Monday;
+dayLabels: string[];
+weekDayLabels: string[];
+monthLabels: string[];
+
+dateChange: EventEmitter<Date>;
 ```
 
 ## Roadmap
 * Full compatibility with `ReactiveFormsModule`
-* Limit min & max date
 * Extend configurability
 * Popover mode
 * Keyboard support

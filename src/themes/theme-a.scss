@@ -1,0 +1,64 @@
+$base-grid-item-size: 40px !default;
+
+$header-height: $base-grid-item-size !default;
+$weekday-label-height: $base-grid-item-size !default;
+
+$datepicker-width: $base-grid-item-size * 7;
+$datepicker-height: $header-height + $weekday-label-height + $base-grid-item-size * 6;
+
+.theme-a {
+  button {
+    background: transparent;
+    border: 1px solid transparent;
+    transition: border-color 150ms;
+  }
+
+  .skm-datepicker {
+    width: $datepicker-width;
+    height: $datepicker-height;
+    border: 1px solid lightgray;
+    border-radius: 0.25rem;
+  }
+
+  .skm-datepicker-pagination {
+    width: $header-height;
+    height: $header-height;
+    font-weight: 700;
+    border-radius: 50%;
+  }
+
+  .skm-datepicker-header {
+    border-width: 0;
+    font-weight: 700;
+    text-align: center;
+    height: $header-height;
+    line-height: $header-height;
+    margin: 0 $header-height;
+  }
+
+  .skm-datepicker-weekday {
+    font-weight: 700;
+    text-align: center;
+    line-height: $weekday-label-height;
+  }
+
+  .skm-datepicker-item {
+    margin: 1px;
+  }
+
+  .skm-datepicker-item:not([disabled]):hover, .skm-datepicker-pagination:not([disabled]):hover {
+    border-color: darkgray;
+  }
+
+  .skm-datepicker-current {
+    border-color: lightgray;
+  }
+
+  .skm-datepicker-selected {
+    border-color: gray;
+  }
+
+  .skm-datepicker-item[disabled], .skm-datepicker-pagination[disabled] {
+    color: lightgray;
+  }
+}

@@ -1,4 +1,15 @@
 <div class="container">
+  <div class="row">
+    <div class="col text-center">
+      <h1 class="mt-5 mb-4">Skimmed Datepicker</h1>
+      <p>Datepicker without bloat. Compatible with <b>Angular 6</b> and up</p>
+      <pre><code>npm i skimmed-datepicker</code></pre>
+      <div class="mb-5">
+        <a class="btn btn-dark mr-3" href="https://github.com/tomblachut/skimmed-datepicker">GitHub</a>
+        <a class="btn btn-secondary" href="https://www.npmjs.com/package/skimmed-datepicker">npm</a>
+      </div>
+    </div>
+  </div>
   <div class="row justify-content-center">
     <div class="col mt-3 text-center">
       <div>
@@ -17,14 +28,19 @@
       <skm-datepicker class="theme-b"
                       [(date)]="undef"
                       [deselectEnabled]="true"
-                      [dayLabels]="customDayLabels"
                       [weekDayLabels]="customWeekDayLabels"
                       [monthLabels]="customMonthLabels"></skm-datepicker>
+    </div>
+  </div>
+  <div class="row justify-content-center my-4">
+    <div class="col text-center">
+      <skm-datepicker class="d-inline-block theme-a" [(ngModel)]="date" [min]="min" [max]="max"></skm-datepicker>
+    </div>
+    <div class="col text-center">
+      <skm-datepicker class="theme-b" [deselectEnabled]="true" [dayLabels]="customDayLabels"></skm-datepicker>
       <div>
         <small>
-          (Inaccurate example because Romans used Julian calendar,
-          whereas Javascriptians use Gregorian one.
-          Not to mention emojis)
+          (Inaccurate example because Romans used Julian calendar, whereas Javascriptians use Gregorian one)
         </small>
       </div>
     </div>
