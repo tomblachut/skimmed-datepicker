@@ -1,6 +1,6 @@
 {
   "name": "skimmed-datepicker",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "license": "MIT",
   "author": {
     "name": "Tomasz Błachut",
@@ -13,6 +13,8 @@
     "component",
     "datepicker",
     "calendar",
+    "form",
+    "control",
     "touch-compatible",
     "cdk",
     "angular2",

@@ -1,5 +1,5 @@
 <h1 align="center">Skimmed Datepicker</h1>
-<p align="center">Datepicker without bloat. Work in progress, but already pretty fancy &amp; usable</p>
+<p align="center"><img src="https://cdn.rawgit.com/tomblachut/skimmed-datepicker/master/src/assets/logo.svg"></p>
 <p align="center">Compatible with <b>Angular 6</b> and up</p>
 
 <p align="center">
@@ -101,4 +101,3 @@ dateChange: EventEmitter<Date>;
 ## Credits
 * Created by Tomasz Błachut ([@tomblachut](https://github.com/tomblachut))
 * Spatial easing function perfected by Michał Wiatrowski ([@michel4ngel0](https://github.com/michel4ngel0))
-* **YOU!** There is still more to do
