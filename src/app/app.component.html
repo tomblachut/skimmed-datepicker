@@ -1,13 +1,12 @@
-<header>
+<header class="py-4 py-md-5">
   <div class="container">
-    <h1 class="pt-5 pb-0">The last datepicker you'll ever need</h1>
-    <img src="/skimmed-datepicker/assets/logo.svg" alt="Logo" class="my-4">
-    <!--<div class="logo">Skimmed Datepicker</div>-->
-    <div class="mb-3">
+    <h1>The last datepicker you'll ever need</h1>
+    <img src="/skimmed-datepicker/assets/logo.svg" alt="Logo">
+    <div class="my-3">
       <div class="d-inline-block snippet p-3"><code>npm i skimmed-datepicker</code></div>
     </div>
-    <p>MIT licensed. Compatible with <b>Angular 6</b> and up</p>
-    <div class="pb-5">
+    <p>MIT licensed. Prerelease.<br class="d-md-none"> Compatible with <b>Angular 6</b> and up</p>
+    <div>
       <a class="btn btn-light mr-3" href="https://github.com/tomblachut/skimmed-datepicker">GitHub</a>
       <a class="btn btn-outline-light" href="https://www.npmjs.com/package/skimmed-datepicker">npm</a>
     </div>
@@ -16,32 +15,39 @@
 <div class="container">
   <div class="row mt-4 text-center">
     <div class="col-md mb-4 d-flex flex-column justify-content-center text-md-right">
-      <h2>Swipe it.<br>Tab it.<br>Click it.</h2>
-      <div>Lacks only voice commands but that would be silly I guess</div>
+      <h2>Swipe it.<br class="d-none d-md-inline"> Tab it.<br class="d-none d-md-inline"> Click it.</h2>
+      <div>Care has been taken to ensure smooth experience across all devices</div>
     </div>
     <div class="col-md mb-4">
       <div>
         <label for="date" class="sr-only">Date</label>
-        <input id="date" type="text" class="form-control mb-3"
+        <input id="date" type="text" class="form-control mb-3 demo-datepicker-date-control mx-auto"
                [ngModel]="date | date:format" (ngModelChange)="tryUpdate($event, 'date')">
       </div>
-      <skm-datepicker class="d-inline-block theme-a" [(ngModel)]="date" [min]="min" [max]="max"></skm-datepicker>
+      <skm-datepicker class="d-inline-block theme-a"
+                      [deselectEnabled]="true"
+                      [(ngModel)]="date"
+                      [min]="min"
+                      [max]="max"></skm-datepicker>
     </div>
   </div>
   <div class="row text-center">
     <div class="col-md mb-4 d-flex flex-column justify-content-center text-md-left">
-      <h2>Allows you to do stupid things</h2>
+      <h2>Allows you to do even stupid things</h2>
       <div>
-        (Inaccurate example because Romans used Julian calendar, whereas Javascriptians use Gregorian one)
+        Customize <i>a lot</i> to match your product's unique style
       </div>
     </div>
     <div class="col-md mb-4 order-md-first">
       <skm-datepicker class="theme-b"
-                      [deselectEnabled]="true"
                       [weekDayLabels]="customWeekDayLabels"
                       [monthLabels]="customMonthLabels"
                       [dayLabels]="customDayLabels"></skm-datepicker>
     </div>
+  </div>
+  <div class="mb-4 text-center   ">
+    <a href="https://github.com/tomblachut/skimmed-datepicker/blob/master/README.md"
+       class="btn btn-primary btn-lg">See documentation on GitHub</a>
   </div>
 </div>
 <footer class="text-center py-4">

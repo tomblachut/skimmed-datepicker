@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Jua|Nunito&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Jua|Nunito|Indie+Flower&subset=latin-ext');
 
 $font-family-base: Nunito, sans-serif;
 $border-radius: .5rem;
+$primary: #861657;
 
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";

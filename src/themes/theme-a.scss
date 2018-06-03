@@ -6,6 +6,10 @@ $weekday-label-height: $base-grid-item-size !default;
 $datepicker-width: $base-grid-item-size * 7;
 $datepicker-height: $header-height + $weekday-label-height + $base-grid-item-size * 6;
 
+.demo-datepicker-date-control {
+  width: $datepicker-width;
+}
+
 .theme-a {
   button {
     background: transparent;
@@ -17,7 +21,7 @@ $datepicker-height: $header-height + $weekday-label-height + $base-grid-item-siz
     width: $datepicker-width;
     height: $datepicker-height;
     border: 1px solid lightgray;
-    border-radius: 0.25rem;
+    border-radius: .5rem;
   }
 
   .skm-datepicker-pagination {

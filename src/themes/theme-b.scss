@@ -1,5 +1,6 @@
 .theme-b {
-  font-family: Jua, sans-serif;
+  font-family: 'Indie Flower', cursive;
+  font-size: 1.2rem;
   text-transform: uppercase;
 
   button {
@@ -39,7 +40,8 @@
   .skm-datepicker-weekday {
     font-weight: 700;
     text-align: center;
-    line-height: $weekday-label-height;
+    line-height: 40px;
+    font-size: 1rem;
     background: #FEB692;
     border-bottom: 5px solid white;
   }

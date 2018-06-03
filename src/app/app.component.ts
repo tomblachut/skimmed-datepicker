@@ -10,11 +10,10 @@ export class AppComponent {
   format = 'yyyy-MM-dd';
 
   customDayLabels = range(1, 31).map(romanize);
-  customWeekDayLabels = ['😆', '😞', '😕', '😐', '😉', '😊', '😁'];
+  customWeekDayLabels = ['😆', '🙁', '😒', '😐', '😉', '😊', '😁'];
   customMonthLabels = ['☃️', '🌨️', '☂️', '🌳', '🌷', '☀️', '🌻', '🌊', '🍄', '🌰', '🍂', '🎄'];
 
   date = new Date();
-  undef: Date;
 
   min = new Date();
   max = new Date();
