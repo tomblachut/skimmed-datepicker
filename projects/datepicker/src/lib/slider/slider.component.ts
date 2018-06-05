@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  NgZone,
   OnChanges,
   OnDestroy,
   Output,
@@ -49,7 +50,7 @@ export class SliderComponent implements OnChanges, AfterViewInit, OnDestroy {
   private readonly ngUnsubscribe$ = new Subject();
   private readonly easeOut = createEaseOut(1.3);
 
-  constructor(private hostRef: ElementRef, private cd: ChangeDetectorRef) {
+  constructor(private hostRef: ElementRef, private cd: ChangeDetectorRef, private zone: NgZone) {
     this.cd.detach();
   }
 
@@ -58,19 +59,21 @@ export class SliderComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    const host = this.hostRef.nativeElement;
-    fromEvent(host, 'mousedown').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.startPress());
+    this.zone.runOutsideAngular(() => {
+      const host = this.hostRef.nativeElement;
+      fromEvent(host, 'mousedown').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.startPress());
 
-    if ('Hammer' in window) {
-      const hammer = new Hammer(host);
+      if ('Hammer' in window) {
+        const hammer = new Hammer(host);
 
-      fromEvent(hammer, 'panstart').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.startPan());
-      fromEvent(hammer, 'panmove').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(e => this.pan(e));
-      fromEvent(hammer, 'panend pancancel').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.endPan());
+        fromEvent(hammer, 'panstart').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.startPan());
+        fromEvent(hammer, 'panmove').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(e => this.pan(e));
+        fromEvent(hammer, 'panend pancancel').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.endPan());
 
-      fromEvent(hammer, 'swiperight').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.swipe(-1));
-      fromEvent(hammer, 'swipeleft').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.swipe(1));
-    }
+        fromEvent(hammer, 'swiperight').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.swipe(-1));
+        fromEvent(hammer, 'swipeleft').pipe(takeUntil(this.ngUnsubscribe$)).subscribe(() => this.swipe(1));
+      }
+    });
   }
 
   ngOnDestroy(): void {
