@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angular/common';
 import { startOfMonth } from '../util/date-utils';
-import { range } from '../util/helpers';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
@@ -41,6 +40,7 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   @Input() headingFormat: string;
   @Input() firstWeekDay: WeekDay;
   @Input() weekDayLabels: string[];
+  @Input() dayFormat: string;
   @Input() dayLabels: string[];
 
   @Output() readonly dateChange = new EventEmitter<Date>();
@@ -50,7 +50,6 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   currentValue: number;
   minValue: number;
   maxValue: number;
-  initialValue: number; // TODO reconsider
 
   panes: Array<Pane>;
   prevDisabled = false;
@@ -77,7 +76,7 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
       this.initPanes(this.initialDate);
     }
     if ('dayLabels' in changes) {
-      this.dayLabels = this.dayLabels ? this.dayLabels.slice(0, 31) : range(1, 31).map(String);
+      this.dayLabels = this.dayLabels || [];
     }
     if ('weekDayLabels' in changes) {
       this.weekDayLabels = this.weekDayLabels

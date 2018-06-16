@@ -18,6 +18,7 @@ export class YearsContentComponent {
   @Input() maxValue: number;
 
   @Input() itemFormat: string;
+  readonly itemLabels: string[] = [];
 
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 

@@ -17,7 +17,8 @@ export class DaysContentComponent {
   @Input() minValue: number;
   @Input() maxValue: number;
 
-  @Input() labels: string[];
+  @Input() itemFormat: string;
+  @Input() itemLabels: string[];
 
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 

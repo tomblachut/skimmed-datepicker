@@ -2,7 +2,7 @@
 
   <div *ngFor="let value of pane.values; let i = index" class="skm-datepicker-cell">
     <button [attr.data-index]="i" [class]="makeItemClasses(i, pane)" [disabled]="isDisabled(i, pane)" type="button">
-      {{value | date:itemFormat}}
+      {{itemLabels[i] || (value | date:itemFormat)}}
     </button>
   </div>
 </div>

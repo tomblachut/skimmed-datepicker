@@ -45,6 +45,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
 
   @Input() deselectEnabled: boolean;
 
+  @Input() dayFormat = 'd';
+  @Input() monthFormat = 'MMM';
   @Input() yearFormat = 'y';
   @Input() headingFormat = 'MMMM y';
   @Input() firstWeekDay = WeekDay.Monday;

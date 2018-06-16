@@ -10,7 +10,6 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
 import { startOfYear } from '../util/date-utils';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
@@ -36,6 +35,7 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
   @Input() maxDate: Date;
 
   @Input() yearFormat: string;
+  @Input() monthFormat: string;
   @Input() monthLabels: string[];
 
   @Output() readonly dateChange = new EventEmitter<Date>();
@@ -71,9 +71,7 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
       this.initPanes(this.initialDate);
     }
     if ('monthLabels' in changes) {
-      this.monthLabels = this.monthLabels
-        ? this.monthLabels.slice(0, 12)
-        : getLocaleMonthNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
+      this.monthLabels = this.monthLabels || [];
     }
   }
 
