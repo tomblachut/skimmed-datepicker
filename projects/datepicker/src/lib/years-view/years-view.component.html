@@ -4,11 +4,10 @@
       {{pane.values[0] | date:yearFormat}} &ndash; {{pane.values[19] | date:yearFormat}}
     </button>
     <skm-years-content [pane]="pane"
-                       [years]="years"
                        [selectedValue]="selectedValue"
                        [currentValue]="currentValue"
                        [minValue]="minValue"
                        [maxValue]="maxValue"
-                       [yearFormat]="yearFormat"></skm-years-content>
+                       [itemFormat]="yearFormat"></skm-years-content>
   </div>
 </skm-slider>

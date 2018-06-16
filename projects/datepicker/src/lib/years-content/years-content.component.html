@@ -1,10 +1,8 @@
 <div class="skm-datepicker-grid" (click)="yearsView.selectItem($event, pane, slider.notPanning)">
-  <div *ngFor="let year of years; let i = index" class="skm-datepicker-cell">
-    <button [attr.data-index]="i"
-            [class]="makeItemClasses(i, pane)"
-            [disabled]="isDisabled(i, pane)"
-            type="button">
-      {{pane.values[i] | date:yearFormat}}
+
+  <div *ngFor="let value of pane.values; let i = index" class="skm-datepicker-cell">
+    <button [attr.data-index]="i" [class]="makeItemClasses(i, pane)" [disabled]="isDisabled(i, pane)" type="button">
+      {{value | date:itemFormat}}
     </button>
   </div>
 </div>

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { WeekDay } from '@angular/common';
 import { Pane } from '../pane';
 import { SliderComponent } from '../slider/slider.component';
 import { DaysViewComponent } from '../days-view/days-view.component';
@@ -18,9 +17,7 @@ export class DaysContentComponent {
   @Input() minValue: number;
   @Input() maxValue: number;
 
-  @Input() firstWeekDay: WeekDay;
-  @Input() weekDayLabels: string[];
-  @Input() dayLabels: string[];
+  @Input() labels: string[];
 
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 

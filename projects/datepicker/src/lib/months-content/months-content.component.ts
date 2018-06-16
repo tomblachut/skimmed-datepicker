@@ -17,7 +17,7 @@ export class MonthsContentComponent {
   @Input() minValue: number;
   @Input() maxValue: number;
 
-  @Input() monthLabels: string[];
+  @Input() labels: string[];
 
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 

@@ -1,15 +1,17 @@
 <skm-slider [prevDisabled]="prevDisabled" [nextDisabled]="nextDisabled" (slideDone)="switchPanes($event)" #slider>
   <div class="skm-datepicker-pane" *ngFor="let pane of panes; trackBy: trackContent" [style.order]="pane.order">
     <button type="button" class="skm-datepicker-header" (click)="clickHeader(slider.notPanning)">
-      {{pane.values[0] | date: headingFormat}}
+      {{pane.values[0] | date:headingFormat}}
     </button>
+    <div class="skm-flex">
+      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:firstWeekDay">{{label}}</div>
+      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:0:firstWeekDay">{{label}}</div>
+    </div>
     <skm-days-content [pane]="pane"
                       [selectedValue]="selectedValue"
                       [currentValue]="currentValue"
                       [minValue]="minValue"
                       [maxValue]="maxValue"
-                      [firstWeekDay]="firstWeekDay"
-                      [weekDayLabels]="weekDayLabels"
-                      [dayLabels]="dayLabels"></skm-days-content>
+                      [labels]="dayLabels"></skm-days-content>
   </div>
 </skm-slider>

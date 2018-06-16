@@ -22,11 +22,7 @@ import { ZoomDirection } from '../util/zoom.animation';
   styleUrls: ['./datepicker.component.scss', '../datepicker.shared.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: DatepickerComponent,
-      multi: true,
-    },
+    {provide: NG_VALUE_ACCESSOR, useExisting: DatepickerComponent, multi: true},
   ],
 })
 export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnInit {

@@ -1,9 +1,7 @@
 <div class="skm-datepicker-grid" (click)="monthsView.selectItem($event, pane, slider.notPanning)">
-  <div *ngFor="let label of monthLabels; let i = index" class="skm-datepicker-cell">
-    <button [attr.data-index]="i"
-            [class]="makeItemClasses(i, pane)"
-            [disabled]="isDisabled(i, pane)"
-            type="button">
+
+  <div *ngFor="let label of labels; let i = index" class="skm-datepicker-cell">
+    <button [attr.data-index]="i" [class]="makeItemClasses(i, pane)" [disabled]="isDisabled(i, pane)" type="button">
       {{label}}
     </button>
   </div>

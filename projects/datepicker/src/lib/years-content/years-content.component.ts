@@ -11,14 +11,13 @@ import { YearsViewComponent } from '../years-view/years-view.component';
 })
 export class YearsContentComponent {
   @Input() pane: Pane;
-  @Input() years: number[];
 
   @Input() selectedValue: number;
   @Input() currentValue: number;
   @Input() minValue: number;
   @Input() maxValue: number;
 
-  @Input() yearFormat: string;
+  @Input() itemFormat: string;
 
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 
