@@ -11,7 +11,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
-import { addYears, setMonth, startOfYear } from '../util/date-utils';
+import { startOfYear } from '../util/date-utils';
 import { MonthsPane } from './months-pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 
@@ -37,14 +37,10 @@ export class MonthsViewComponent implements OnChanges {
   @Output() readonly dateChange = new EventEmitter<Date>();
   @Output() readonly headerClick = new EventEmitter<Date>();
 
-  selectedMonthNumber: number;
-  selectedYearTime: number;
-  currentMonthNumber: number;
-  currentYearTime: number;
-  minMonthNumber: number;
-  minYearTime: number;
-  maxMonthNumber: number;
-  maxYearTime: number;
+  selectedValue: number;
+  currentValue: number;
+  minValue: number;
+  maxValue: number;
 
   panes: Array<MonthsPane>;
   prevDisabled = false;
@@ -56,35 +52,16 @@ export class MonthsViewComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('selectedDate' in changes) {
-      if (this.selectedDate) {
-        this.selectedMonthNumber = this.selectedDate.getMonth();
-        this.selectedYearTime = startOfYear(this.selectedDate).getTime();
-      } else {
-        this.selectedMonthNumber = undefined;
-        this.selectedYearTime = undefined;
-      }
+      this.selectedValue = this.selectedDate ? new Date(this.selectedDate).setDate(1) : undefined;
     }
     if ('currentDate' in changes) {
-      this.currentMonthNumber = this.currentDate.getMonth();
-      this.currentYearTime = startOfYear(this.currentDate).getTime();
+      this.currentValue = new Date(this.currentDate).setDate(1);
     }
     if ('minDate' in changes) {
-      if (this.minDate) {
-        this.minMonthNumber = this.minDate.getMonth();
-        this.minYearTime = startOfYear(this.minDate).getTime();
-      } else {
-        this.minMonthNumber = undefined;
-        this.minYearTime = undefined;
-      }
+      this.minValue = this.minDate ? new Date(this.minDate).setDate(1) : undefined;
     }
     if ('maxDate' in changes) {
-      if (this.maxDate) {
-        this.maxMonthNumber = this.maxDate.getMonth();
-        this.maxYearTime = startOfYear(this.maxDate).getTime();
-      } else {
-        this.maxMonthNumber = undefined;
-        this.maxYearTime = undefined;
-      }
+      this.maxValue = this.maxDate ? new Date(this.maxDate).setDate(1) : undefined;
     }
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
@@ -102,15 +79,15 @@ export class MonthsViewComponent implements OnChanges {
 
   clickHeader(notPanning: boolean): void {
     if (notPanning) {
-      this.headerClick.emit(this.panes[this.visiblePaneIndex].yearDate);
+      this.headerClick.emit(new Date(this.panes[this.visiblePaneIndex].values[0]));
     }
   }
 
-  selectItem(event: MouseEvent, yearDate: Date, notPanning: boolean): void {
+  selectItem(event: MouseEvent, pane: MonthsPane, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
-      const month = +button.dataset.index;
-      this.dateChange.emit(setMonth(yearDate, month));
+      const index = button.dataset.index;
+      this.dateChange.emit(new Date(pane.values[index]));
     }
   }
 
@@ -118,26 +95,35 @@ export class MonthsViewComponent implements OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    this.panes[index] = {
-      order: pane.order + 3 * direction,
-      yearDate: addYears(pane.yearDate, 3 * direction),
-    };
+    this.panes[index] = makePane(pane.values[0], 3 * direction, pane.order);
     this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
   private initPanes(date: Date): void {
-    const monthDate = startOfYear(date);
-    this.panes = [-1, 0, 1].map(i => ({
-      order: i,
-      yearDate: addYears(monthDate, i),
-    }));
+    const yearValue = startOfYear(date).valueOf();
+    this.panes = [-1, 0, 1].map(i => makePane(yearValue, i));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
   }
 
   private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
-    this.prevDisabled = this.panes[prevIndex].yearDate.getTime() < this.minYearTime;
-    this.nextDisabled = this.panes[nextIndex].yearDate.getTime() > this.maxYearTime;
+    this.prevDisabled = this.panes[prevIndex].values[11] < this.minValue;
+    this.nextDisabled = this.panes[nextIndex].values[0] > this.maxValue;
   }
 
+}
+
+function makePane(value: number, add: number, baseOrder = 0): MonthsPane {
+  const date = new Date(value);
+  date.setFullYear(add + date.getFullYear());
+
+  const values = [];
+  for (let i = 0; i < 12; i++) {
+    values.push(date.setMonth(i));
+  }
+
+  return {
+    order: baseOrder + add,
+    values: values,
+  };
 }

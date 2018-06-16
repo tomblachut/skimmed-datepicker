@@ -1,4 +1,4 @@
 export interface MonthsPane {
   readonly order: number;
-  readonly yearDate: Date;
+  readonly values: ReadonlyArray<number>;
 }

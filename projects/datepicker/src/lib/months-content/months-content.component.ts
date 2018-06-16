@@ -12,14 +12,10 @@ import { MonthsViewComponent } from '../months-view/months-view.component';
 export class MonthsContentComponent {
   @Input() pane: MonthsPane;
 
-  @Input() selectedMonthNumber: number;
-  @Input() selectedYearTime: number;
-  @Input() currentMonthNumber: number;
-  @Input() currentYearTime: number;
-  @Input() minMonthNumber: number;
-  @Input() minYearTime: number;
-  @Input() maxMonthNumber: number;
-  @Input() maxYearTime: number;
+  @Input() selectedValue: number;
+  @Input() currentValue: number;
+  @Input() minValue: number;
+  @Input() maxValue: number;
 
   @Input() monthLabels: string[];
 
@@ -28,19 +24,17 @@ export class MonthsContentComponent {
   constructor(readonly slider: SliderComponent, readonly monthsView: MonthsViewComponent) {
   }
 
-  makeItemClasses(month: number, yearDate: Date): string {
+  makeItemClasses(index: number, pane: MonthsPane): string {
     return [
-      'skm-datepicker-item',
       'skm-datepicker-month',
-      (month === this.currentMonthNumber && yearDate.getTime() === this.currentYearTime) ? 'skm-datepicker-current' : '',
-      (month === this.selectedMonthNumber && yearDate.getTime() === this.selectedYearTime) ? 'skm-datepicker-selected' : '',
+      'skm-datepicker-item',
+      (pane.values[index] === this.selectedValue) ? 'skm-datepicker-selected' : '',
+      (pane.values[index] === this.currentValue) ? 'skm-datepicker-current' : '',
     ].join(' ');
   }
 
-  isDisabled(month: number, yearDate: Date): boolean {
-    const yearTime = yearDate.getTime();
-    return (yearTime < this.minYearTime || yearTime === this.minYearTime && month < this.minMonthNumber)
-      || (yearTime > this.maxYearTime || yearTime === this.maxYearTime && month > this.maxMonthNumber);
+  isDisabled(index: number, pane: MonthsPane): boolean {
+    return (pane.values[index] < this.minValue) || (pane.values[index] > this.maxValue);
   }
 
 }
