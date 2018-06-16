@@ -11,8 +11,7 @@ import {
 } from '@angular/core';
 import { WeekDay } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isValidDate, startOfDay } from '../util/date-utils';
-import { noop } from '../util/helpers';
+import { isValidDate, noop, startOfDay } from '../util/helpers';
 import { ViewMode } from './view-mode';
 import { ZoomDirection } from '../util/zoom.animation';
 

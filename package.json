@@ -26,7 +26,6 @@
     "@angular/router": "^6.0.4",
     "bootstrap": "^4.1.1",
     "core-js": "^2.5.4",
-    "date-fns": "^2.0.0-alpha.9",
     "hammerjs": "^2.0.8",
     "rxjs": "^6.2.0",
     "zone.js": "^0.8.26"

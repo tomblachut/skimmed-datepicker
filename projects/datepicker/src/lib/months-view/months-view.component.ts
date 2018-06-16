@@ -10,10 +10,10 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { startOfYear } from '../util/date-utils';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
+import { startOfYear } from '../util/helpers';
 
 @Component({
   selector: 'skm-months-view',

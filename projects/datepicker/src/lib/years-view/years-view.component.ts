@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { range } from '../util/helpers';
+import { range, startOfYear } from '../util/helpers';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
-import { startOfYear } from '../util/date-utils';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 
 @Component({

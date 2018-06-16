@@ -23,9 +23,6 @@
   "repository": "https://github.com/tomblachut/skimmed-datepicker",
   "homepage": "https://tomblachut.github.io/skimmed-datepicker/",
   "bugs": "https://github.com/tomblachut/skimmed-datepicker/issues",
-  "dependencies": {
-    "date-fns": "^2.0.0-alpha.9 || ^2.0.0"
-  },
   "peerDependencies": {
     "@angular/animations": "^6.0.0",
     "@angular/common": "^6.0.0",

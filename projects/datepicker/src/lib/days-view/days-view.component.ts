@@ -11,10 +11,10 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angular/common';
-import { startOfMonth } from '../util/date-utils';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
+import { startOfMonth } from '../util/helpers';
 
 @Component({
   selector: 'skm-days-view',
