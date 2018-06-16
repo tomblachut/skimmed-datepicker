@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { range } from '../util/helpers';
-import { startOfYear } from '../util/date-utils';
 import { YearsPane } from './years-pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
+import { startOfYear } from '../util/date-utils';
 
 @Component({
   selector: 'skm-years-view',
@@ -20,12 +20,14 @@ export class YearsViewComponent implements OnChanges {
   @Input() minDate: Date;
   @Input() maxDate: Date;
 
+  @Input() yearFormat: string;
+
   @Output() readonly dateChange = new EventEmitter<Date>();
 
-  selectedYear: number;
-  currentYear: number;
-  minYear: number;
-  maxYear: number;
+  selectedValue: number;
+  currentValue: number;
+  minValue: number;
+  maxValue: number;
 
   readonly years = range(0, 19);
   panes: Array<YearsPane>;
@@ -35,16 +37,16 @@ export class YearsViewComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('selectedDate' in changes) {
-      this.selectedYear = this.selectedDate ? this.selectedDate.getFullYear() : undefined;
+      this.selectedValue = this.selectedDate ? new Date(this.selectedDate).setMonth(0, 1) : undefined;
     }
     if ('minDate' in changes) {
-      this.minYear = this.minDate ? this.minDate.getFullYear() : undefined;
+      this.minValue = this.minDate ? new Date(this.minDate).setMonth(0, 1) : undefined;
     }
     if ('maxDate' in changes) {
-      this.maxYear = this.maxDate ? this.maxDate.getFullYear() : undefined;
+      this.maxValue = this.maxDate ? new Date(this.maxDate).setMonth(0, 1) : undefined;
     }
     if ('currentDate' in changes) {
-      this.currentYear = this.currentDate.getFullYear();
+      this.currentValue = new Date(this.currentDate).setMonth(0, 1);
     }
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
@@ -55,13 +57,11 @@ export class YearsViewComponent implements OnChanges {
     return index;
   }
 
-  selectItem(event: MouseEvent, start: number, notPanning: boolean): void {
+  selectItem(event: MouseEvent, pane: YearsPane, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
-      const offset = +button.dataset.index;
-      const date = startOfYear(new Date());
-      date.setFullYear(offset + start);
-      this.dateChange.emit(date);
+      const index = button.dataset.index;
+      this.dateChange.emit(new Date(pane.values[index]));
     }
   }
 
@@ -69,27 +69,38 @@ export class YearsViewComponent implements OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    this.panes[index] = {
-      order: pane.order + 3 * direction,
-      start: pane.start + 3 * direction * this.years.length,
-    };
+    this.panes[index] = makePane(pane.values[0], 3 * direction, pane.order);
     this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
   private initPanes(date: Date): void {
     const origin = date.getFullYear();
     const adjusted = origin - (origin % this.years.length);
-    this.panes = [-1, 0, 1].map(i => ({
-      order: i,
-      start: adjusted + i * this.years.length,
-    }));
+    const yearValue = startOfYear(date).setFullYear(adjusted);
+
+    this.panes = [-1, 0, 1].map(i => makePane(yearValue, i));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
   }
 
   private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
-    this.prevDisabled = this.panes[prevIndex].start < this.minYear;
-    this.nextDisabled = this.panes[nextIndex].start > this.maxYear;
+    this.prevDisabled = this.panes[prevIndex].values[19] < this.minValue;
+    this.nextDisabled = this.panes[nextIndex].values[0] > this.maxValue;
   }
 
+}
+
+function makePane(value: number, add: number, baseOrder = 0): YearsPane {
+  const date = new Date(value);
+  const origin = add * 20 + date.getFullYear();
+
+  const values = [];
+  for (let i = 0; i < 20; i++) {
+    values.push(date.setFullYear(origin + i));
+  }
+
+  return {
+    order: baseOrder + add,
+    values: values,
+  };
 }

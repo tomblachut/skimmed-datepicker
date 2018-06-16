@@ -13,29 +13,29 @@ export class YearsContentComponent {
   @Input() pane: YearsPane;
   @Input() years: number[];
 
-  @Input() selectedYear: number;
-  @Input() currentYear: number;
-  @Input() minYear: number;
-  @Input() maxYear: number;
+  @Input() selectedValue: number;
+  @Input() currentValue: number;
+  @Input() minValue: number;
+  @Input() maxValue: number;
+
+  @Input() yearFormat: string;
 
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 
   constructor(readonly slider: SliderComponent, readonly yearsView: YearsViewComponent) {
   }
 
-  makeItemClasses(offset: number, start: number): string {
-    const year = offset + start;
+  makeItemClasses(index: number, pane: YearsPane): string {
     return [
-      'skm-datepicker-item',
       'skm-datepicker-year',
-      (year === this.currentYear) ? 'skm-datepicker-current' : '',
-      (year === this.selectedYear) ? 'skm-datepicker-selected' : '',
+      'skm-datepicker-item',
+      (pane.values[index] === this.selectedValue) ? 'skm-datepicker-selected' : '',
+      (pane.values[index] === this.currentValue) ? 'skm-datepicker-current' : '',
     ].join(' ');
   }
 
-  isDisabled(offset: number, start: number): boolean {
-    const year = offset + start;
-    return (year < this.minYear) || (year > this.maxYear);
+  isDisabled(index: number, pane: YearsPane): boolean {
+    return (pane.values[index] < this.minValue) || (pane.values[index] > this.maxValue);
   }
 
 }
