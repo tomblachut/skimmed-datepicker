@@ -71,7 +71,7 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    this.panes[index] = makePane(pane.values[0], 3 * direction, pane.order);
+    this.panes[index] = this.makePane(pane.values[0], 3 * direction, pane.order);
     this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
@@ -80,7 +80,7 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
     const adjusted = origin - (origin % 20);
     const yearValue = startOfYear(date).setFullYear(adjusted);
 
-    this.panes = [-1, 0, 1].map(i => makePane(yearValue, i));
+    this.panes = [-1, 0, 1].map(i => this.makePane(yearValue, i));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
   }
@@ -90,19 +90,19 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
     this.nextDisabled = this.panes[nextIndex].values[0] > this.maxValue;
   }
 
-}
+  private makePane(value: number, add: number, baseOrder = 0): Pane {
+    const date = new Date(value);
+    const origin = add * 20 + date.getFullYear();
 
-function makePane(value: number, add: number, baseOrder = 0): Pane {
-  const date = new Date(value);
-  const origin = add * 20 + date.getFullYear();
+    const values = [];
+    for (let i = 0; i < 20; i++) {
+      values.push(date.setFullYear(origin + i));
+    }
 
-  const values = [];
-  for (let i = 0; i < 20; i++) {
-    values.push(date.setFullYear(origin + i));
+    return {
+      order: baseOrder + add,
+      values: values,
+    };
   }
 
-  return {
-    order: baseOrder + add,
-    values: values,
-  };
 }

@@ -106,13 +106,13 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    this.panes[index] = makePane(pane.values[0], this.firstWeekDay, 3 * direction, pane.order);
+    this.panes[index] = this.makePane(pane.values[0], 3 * direction, pane.order);
     this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
   private initPanes(date: Date): void {
     const monthValue = startOfMonth(date).valueOf();
-    this.panes = [-1, 0, 1].map(i => makePane(monthValue, this.firstWeekDay, i));
+    this.panes = [-1, 0, 1].map(i => this.makePane(monthValue, i));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
   }
@@ -122,25 +122,25 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
     this.nextDisabled = this.panes[nextIndex].values[0] > this.maxValue;
   }
 
-}
+  private makePane(value: number, add: number, baseOrder = 0): Pane {
+    const date = new Date(value);
+    date.setMonth(add + date.getMonth());
+    const firstDay = date.getDay();
 
-function makePane(value: number, firstWeekDay: WeekDay, add: number, baseOrder = 0): Pane {
-  const date = new Date(value);
-  date.setMonth(add + date.getMonth());
-  const firstDay = date.getDay();
+    date.setMonth(1 + date.getMonth());
+    date.setDate(0);
+    const monthLength = date.getDate();
 
-  date.setMonth(1 + date.getMonth());
-  date.setDate(0);
-  const monthLength = date.getDate();
+    const values = [];
+    for (let i = 1; i <= monthLength; i++) {
+      values.push(date.setDate(i));
+    }
 
-  const values = [];
-  for (let i = 1; i <= monthLength; i++) {
-    values.push(date.setDate(i));
+    return {
+      order: baseOrder + add,
+      values: values,
+      indent: (firstDay - this.firstWeekDay + 7) % 7 || 7, // Defaulting to full week makes for more a balanced cells layout
+    };
   }
 
-  return {
-    order: baseOrder + add,
-    values: values,
-    indent: (firstDay - firstWeekDay + 7) % 7 || 7, // Defaulting to full week makes for more a balanced cells layout
-  };
 }
