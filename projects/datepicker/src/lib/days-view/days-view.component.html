@@ -7,7 +7,7 @@
       <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:firstWeekDay:7">{{label}}</div>
       <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:0:firstWeekDay">{{label}}</div>
     </div>
-    <skm-days-content
+    <skm-grid
       itemClass="skm-datepicker-day"
       [pane]="pane"
       [selectedValue]="selectedValue"
@@ -16,6 +16,6 @@
       [maxValue]="maxValue"
       [itemFormat]="dayFormat"
       [itemLabels]="dayLabels"
-    ></skm-days-content>
+    ></skm-grid>
   </div>
 </skm-slider>

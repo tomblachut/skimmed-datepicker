@@ -70,9 +70,6 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
     }
-    if ('monthLabels' in changes) {
-      this.monthLabels = this.monthLabels || [];
-    }
   }
 
   trackContent(index: number) {

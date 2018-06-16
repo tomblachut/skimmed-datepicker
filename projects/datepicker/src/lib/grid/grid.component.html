@@ -1,6 +1,6 @@
 <div class="skm-datepicker-grid" (click)="parentView.selectItem($event, pane, slider.notPanning)">
-
-  <div *ngFor="let value of pane.values; let i = index" class="skm-datepicker-cell">
+  <div class="skm-datepicker-indent" [style.width.%]="100 / 7 * pane.indent"></div>
+  <div *ngFor="let value of pane.values; trackBy: trackIndex; let i = index" class="skm-datepicker-cell">
     <button [attr.data-index]="i" [class]="makeItemClasses(i, pane)" [disabled]="isDisabled(i, pane)" type="button">
       {{itemLabels[i] || (value | date:itemFormat)}}
     </button>

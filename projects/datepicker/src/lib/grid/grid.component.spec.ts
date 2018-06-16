@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DaysContentComponent } from './days-content.component';
+import { GridComponent } from './grid.component';
 
 describe('DaysContentComponent', () => {
-  let component: DaysContentComponent;
-  let fixture: ComponentFixture<DaysContentComponent>;
+  let component: GridComponent;
+  let fixture: ComponentFixture<GridComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DaysContentComponent],
-    })
-      .compileComponents();
+      declarations: [GridComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DaysContentComponent);
+    fixture = TestBed.createComponent(GridComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
