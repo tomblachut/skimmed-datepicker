@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { range } from '../../projects/datepicker/src/lib/util/helpers';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +33,10 @@ export class AppComponent {
     }
   }
 
+}
+
+function range(from: number, to: number): Array<number> {
+  return Array.from(new Array(1 + to - from), (x, i) => i + from);
 }
 
 // https://stackoverflow.com/a/9083076/1879175

@@ -1,7 +1,3 @@
-export function range(from: number, to: number): Array<number> {
-  return Array.from(new Array(1 + to - from), (x, i) => i + from);
-}
-
 export function isValidDate(date: Date): boolean {
   return !isNaN(date.getTime());
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { range, startOfYear } from '../util/helpers';
+import { startOfYear } from '../util/helpers';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
@@ -32,7 +32,6 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
   minValue: number;
   maxValue: number;
 
-  readonly years = range(0, 19);
   panes: Array<Pane>;
   prevDisabled = false;
   nextDisabled = false;
@@ -78,7 +77,7 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
 
   private initPanes(date: Date): void {
     const origin = date.getFullYear();
-    const adjusted = origin - (origin % this.years.length);
+    const adjusted = origin - (origin % 20);
     const yearValue = startOfYear(date).setFullYear(adjusted);
 
     this.panes = [-1, 0, 1].map(i => makePane(yearValue, i));
