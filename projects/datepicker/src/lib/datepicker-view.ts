@@ -5,4 +5,4 @@ export interface DatepickerView {
   selectItem(event: MouseEvent, pane: Pane, notPanning: boolean): void;
 }
 
-export const DATEPICKER_VIEW = new InjectionToken('SkmDatepickerView');
+export const DATEPICKER_VIEW = new InjectionToken<DatepickerView>('SkmDatepickerView');

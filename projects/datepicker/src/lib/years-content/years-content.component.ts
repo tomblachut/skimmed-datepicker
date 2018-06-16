@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input } from '@angular/core';
+import { Attribute, ChangeDetectionStrategy, Component, HostBinding, Inject, Input } from '@angular/core';
 import { Pane } from '../pane';
 import { SliderComponent } from '../slider/slider.component';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
@@ -21,12 +21,14 @@ export class YearsContentComponent {
 
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 
-  constructor(readonly slider: SliderComponent, @Inject(DATEPICKER_VIEW) readonly parentView: DatepickerView) {
+  constructor(readonly slider: SliderComponent,
+              @Inject(DATEPICKER_VIEW) readonly parentView: DatepickerView,
+              @Attribute('itemClass') private itemClass: string) {
   }
 
   makeItemClasses(index: number, pane: Pane): string {
     return [
-      'skm-datepicker-year',
+      this.itemClass,
       'skm-datepicker-item',
       (pane.values[index] === this.selectedValue) ? 'skm-datepicker-selected' : '',
       (pane.values[index] === this.currentValue) ? 'skm-datepicker-current' : '',

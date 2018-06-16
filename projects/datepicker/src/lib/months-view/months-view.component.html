@@ -3,11 +3,14 @@
     <button type="button" class="skm-datepicker-header" (click)="clickHeader(slider.notPanning)">
       {{pane.values[0] | date:yearFormat}}
     </button>
-    <skm-months-content [pane]="pane"
-                        [selectedValue]="selectedValue"
-                        [currentValue]="currentValue"
-                        [minValue]="minValue"
-                        [maxValue]="maxValue"
-                        [labels]="monthLabels"></skm-months-content>
+    <skm-months-content
+      itemClass="skm-datepicker-month"
+      [pane]="pane"
+      [selectedValue]="selectedValue"
+      [currentValue]="currentValue"
+      [minValue]="minValue"
+      [maxValue]="maxValue"
+      [labels]="monthLabels"
+    ></skm-months-content>
   </div>
 </skm-slider>
