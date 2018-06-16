@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
 import { startOfYear } from '../util/date-utils';
-import { MonthsPane } from './months-pane';
+import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 
 @Component({
@@ -42,7 +42,7 @@ export class MonthsViewComponent implements OnChanges {
   minValue: number;
   maxValue: number;
 
-  panes: Array<MonthsPane>;
+  panes: Array<Pane>;
   prevDisabled = false;
   nextDisabled = false;
   private visiblePaneIndex: number;
@@ -83,7 +83,7 @@ export class MonthsViewComponent implements OnChanges {
     }
   }
 
-  selectItem(event: MouseEvent, pane: MonthsPane, notPanning: boolean): void {
+  selectItem(event: MouseEvent, pane: Pane, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const index = button.dataset.index;
@@ -113,7 +113,7 @@ export class MonthsViewComponent implements OnChanges {
 
 }
 
-function makePane(value: number, add: number, baseOrder = 0): MonthsPane {
+function makePane(value: number, add: number, baseOrder = 0): Pane {
   const date = new Date(value);
   date.setFullYear(add + date.getFullYear());
 

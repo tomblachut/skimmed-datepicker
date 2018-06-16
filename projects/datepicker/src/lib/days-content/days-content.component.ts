@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { WeekDay } from '@angular/common';
-import { DaysPane } from '../days-view/days-pane';
+import { Pane } from '../pane';
 import { SliderComponent } from '../slider/slider.component';
 import { DaysViewComponent } from '../days-view/days-view.component';
 
@@ -11,7 +11,7 @@ import { DaysViewComponent } from '../days-view/days-view.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DaysContentComponent {
-  @Input() pane: DaysPane;
+  @Input() pane: Pane;
 
   @Input() selectedValue: number;
   @Input() currentValue: number;
@@ -27,7 +27,7 @@ export class DaysContentComponent {
   constructor(readonly slider: SliderComponent, readonly daysView: DaysViewComponent) {
   }
 
-  makeItemClasses(index: number, pane: DaysPane): string {
+  makeItemClasses(index: number, pane: Pane): string {
     return [
       'skm-datepicker-day',
       'skm-datepicker-item',
@@ -36,7 +36,7 @@ export class DaysContentComponent {
     ].join(' ');
   }
 
-  isDisabled(index: number, pane: DaysPane): boolean {
+  isDisabled(index: number, pane: Pane): boolean {
     return (pane.values[index] < this.minValue) || (pane.values[index] > this.maxValue);
   }
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { range } from '../util/helpers';
-import { YearsPane } from './years-pane';
+import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { startOfYear } from '../util/date-utils';
 
@@ -30,7 +30,7 @@ export class YearsViewComponent implements OnChanges {
   maxValue: number;
 
   readonly years = range(0, 19);
-  panes: Array<YearsPane>;
+  panes: Array<Pane>;
   prevDisabled = false;
   nextDisabled = false;
   private visiblePaneIndex: number;
@@ -57,7 +57,7 @@ export class YearsViewComponent implements OnChanges {
     return index;
   }
 
-  selectItem(event: MouseEvent, pane: YearsPane, notPanning: boolean): void {
+  selectItem(event: MouseEvent, pane: Pane, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const index = button.dataset.index;
@@ -90,7 +90,7 @@ export class YearsViewComponent implements OnChanges {
 
 }
 
-function makePane(value: number, add: number, baseOrder = 0): YearsPane {
+function makePane(value: number, add: number, baseOrder = 0): Pane {
   const date = new Date(value);
   const origin = add * 20 + date.getFullYear();
 

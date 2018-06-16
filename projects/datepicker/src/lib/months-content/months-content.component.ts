@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { MonthsPane } from '../months-view/months-pane';
+import { Pane } from '../pane';
 import { SliderComponent } from '../slider/slider.component';
 import { MonthsViewComponent } from '../months-view/months-view.component';
 
@@ -10,7 +10,7 @@ import { MonthsViewComponent } from '../months-view/months-view.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthsContentComponent {
-  @Input() pane: MonthsPane;
+  @Input() pane: Pane;
 
   @Input() selectedValue: number;
   @Input() currentValue: number;
@@ -24,7 +24,7 @@ export class MonthsContentComponent {
   constructor(readonly slider: SliderComponent, readonly monthsView: MonthsViewComponent) {
   }
 
-  makeItemClasses(index: number, pane: MonthsPane): string {
+  makeItemClasses(index: number, pane: Pane): string {
     return [
       'skm-datepicker-month',
       'skm-datepicker-item',
@@ -33,7 +33,7 @@ export class MonthsContentComponent {
     ].join(' ');
   }
 
-  isDisabled(index: number, pane: MonthsPane): boolean {
+  isDisabled(index: number, pane: Pane): boolean {
     return (pane.values[index] < this.minValue) || (pane.values[index] > this.maxValue);
   }
 

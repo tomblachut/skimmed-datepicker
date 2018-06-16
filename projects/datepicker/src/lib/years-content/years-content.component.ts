@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { YearsPane } from '../years-view/years-pane';
+import { Pane } from '../pane';
 import { SliderComponent } from '../slider/slider.component';
 import { YearsViewComponent } from '../years-view/years-view.component';
 
@@ -10,7 +10,7 @@ import { YearsViewComponent } from '../years-view/years-view.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class YearsContentComponent {
-  @Input() pane: YearsPane;
+  @Input() pane: Pane;
   @Input() years: number[];
 
   @Input() selectedValue: number;
@@ -25,7 +25,7 @@ export class YearsContentComponent {
   constructor(readonly slider: SliderComponent, readonly yearsView: YearsViewComponent) {
   }
 
-  makeItemClasses(index: number, pane: YearsPane): string {
+  makeItemClasses(index: number, pane: Pane): string {
     return [
       'skm-datepicker-year',
       'skm-datepicker-item',
@@ -34,7 +34,7 @@ export class YearsContentComponent {
     ].join(' ');
   }
 
-  isDisabled(index: number, pane: YearsPane): boolean {
+  isDisabled(index: number, pane: Pane): boolean {
     return (pane.values[index] < this.minValue) || (pane.values[index] > this.maxValue);
   }
 

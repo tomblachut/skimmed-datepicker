@@ -13,7 +13,7 @@ import {
 import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angular/common';
 import { startOfMonth } from '../util/date-utils';
 import { range } from '../util/helpers';
-import { DaysPane } from './days-pane';
+import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 
 @Component({
@@ -48,7 +48,7 @@ export class DaysViewComponent implements OnChanges {
   maxValue: number;
   initialValue: number; // TODO reconsider
 
-  panes: Array<DaysPane>;
+  panes: Array<Pane>;
   prevDisabled = false;
   nextDisabled = false;
   private visiblePaneIndex: number;
@@ -92,7 +92,7 @@ export class DaysViewComponent implements OnChanges {
     }
   }
 
-  selectItem(event: MouseEvent, pane: DaysPane, notPanning: boolean): void {
+  selectItem(event: MouseEvent, pane: Pane, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const index = button.dataset.index;
@@ -126,7 +126,7 @@ export class DaysViewComponent implements OnChanges {
 
 }
 
-function makePane(value: number, firstWeekDay: WeekDay, add: number, baseOrder = 0): DaysPane {
+function makePane(value: number, firstWeekDay: WeekDay, add: number, baseOrder = 0): Pane {
   const date = new Date(value);
   date.setMonth(add + date.getMonth());
   const firstDay = date.getDay();
@@ -143,6 +143,6 @@ function makePane(value: number, firstWeekDay: WeekDay, add: number, baseOrder =
   return {
     order: baseOrder + add,
     values: values,
-    weekShift: (firstDay - firstWeekDay + 7) % 7 || 7, // Defaulting to full week makes for more a balanced cells layout
+    indent: (firstDay - firstWeekDay + 7) % 7 || 7, // Defaulting to full week makes for more a balanced cells layout
   };
 }
