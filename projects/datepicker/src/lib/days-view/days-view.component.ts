@@ -79,9 +79,7 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
       this.dayLabels = this.dayLabels || [];
     }
     if ('weekDayLabels' in changes) {
-      this.weekDayLabels = this.weekDayLabels
-        ? this.weekDayLabels.slice(0, 7)
-        : getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
+      this.weekDayLabels = this.weekDayLabels || getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
     }
   }
 

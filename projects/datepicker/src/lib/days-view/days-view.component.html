@@ -4,7 +4,7 @@
       {{pane.values[0] | date:headingFormat}}
     </button>
     <div class="skm-flex">
-      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:firstWeekDay">{{label}}</div>
+      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:firstWeekDay:7">{{label}}</div>
       <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:0:firstWeekDay">{{label}}</div>
     </div>
     <skm-days-content
