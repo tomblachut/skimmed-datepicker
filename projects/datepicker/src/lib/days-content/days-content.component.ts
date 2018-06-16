@@ -13,14 +13,10 @@ import { DaysViewComponent } from '../days-view/days-view.component';
 export class DaysContentComponent {
   @Input() pane: DaysPane;
 
-  @Input() selectedDay: number;
-  @Input() selectedMonthTime: number;
-  @Input() currentDay: number;
-  @Input() currentMonthTime: number;
-  @Input() minDay: number;
-  @Input() minMonthTime: number;
-  @Input() maxDay: number;
-  @Input() maxMonthTime: number;
+  @Input() selectedValue: number;
+  @Input() currentValue: number;
+  @Input() minValue: number;
+  @Input() maxValue: number;
 
   @Input() firstWeekDay: WeekDay;
   @Input() weekDayLabels: string[];
@@ -31,21 +27,17 @@ export class DaysContentComponent {
   constructor(readonly slider: SliderComponent, readonly daysView: DaysViewComponent) {
   }
 
-  makeItemClasses(index: number, monthDate: Date): string {
-    const day = index + 1;
+  makeItemClasses(index: number, pane: DaysPane): string {
     return [
-      'skm-datepicker-item',
       'skm-datepicker-day',
-      (day === this.currentDay && monthDate.getTime() === this.currentMonthTime) ? 'skm-datepicker-current' : '',
-      (day === this.selectedDay && monthDate.getTime() === this.selectedMonthTime) ? 'skm-datepicker-selected' : '',
+      'skm-datepicker-item',
+      (pane.values[index] === this.selectedValue) ? 'skm-datepicker-selected' : '',
+      (pane.values[index] === this.currentValue) ? 'skm-datepicker-current' : '',
     ].join(' ');
   }
 
-  isDisabled(index: number, monthDate: Date): boolean {
-    const day = index + 1;
-    const monthTime = monthDate.getTime();
-    return (monthTime < this.minMonthTime || monthTime === this.minMonthTime && day < this.minDay)
-      || (monthTime > this.maxMonthTime || monthTime === this.maxMonthTime && day > this.maxDay);
+  isDisabled(index: number, pane: DaysPane): boolean {
+    return (pane.values[index] < this.minValue) || (pane.values[index] > this.maxValue);
   }
 
 }

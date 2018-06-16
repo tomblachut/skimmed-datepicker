@@ -11,7 +11,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angular/common';
-import { addMonths, getDaysInMonth, setDate, startOfMonth } from '../util/date-utils';
+import { startOfMonth } from '../util/date-utils';
 import { range } from '../util/helpers';
 import { DaysPane } from './days-pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
@@ -42,14 +42,11 @@ export class DaysViewComponent implements OnChanges {
   @Output() readonly dateChange = new EventEmitter<Date>();
   @Output() readonly headerClick = new EventEmitter<Date>();
 
-  selectedDay: number;
-  selectedMonthTime: number;
-  currentDay: number;
-  currentMonthTime: number;
-  minDay: number;
-  minMonthTime: number;
-  maxDay: number;
-  maxMonthTime: number;
+  selectedValue: number;
+  currentValue: number;
+  minValue: number;
+  maxValue: number;
+  initialValue: number; // TODO reconsider
 
   panes: Array<DaysPane>;
   prevDisabled = false;
@@ -61,35 +58,16 @@ export class DaysViewComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('selectedDate' in changes) {
-      if (this.selectedDate) {
-        this.selectedDay = this.selectedDate.getDate();
-        this.selectedMonthTime = startOfMonth(this.selectedDate).getTime();
-      } else {
-        this.selectedDay = undefined;
-        this.selectedMonthTime = undefined;
-      }
+      this.selectedValue = this.selectedDate ? this.selectedDate.valueOf() : undefined;
     }
     if ('currentDate' in changes) {
-      this.currentDay = this.currentDate.getDate();
-      this.currentMonthTime = startOfMonth(this.currentDate).getTime();
+      this.currentValue = this.currentDate.valueOf();
     }
     if ('minDate' in changes) {
-      if (this.minDate) {
-        this.minDay = this.minDate.getDate();
-        this.minMonthTime = startOfMonth(this.minDate).getTime();
-      } else {
-        this.minDay = undefined;
-        this.minMonthTime = undefined;
-      }
+      this.minValue = this.minDate ? this.minDate.valueOf() : undefined;
     }
     if ('maxDate' in changes) {
-      if (this.maxDate) {
-        this.maxDay = this.maxDate.getDate();
-        this.maxMonthTime = startOfMonth(this.maxDate).getTime();
-      } else {
-        this.maxDay = undefined;
-        this.maxMonthTime = undefined;
-      }
+      this.maxValue = this.maxDate ? this.maxDate.valueOf() : undefined;
     }
     if ('initialDate' in changes) {
       this.initPanes(this.initialDate);
@@ -110,18 +88,18 @@ export class DaysViewComponent implements OnChanges {
 
   clickHeader(notPanning: boolean): void {
     if (notPanning) {
-      this.headerClick.emit(this.panes[this.visiblePaneIndex].monthDate);
+      this.headerClick.emit(new Date(this.panes[this.visiblePaneIndex].values[0]));
     }
   }
 
-  selectItem(event: MouseEvent, monthDate: Date, notPanning: boolean): void {
+  selectItem(event: MouseEvent, pane: DaysPane, notPanning: boolean): void {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
-      const day = +button.dataset.index + 1;
-      if (this.deselectEnabled && monthDate.getTime() === this.selectedMonthTime && day === this.selectedDay) {
+      const index = button.dataset.index;
+      if (this.deselectEnabled && pane.values[index] === this.selectedValue) {
         this.dateChange.emit(undefined);
       } else {
-        this.dateChange.emit(setDate(monthDate, day));
+        this.dateChange.emit(new Date(pane.values[index]));
       }
     }
   }
@@ -130,30 +108,41 @@ export class DaysViewComponent implements OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    this.panes[index] = makePane(pane.monthDate, this.firstWeekDay, 3 * direction, pane.order);
+    this.panes[index] = makePane(pane.values[0], this.firstWeekDay, 3 * direction, pane.order);
     this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
   private initPanes(date: Date): void {
-    const monthDate = startOfMonth(date);
-    this.panes = [-1, 0, 1].map(i => makePane(monthDate, this.firstWeekDay, i));
+    const monthValue = startOfMonth(date).valueOf();
+    this.panes = [-1, 0, 1].map(i => makePane(monthValue, this.firstWeekDay, i));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
   }
 
   private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
-    this.prevDisabled = this.panes[prevIndex].monthDate.getTime() < this.minMonthTime;
-    this.nextDisabled = this.panes[nextIndex].monthDate.getTime() > this.maxMonthTime;
+    this.prevDisabled = this.panes[prevIndex].values[this.panes[prevIndex].values.length - 1] < this.minValue;
+    this.nextDisabled = this.panes[nextIndex].values[0] > this.maxValue;
   }
 
 }
 
-function makePane(date: Date, firstWeekDay: WeekDay, add: number, baseOrder = 0): DaysPane {
-  const monthDate = addMonths(date, add);
+function makePane(value: number, firstWeekDay: WeekDay, add: number, baseOrder = 0): DaysPane {
+  const date = new Date(value);
+  date.setMonth(add + date.getMonth());
+  const firstDay = date.getDay();
+
+  date.setMonth(1 + date.getMonth());
+  date.setDate(0);
+  const monthLength = date.getDate();
+
+  const values = [];
+  for (let i = 1; i <= monthLength; i++) {
+    values.push(date.setDate(i));
+  }
+
   return {
     order: baseOrder + add,
-    monthDate,
-    weekShift: (monthDate.getDay() - firstWeekDay + 7) % 7 || 7, // Defaulting to full week makes for more a balanced day cells layout
-    length: getDaysInMonth(monthDate),
+    values: values,
+    weekShift: (firstDay - firstWeekDay + 7) % 7 || 7, // Defaulting to full week makes for more a balanced cells layout
   };
 }

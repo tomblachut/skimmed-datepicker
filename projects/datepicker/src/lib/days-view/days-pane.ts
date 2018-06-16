@@ -1,6 +1,5 @@
 export interface DaysPane {
   readonly order: number;
-  readonly monthDate: Date;
+  readonly values: ReadonlyArray<number>;
   readonly weekShift: number;
-  readonly length: number;
 }
