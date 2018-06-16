@@ -7,7 +7,7 @@ import { DaysViewComponent } from '../days-view/days-view.component';
 @Component({
   selector: 'skm-days-content',
   templateUrl: './days-content.component.html',
-  styleUrls: ['./days-content.component.scss', '../datepicker.shared.scss'],
+  styleUrls: ['../datepicker.shared.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DaysContentComponent {

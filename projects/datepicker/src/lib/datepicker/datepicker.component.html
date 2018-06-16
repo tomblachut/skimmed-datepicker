@@ -1,5 +1,5 @@
 <div class="skm-datepicker" [ngSwitch]="view">
-  <skm-days-view class="skm-datepicker-view" *ngSwitchCase="DatepickerView.Days"
+  <skm-days-view class="skm-datepicker-view skm-datepicker-days-view" *ngSwitchCase="DatepickerView.Days"
                  [selectedDate]="selectedDate"
                  [currentDate]="currentDate"
                  [initialDate]="initialDate"
@@ -13,7 +13,7 @@
                  [dayLabels]="dayLabels"
                  (headerClick)="switchView($event, DatepickerView.Months, 'out')"
                  (dateChange)="selectDay($event)"></skm-days-view>
-  <skm-months-view class="skm-datepicker-view" *ngSwitchCase="DatepickerView.Months"
+  <skm-months-view class="skm-datepicker-view skm-datepicker-months-view" *ngSwitchCase="DatepickerView.Months"
                    [selectedDate]="selectedDate"
                    [currentDate]="currentDate"
                    [initialDate]="initialDate"
@@ -24,7 +24,7 @@
                    [monthLabels]="monthLabels"
                    (headerClick)="switchView($event, DatepickerView.Years, 'out')"
                    (dateChange)="switchView($event, DatepickerView.Days, 'in')"></skm-months-view>
-  <skm-years-view class="skm-datepicker-view" *ngSwitchCase="DatepickerView.Years"
+  <skm-years-view class="skm-datepicker-view skm-datepicker-years-view" *ngSwitchCase="DatepickerView.Years"
                   [selectedDate]="selectedDate"
                   [currentDate]="currentDate"
                   [initialDate]="initialDate"

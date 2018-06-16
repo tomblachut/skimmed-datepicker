@@ -6,7 +6,7 @@ import { MonthsViewComponent } from '../months-view/months-view.component';
 @Component({
   selector: 'skm-months-content',
   templateUrl: './months-content.component.html',
-  styleUrls: ['./months-content.component.scss', '../datepicker.shared.scss'],
+  styleUrls: ['../datepicker.shared.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthsContentComponent {

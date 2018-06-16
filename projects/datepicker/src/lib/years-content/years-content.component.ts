@@ -6,7 +6,7 @@ import { YearsViewComponent } from '../years-view/years-view.component';
 @Component({
   selector: 'skm-years-content',
   templateUrl: './years-content.component.html',
-  styleUrls: ['./years-content.component.scss', '../datepicker.shared.scss'],
+  styleUrls: ['../datepicker.shared.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class YearsContentComponent {

@@ -41,6 +41,29 @@ button[disabled] {
   display: flex;
 }
 
+.skm-datepicker-weekday {
+  width: (100% / 7);
+}
+
+.skm-datepicker-shifter {
+  height: (100% / 6);
+}
+
+:host-context(.skm-datepicker-days-view) .skm-datepicker-cell {
+  width: (100% / 7);
+  height: (100% / 6);
+}
+
+:host-context(.skm-datepicker-months-view) .skm-datepicker-cell {
+  width: (100% / 3);
+  height: (100% / 4);
+}
+
+:host-context(.skm-datepicker-years-view) .skm-datepicker-cell {
+  width: (100% / 5);
+  height: (100% / 4);
+}
+
 .skm-datepicker-item {
   flex: 1;
   pointer-events: auto;
