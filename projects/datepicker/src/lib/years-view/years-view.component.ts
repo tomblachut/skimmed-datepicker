@@ -3,6 +3,7 @@ import { range } from '../util/helpers';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { startOfYear } from '../util/date-utils';
+import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 
 @Component({
   selector: 'skm-years-view',
@@ -10,8 +11,11 @@ import { startOfYear } from '../util/date-utils';
   styleUrls: ['../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {provide: DATEPICKER_VIEW, useExisting: YearsViewComponent},
+  ],
 })
-export class YearsViewComponent implements OnChanges {
+export class YearsViewComponent implements DatepickerView, OnChanges {
   @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
 
   @Input() selectedDate: Date;

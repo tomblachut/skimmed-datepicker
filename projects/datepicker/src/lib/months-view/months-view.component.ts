@@ -14,6 +14,7 @@ import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/commo
 import { startOfYear } from '../util/date-utils';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
+import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 
 @Component({
   selector: 'skm-months-view',
@@ -21,8 +22,11 @@ import { zoom, ZoomDirection } from '../util/zoom.animation';
   styleUrls: ['../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {provide: DATEPICKER_VIEW, useExisting: MonthsViewComponent},
+  ],
 })
-export class MonthsViewComponent implements OnChanges {
+export class MonthsViewComponent implements DatepickerView, OnChanges {
   @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
 
   @Input() selectedDate: Date;

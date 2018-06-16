@@ -1,5 +1,5 @@
 <div class="skm-datepicker" [ngSwitch]="view">
-  <skm-days-view class="skm-datepicker-view skm-datepicker-days-view" *ngSwitchCase="DatepickerView.Days"
+  <skm-days-view class="skm-datepicker-view skm-datepicker-days-view" *ngSwitchCase="ViewMode.Days"
                  [selectedDate]="selectedDate"
                  [currentDate]="currentDate"
                  [initialDate]="initialDate"
@@ -11,9 +11,9 @@
                  [firstWeekDay]="firstWeekDay"
                  [weekDayLabels]="weekDayLabels"
                  [dayLabels]="dayLabels"
-                 (headerClick)="switchView($event, DatepickerView.Months, 'out')"
+                 (headerClick)="switchView($event, ViewMode.Months, 'out')"
                  (dateChange)="selectDay($event)"></skm-days-view>
-  <skm-months-view class="skm-datepicker-view skm-datepicker-months-view" *ngSwitchCase="DatepickerView.Months"
+  <skm-months-view class="skm-datepicker-view skm-datepicker-months-view" *ngSwitchCase="ViewMode.Months"
                    [selectedDate]="selectedDate"
                    [currentDate]="currentDate"
                    [initialDate]="initialDate"
@@ -22,9 +22,9 @@
                    [zoomDirection]="zoomDirection"
                    [yearFormat]="yearFormat"
                    [monthLabels]="monthLabels"
-                   (headerClick)="switchView($event, DatepickerView.Years, 'out')"
-                   (dateChange)="switchView($event, DatepickerView.Days, 'in')"></skm-months-view>
-  <skm-years-view class="skm-datepicker-view skm-datepicker-years-view" *ngSwitchCase="DatepickerView.Years"
+                   (headerClick)="switchView($event, ViewMode.Years, 'out')"
+                   (dateChange)="switchView($event, ViewMode.Days, 'in')"></skm-months-view>
+  <skm-years-view class="skm-datepicker-view skm-datepicker-years-view" *ngSwitchCase="ViewMode.Years"
                   [selectedDate]="selectedDate"
                   [currentDate]="currentDate"
                   [initialDate]="initialDate"
@@ -32,5 +32,5 @@
                   [maxDate]="max"
                   [zoomDirection]="zoomDirection"
                   [yearFormat]="yearFormat"
-                  (dateChange)="switchView($event, DatepickerView.Months, 'in')"></skm-years-view>
+                  (dateChange)="switchView($event, ViewMode.Months, 'in')"></skm-years-view>
 </div>

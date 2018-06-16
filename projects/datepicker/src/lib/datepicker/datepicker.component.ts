@@ -13,7 +13,7 @@ import { WeekDay } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isValidDate, startOfDay } from '../util/date-utils';
 import { noop } from '../util/helpers';
-import { DatepickerView } from './datepicker-view';
+import { ViewMode } from './view-mode';
 import { ZoomDirection } from '../util/zoom.animation';
 
 @Component({
@@ -33,7 +33,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
       this.selectedDate = isValidDate(date) ? date : undefined;
       if (this.selectedDate) {
         this.initialDate = this.selectedDate;
-        this.view = DatepickerView.Days;
+        this.view = ViewMode.Days;
       }
     }
   }
@@ -58,8 +58,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   initialDate: Date;
 
   zoomDirection: ZoomDirection;
-  view = DatepickerView.Days;
-  readonly DatepickerView = DatepickerView;
+  view = ViewMode.Days;
+  readonly ViewMode = ViewMode;
 
   private onChange: (date: Date) => void = noop;
   private onTouched: () => void = noop;
@@ -89,7 +89,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
     this.dateChange.emit(date);
   }
 
-  switchView(date: Date, view: DatepickerView, direction: ZoomDirection) {
+  switchView(date: Date, view: ViewMode, direction: ZoomDirection) {
     this.zoomDirection = direction;
     setTimeout(() => {
       this.initialDate = date;

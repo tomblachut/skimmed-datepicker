@@ -1,4 +1,4 @@
-export enum DatepickerView {
+export enum ViewMode {
   Days,
   Months,
   Years,

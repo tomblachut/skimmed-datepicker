@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input } from '@angular/core';
 import { Pane } from '../pane';
 import { SliderComponent } from '../slider/slider.component';
-import { DaysViewComponent } from '../days-view/days-view.component';
+import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 
 @Component({
   selector: 'skm-days-content',
@@ -21,7 +21,7 @@ export class DaysContentComponent {
 
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 
-  constructor(readonly slider: SliderComponent, readonly daysView: DaysViewComponent) {
+  constructor(readonly slider: SliderComponent, @Inject(DATEPICKER_VIEW) readonly parentView: DatepickerView) {
   }
 
   makeItemClasses(index: number, pane: Pane): string {

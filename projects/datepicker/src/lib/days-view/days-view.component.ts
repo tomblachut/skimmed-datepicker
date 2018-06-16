@@ -15,6 +15,7 @@ import { startOfMonth } from '../util/date-utils';
 import { range } from '../util/helpers';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
+import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 
 @Component({
   selector: 'skm-days-view',
@@ -22,8 +23,11 @@ import { zoom, ZoomDirection } from '../util/zoom.animation';
   styleUrls: ['../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {provide: DATEPICKER_VIEW, useExisting: DaysViewComponent},
+  ],
 })
-export class DaysViewComponent implements OnChanges {
+export class DaysViewComponent implements DatepickerView, OnChanges {
   @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
 
   @Input() selectedDate: Date;
