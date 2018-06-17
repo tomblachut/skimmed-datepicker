@@ -33,10 +33,10 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
     this.initPanes(timestamp);
   }
 
-  @Input() currentDate: number;
-  @Input() selectedDate: number;
-  @Input() minDate: number;
-  @Input() maxDate: number;
+  @Input() currentTimestamp: number;
+  @Input() selectedTimestamp: number;
+  @Input() minTimestamp: number;
+  @Input() maxTimestamp: number;
 
   @Input() deselectEnabled: boolean;
 
@@ -49,11 +49,6 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   @Output() readonly itemChange = new EventEmitter<number>();
   @Output() readonly headerClick = new EventEmitter<number>();
 
-  selectedTimestamp: number;
-  currentTimestamp: number;
-  minTimestamp: number;
-  maxTimestamp: number;
-
   panes: Array<Pane>;
   prevDisabled = false;
   nextDisabled = false;
@@ -63,18 +58,6 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ('currentDate' in changes) {
-      this.currentTimestamp = this.currentDate.valueOf();
-    }
-    if ('selectedDate' in changes) {
-      this.selectedTimestamp = this.selectedDate ? this.selectedDate.valueOf() : undefined;
-    }
-    if ('minDate' in changes) {
-      this.minTimestamp = this.minDate ? this.minDate.valueOf() : undefined;
-    }
-    if ('maxDate' in changes) {
-      this.maxTimestamp = this.maxDate ? this.maxDate.valueOf() : undefined;
-    }
     if ('weekDayLabels' in changes) {
       this.weekDayLabels = this.weekDayLabels || getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
     }
