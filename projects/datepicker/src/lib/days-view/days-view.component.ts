@@ -49,10 +49,10 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   @Output() readonly itemChange = new EventEmitter<number>();
   @Output() readonly headerClick = new EventEmitter<number>();
 
-  selectedValue: number;
-  currentValue: number;
-  minValue: number;
-  maxValue: number;
+  selectedTimestamp: number;
+  currentTimestamp: number;
+  minTimestamp: number;
+  maxTimestamp: number;
 
   panes: Array<Pane>;
   prevDisabled = false;
@@ -64,16 +64,16 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('currentDate' in changes) {
-      this.currentValue = this.currentDate.valueOf();
+      this.currentTimestamp = this.currentDate.valueOf();
     }
     if ('selectedDate' in changes) {
-      this.selectedValue = this.selectedDate ? this.selectedDate.valueOf() : undefined;
+      this.selectedTimestamp = this.selectedDate ? this.selectedDate.valueOf() : undefined;
     }
     if ('minDate' in changes) {
-      this.minValue = this.minDate ? this.minDate.valueOf() : undefined;
+      this.minTimestamp = this.minDate ? this.minDate.valueOf() : undefined;
     }
     if ('maxDate' in changes) {
-      this.maxValue = this.maxDate ? this.maxDate.valueOf() : undefined;
+      this.maxTimestamp = this.maxDate ? this.maxDate.valueOf() : undefined;
     }
     if ('weekDayLabels' in changes) {
       this.weekDayLabels = this.weekDayLabels || getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
@@ -94,7 +94,7 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const index = button.dataset.index;
-      if (this.deselectEnabled && pane.values[index] === this.selectedValue) {
+      if (this.deselectEnabled && pane.values[index] === this.selectedTimestamp) {
         this.itemChange.emit(undefined);
       } else {
         this.itemChange.emit(pane.values[index]);
@@ -118,12 +118,12 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   }
 
   private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
-    this.prevDisabled = this.panes[prevIndex].values[this.panes[prevIndex].values.length - 1] < this.minValue;
-    this.nextDisabled = this.panes[nextIndex].values[0] > this.maxValue;
+    this.prevDisabled = this.panes[prevIndex].values[this.panes[prevIndex].values.length - 1] < this.minTimestamp;
+    this.nextDisabled = this.panes[nextIndex].values[0] > this.maxTimestamp;
   }
 
-  private makePane(value: number, add: number, baseOrder = 0): Pane {
-    const date = new Date(value);
+  private makePane(timestamp: number, add: number, baseOrder = 0): Pane {
+    const date = new Date(timestamp);
     date.setMonth(add + date.getMonth());
     const firstDay = date.getDay();
 

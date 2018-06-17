@@ -12,10 +12,10 @@ import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 export class GridComponent implements OnChanges {
   @Input() pane: Pane;
 
-  @Input() currentValue: number;
-  @Input() selectedValue: number;
-  @Input() minValue: number;
-  @Input() maxValue: number;
+  @Input() currentTimestamp: number;
+  @Input() selectedTimestamp: number;
+  @Input() minTimestamp: number;
+  @Input() maxTimestamp: number;
 
   @Input() itemFormat: string;
   @Input() itemLabels: string[] = [];
@@ -37,13 +37,13 @@ export class GridComponent implements OnChanges {
     return [
       this.itemClass,
       'skm-datepicker-item',
-      (pane.values[index] === this.selectedValue) ? 'skm-datepicker-selected' : '',
-      (pane.values[index] === this.currentValue) ? 'skm-datepicker-current' : '',
+      (pane.values[index] === this.currentTimestamp) ? 'skm-datepicker-current' : '',
+      (pane.values[index] === this.selectedTimestamp) ? 'skm-datepicker-selected' : '',
     ].join(' ');
   }
 
   isDisabled(index: number, pane: Pane): boolean {
-    return (pane.values[index] < this.minValue) || (pane.values[index] > this.maxValue);
+    return (pane.values[index] < this.minTimestamp) || (pane.values[index] > this.maxTimestamp);
   }
 
   trackIndex(index: number): number {

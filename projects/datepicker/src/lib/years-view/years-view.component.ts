@@ -30,10 +30,10 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
 
   @Output() readonly itemChange = new EventEmitter<number>();
 
-  currentValue: number;
-  selectedValue: number;
-  minValue: number;
-  maxValue: number;
+  currentTimestamp: number;
+  selectedTimestamp: number;
+  minTimestamp: number;
+  maxTimestamp: number;
 
   panes: Array<Pane>;
   prevDisabled = false;
@@ -42,16 +42,16 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('currentDate' in changes) {
-      this.currentValue = new Date(this.currentDate).setMonth(0, 1);
+      this.currentTimestamp = new Date(this.currentDate).setMonth(0, 1);
     }
     if ('selectedDate' in changes) {
-      this.selectedValue = this.selectedDate ? new Date(this.selectedDate).setMonth(0, 1) : undefined;
+      this.selectedTimestamp = this.selectedDate ? new Date(this.selectedDate).setMonth(0, 1) : undefined;
     }
     if ('minDate' in changes) {
-      this.minValue = this.minDate ? new Date(this.minDate).setMonth(0, 1) : undefined;
+      this.minTimestamp = this.minDate ? new Date(this.minDate).setMonth(0, 1) : undefined;
     }
     if ('maxDate' in changes) {
-      this.maxValue = this.maxDate ? new Date(this.maxDate).setMonth(0, 1) : undefined;
+      this.maxTimestamp = this.maxDate ? new Date(this.maxDate).setMonth(0, 1) : undefined;
     }
   }
 
@@ -87,12 +87,12 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
   }
 
   private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
-    this.prevDisabled = this.panes[prevIndex].values[19] < this.minValue;
-    this.nextDisabled = this.panes[nextIndex].values[0] > this.maxValue;
+    this.prevDisabled = this.panes[prevIndex].values[19] < this.minTimestamp;
+    this.nextDisabled = this.panes[nextIndex].values[0] > this.maxTimestamp;
   }
 
-  private makePane(value: number, add: number, baseOrder = 0): Pane {
-    const date = new Date(value);
+  private makePane(timestamp: number, add: number, baseOrder = 0): Pane {
+    const date = new Date(timestamp);
     const origin = add * 20 + date.getFullYear();
 
     const values = [];
