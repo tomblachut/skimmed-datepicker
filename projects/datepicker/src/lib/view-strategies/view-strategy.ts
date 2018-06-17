@@ -3,6 +3,7 @@ import { Pane } from '../pane';
 
 export abstract class ViewStrategy {
   abstract readonly viewMode: ViewMode;
+  abstract readonly itemClass: string;
 
   abstract normalizeTimestamp(timestamp: number): number;
 

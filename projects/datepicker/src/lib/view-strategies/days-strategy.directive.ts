@@ -13,6 +13,7 @@ import { startOfMonth } from '../util/helpers';
 })
 export class DaysStrategyDirective extends ViewStrategy {
   readonly viewMode = ViewMode.Days;
+  readonly itemClass = 'skm-datepicker-day';
 
   @Input() firstWeekDay: WeekDay;
 

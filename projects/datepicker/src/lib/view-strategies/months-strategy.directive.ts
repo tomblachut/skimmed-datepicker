@@ -12,6 +12,7 @@ import { ViewMode } from '../datepicker/view-mode';
 })
 export class MonthsStrategyDirective extends ViewStrategy {
   readonly viewMode = ViewMode.Months;
+  readonly itemClass = 'skm-datepicker-month';
 
   normalizeTimestamp(timestamp: number): number {
     return new Date(timestamp).setDate(1);
