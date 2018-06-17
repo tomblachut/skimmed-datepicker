@@ -24,6 +24,7 @@
   ></skm-days-view>
   <skm-months-view
     *ngSwitchCase="ViewMode.Months"
+    skmMonthsStrategy
     class="skm-datepicker-view skm-datepicker-months-view"
     [zoomDirection]="zoomDirection"
     [initialTimestamp]="initialTimestamp"
