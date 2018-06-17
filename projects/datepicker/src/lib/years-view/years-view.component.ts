@@ -21,38 +21,27 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
     this.initPanes(timestamp);
   }
 
-  @Input() selectedDate: number;
-  @Input() currentDate: number;
-  @Input() minDate: number;
-  @Input() maxDate: number;
+  @Input() currentTimestamp: number;
+  @Input() selectedTimestamp: number;
+  @Input() minTimestamp: number;
+  @Input() maxTimestamp: number;
 
   @Input() yearFormat: string;
 
   @Output() readonly itemChange = new EventEmitter<number>();
 
-  currentTimestamp: number;
-  selectedTimestamp: number;
-  minTimestamp: number;
-  maxTimestamp: number;
-
   panes: Array<Pane>;
   prevDisabled = false;
   nextDisabled = false;
   private visiblePaneIndex: number;
+  private timestampFields = ['currentTimestamp', 'selectedTimestamp', 'minTimestamp', 'maxTimestamp'];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ('currentDate' in changes) {
-      this.currentTimestamp = new Date(this.currentDate).setMonth(0, 1);
-    }
-    if ('selectedDate' in changes) {
-      this.selectedTimestamp = this.selectedDate ? new Date(this.selectedDate).setMonth(0, 1) : undefined;
-    }
-    if ('minDate' in changes) {
-      this.minTimestamp = this.minDate ? new Date(this.minDate).setMonth(0, 1) : undefined;
-    }
-    if ('maxDate' in changes) {
-      this.maxTimestamp = this.maxDate ? new Date(this.maxDate).setMonth(0, 1) : undefined;
-    }
+    this.timestampFields.forEach(field => {
+      if (field in changes) {
+        this[field] = this[field] ? new Date(this[field]).setMonth(0, 1) : undefined;
+      }
+    });
   }
 
   trackContent(index: number) {
