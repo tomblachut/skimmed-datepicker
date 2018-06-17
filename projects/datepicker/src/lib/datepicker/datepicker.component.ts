@@ -28,10 +28,10 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   @Input()
   set date(dirtyDate: Date) {
     const date = startOfDay(dirtyDate);
-    if (!this.selectedDate || date.getTime() !== this.selectedDate.getTime()) {
-      this.selectedDate = isValidDate(date) ? date : undefined;
-      if (this.selectedDate) {
-        this.initialTimestamp = this.selectedDate.valueOf();
+    if (date.getTime() !== this.selectedTimestamp) {
+      this.selectedTimestamp = isValidDate(date) ? date.getTime() : undefined;
+      if (typeof this.selectedTimestamp !== 'undefined') {
+        this.initialTimestamp = this.selectedTimestamp;
         this.view = ViewMode.Days;
       }
     }
@@ -55,8 +55,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   @Input() monthLabels: string[];
 
   initialTimestamp: number;
-  currentDate: Date;
-  selectedDate: Date;
+  currentTimestamp: number;
+  selectedTimestamp: number;
 
   zoomDirection: ZoomDirection;
   view = ViewMode.Days;
@@ -80,13 +80,13 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   }
 
   ngOnInit(): void {
-    this.currentDate = startOfDay(new Date());
-    this.initialTimestamp = (this.selectedDate || this.currentDate).valueOf();
+    this.currentTimestamp = startOfDay(new Date()).getTime();
+    this.initialTimestamp = this.selectedTimestamp || this.currentTimestamp;
   }
 
   selectDay(timestamp: number | undefined): void {
+    this.selectedTimestamp = timestamp;
     const date = (typeof timestamp !== 'undefined') ? new Date(timestamp) : undefined;
-    this.selectedDate = date;
     this.onChange(date);
     this.dateChange.emit(date);
   }

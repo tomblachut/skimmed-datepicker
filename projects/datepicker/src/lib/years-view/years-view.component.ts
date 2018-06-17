@@ -21,8 +21,8 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
     this.initPanes(timestamp);
   }
 
-  @Input() selectedDate: Date;
-  @Input() currentDate: Date;
+  @Input() selectedDate: number;
+  @Input() currentDate: number;
   @Input() minDate: Date;
   @Input() maxDate: Date;
 

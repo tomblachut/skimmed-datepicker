@@ -33,8 +33,8 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
     this.initPanes(timestamp);
   }
 
-  @Input() currentDate: Date;
-  @Input() selectedDate: Date;
+  @Input() currentDate: number;
+  @Input() selectedDate: number;
   @Input() minDate: Date;
   @Input() maxDate: Date;
 
