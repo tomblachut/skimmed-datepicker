@@ -63,7 +63,7 @@
     import 'hammerjs';
     ```
 
-5. Use `mat-datepicker` in a template
+5. Use `skm-datepicker` in a template
     ```html
     <skm-datepicker [formControl]="dateControl"></skm-datepicker>
     <skm-datepicker [(ngModel)]="date"></skm-datepicker>
