@@ -1,5 +1,5 @@
 <div class="skm-datepicker" [ngSwitch]="view">
-  <skm-days-view
+  <skm-view
     *ngSwitchCase="ViewMode.Days"
     skmDaysStrategy
     class="skm-datepicker-view skm-datepicker-days-view"
@@ -21,8 +21,8 @@
 
     (headerClick)="switchView($event, ViewMode.Months, 'out')"
     (itemChange)="selectDay($event)"
-  ></skm-days-view>
-  <skm-months-view
+  ></skm-view>
+  <skm-view
     *ngSwitchCase="ViewMode.Months"
     skmMonthsStrategy
     class="skm-datepicker-view skm-datepicker-months-view"
@@ -40,8 +40,8 @@
 
     (headerClick)="switchView($event, ViewMode.Years, 'out')"
     (itemChange)="switchView($event, ViewMode.Days, 'in')"
-  ></skm-months-view>
-  <skm-years-view
+  ></skm-view>
+  <skm-view
     *ngSwitchCase="ViewMode.Years"
     skmYearsStrategy
     class="skm-datepicker-view skm-datepicker-years-view"
@@ -57,5 +57,5 @@
     [itemFormat]="yearFormat"
 
     (itemChange)="switchView($event, ViewMode.Months, 'in')"
-  ></skm-years-view>
+  ></skm-view>
 </div>

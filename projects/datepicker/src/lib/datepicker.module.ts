@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { SliderComponent } from './slider/slider.component';
-import { DaysViewComponent } from './days-view/days-view.component';
-import { MonthsViewComponent } from './months-view/months-view.component';
-import { YearsViewComponent } from './years-view/years-view.component';
+import { ViewComponent } from './view/view.component';
 import { GridComponent } from './grid/grid.component';
 import { DaysStrategyDirective } from './view-strategies/days-strategy.directive';
 import { MonthsStrategyDirective } from './view-strategies/months-strategy.directive';
@@ -16,10 +14,8 @@ import { YearsStrategyDirective } from './view-strategies/years-strategy.directi
   ],
   declarations: [
     DatepickerComponent,
+    ViewComponent,
     SliderComponent,
-    DaysViewComponent,
-    MonthsViewComponent,
-    YearsViewComponent,
     GridComponent,
     DaysStrategyDirective,
     MonthsStrategyDirective,

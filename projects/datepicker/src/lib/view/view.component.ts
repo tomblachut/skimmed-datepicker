@@ -7,16 +7,16 @@ import { ViewMode } from '../datepicker/view-mode';
 import { ViewStrategy } from '../view-strategies/view-strategy';
 
 @Component({
-  selector: 'skm-days-view',
-  templateUrl: './days-view.component.html',
+  selector: 'skm-view',
+  templateUrl: './view.component.html',
   styleUrls: ['../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {provide: DATEPICKER_VIEW, useExisting: DaysViewComponent},
+    {provide: DATEPICKER_VIEW, useExisting: ViewComponent},
   ],
 })
-export class DaysViewComponent implements DatepickerView, OnChanges {
+export class ViewComponent implements DatepickerView, OnChanges {
   @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
 
   @Input() set initialTimestamp(timestamp: number) {
