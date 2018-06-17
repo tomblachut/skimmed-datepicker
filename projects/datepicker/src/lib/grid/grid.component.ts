@@ -1,7 +1,8 @@
-import { Attribute, ChangeDetectionStrategy, Component, HostBinding, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Pane } from '../pane';
 import { SliderComponent } from '../slider/slider.component';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
+import { ViewStrategy } from '../view-strategies/view-strategy';
 
 @Component({
   selector: 'skm-grid',
@@ -24,7 +25,7 @@ export class GridComponent implements OnChanges {
 
   constructor(readonly slider: SliderComponent,
               @Inject(DATEPICKER_VIEW) readonly parentView: DatepickerView,
-              @Attribute('itemClass') private itemClass: string) {
+              private strategy: ViewStrategy) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -35,7 +36,7 @@ export class GridComponent implements OnChanges {
 
   makeItemClasses(index: number, pane: Pane): string {
     return [
-      this.itemClass,
+      this.strategy.itemClass,
       'skm-datepicker-item',
       (pane.values[index] === this.currentTimestamp) ? 'skm-datepicker-current' : '',
       (pane.values[index] === this.selectedTimestamp) ? 'skm-datepicker-selected' : '',
