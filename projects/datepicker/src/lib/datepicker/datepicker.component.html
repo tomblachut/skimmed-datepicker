@@ -15,8 +15,8 @@
     [headingFormat]="headingFormat"
     [firstWeekDay]="firstWeekDay"
     [weekDayLabels]="weekDayLabels"
-    [dayFormat]="dayFormat"
-    [dayLabels]="dayLabels"
+    [itemFormat]="dayFormat"
+    [itemLabels]="dayLabels"
 
     (headerClick)="switchView($event, ViewMode.Months, 'out')"
     (itemChange)="selectDay($event)"
@@ -32,9 +32,9 @@
     [minTimestamp]="minTimestamp"
     [maxTimestamp]="maxTimestamp"
 
-    [yearFormat]="yearFormat"
-    [monthFormat]="monthFormat"
-    [monthLabels]="monthLabels"
+    [headingFormat]="yearFormat"
+    [itemFormat]="monthFormat"
+    [itemLabels]="monthLabels"
 
     (headerClick)="switchView($event, ViewMode.Years, 'out')"
     (itemChange)="switchView($event, ViewMode.Days, 'in')"

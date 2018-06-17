@@ -1,5 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { WeekDay } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  LOCALE_ID,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isValidDate, noop, startOfDay } from '../util/helpers';
 import { ViewMode } from './view-mode';
@@ -14,7 +26,7 @@ import { ZoomDirection } from '../util/zoom.animation';
     {provide: NG_VALUE_ACCESSOR, useExisting: DatepickerComponent, multi: true},
   ],
 })
-export class DatepickerComponent implements ControlValueAccessor, OnInit {
+export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnInit {
   @Input() set date(dirtyDate: Date | number) {
     const date = startOfDay(dirtyDate);
     if (date.getTime() !== this.selectedTimestamp) {
@@ -63,12 +75,19 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   private onChange: (date: Date) => void = noop;
   private onTouched: () => void = noop;
 
-  constructor(private cd: ChangeDetectorRef) {
+  constructor(private cd: ChangeDetectorRef, @Inject(LOCALE_ID) private locale: string) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('weekDayLabels' in changes) {
+      this.weekDayLabels = this.weekDayLabels || getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
+    }
   }
 
   ngOnInit(): void {
     this.currentTimestamp = startOfDay(new Date()).getTime();
     this.initialTimestamp = this.selectedTimestamp || this.currentTimestamp;
+    this.weekDayLabels = this.weekDayLabels || getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
   }
 
   selectDay(timestamp: number | undefined): void {

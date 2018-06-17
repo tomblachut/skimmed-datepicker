@@ -1,15 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  HostBinding,
-  Inject,
-  Input,
-  LOCALE_ID,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
@@ -37,9 +26,11 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
   @Input() minTimestamp: number;
   @Input() maxTimestamp: number;
 
-  @Input() yearFormat: string;
-  @Input() monthFormat: string;
-  @Input() monthLabels: string[];
+  @Input() deselectEnabled: boolean;
+
+  @Input() headingFormat: string;
+  @Input() itemFormat: string;
+  @Input() itemLabels: string[];
 
   @Output() readonly itemChange = new EventEmitter<number>();
   @Output() readonly headerClick = new EventEmitter<number>();
@@ -50,13 +41,10 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
   private visiblePaneIndex: number;
   private timestampFields = ['currentTimestamp', 'selectedTimestamp', 'minTimestamp', 'maxTimestamp'];
 
-  constructor(@Inject(LOCALE_ID) private locale: string) {
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     this.timestampFields.forEach(field => {
       if (field in changes) {
-        this[field] = this[field] ? new Date(this[field]).setDate(1) : undefined;
+        this[field] = this[field] ? this.normalizeTimestamp(this[field]) : undefined;
       }
     });
   }
@@ -75,7 +63,11 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const index = button.dataset.index;
-      this.itemChange.emit(pane.values[index]);
+      if (this.deselectEnabled && pane.values[index] === this.selectedTimestamp) {
+        this.itemChange.emit(undefined);
+      } else {
+        this.itemChange.emit(pane.values[index]);
+      }
     }
   }
 
@@ -88,15 +80,23 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
   }
 
   private initPanes(timestamp: number): void {
-    const yearValue = startOfYear(timestamp).valueOf();
-    this.panes = [-1, 0, 1].map(i => this.makePane(yearValue, i));
+    const seed = this.makeInitPanesSeed(timestamp);
+    this.panes = [-1, 0, 1].map(i => this.makePane(seed, i));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
   }
 
   private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
-    this.prevDisabled = this.panes[prevIndex].values[11] < this.minTimestamp;
+    this.prevDisabled = this.panes[prevIndex].values[this.panes[prevIndex].values.length - 1] < this.minTimestamp;
     this.nextDisabled = this.panes[nextIndex].values[0] > this.maxTimestamp;
+  }
+
+  private normalizeTimestamp(timestamp: number): number {
+    return new Date(timestamp).setDate(1);
+  }
+
+  private makeInitPanesSeed(timestamp: number): number {
+    return startOfYear(timestamp).valueOf();
   }
 
   private makePane(timestamp: number, add: number, baseOrder = 0): Pane {

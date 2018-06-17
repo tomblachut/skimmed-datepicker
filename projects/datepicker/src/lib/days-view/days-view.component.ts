@@ -1,20 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  HostBinding,
-  Inject,
-  Input,
-  LOCALE_ID,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { FormStyle, getLocaleDayNames, TranslationWidth, WeekDay } from '@angular/common';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { WeekDay } from '@angular/common';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 import { startOfMonth } from '../util/helpers';
+import { ViewMode } from '../datepicker/view-mode';
 
 @Component({
   selector: 'skm-days-view',
@@ -43,8 +33,8 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   @Input() headingFormat: string;
   @Input() firstWeekDay: WeekDay;
   @Input() weekDayLabels: string[];
-  @Input() dayFormat: string;
-  @Input() dayLabels: string[];
+  @Input() itemFormat: string;
+  @Input() itemLabels: string[];
 
   @Output() readonly itemChange = new EventEmitter<number>();
   @Output() readonly headerClick = new EventEmitter<number>();
@@ -53,14 +43,9 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   prevDisabled = false;
   nextDisabled = false;
   private visiblePaneIndex: number;
-
-  constructor(@Inject(LOCALE_ID) private locale: string) {
-  }
+  private timestampFields = ['currentTimestamp', 'selectedTimestamp', 'minTimestamp', 'maxTimestamp'];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ('weekDayLabels' in changes) {
-      this.weekDayLabels = this.weekDayLabels || getLocaleDayNames(this.locale, FormStyle.Standalone, TranslationWidth.Abbreviated);
-    }
   }
 
   trackContent(index: number) {
@@ -94,8 +79,8 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   }
 
   private initPanes(timestamp: number): void {
-    const monthValue = startOfMonth(timestamp).valueOf();
-    this.panes = [-1, 0, 1].map(i => this.makePane(monthValue, i));
+    const seed = this.makeInitPanesSeed(timestamp);
+    this.panes = [-1, 0, 1].map(i => this.makePane(seed, i));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
   }
@@ -103,6 +88,14 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   private updateDisabledStatus(prevIndex: number, nextIndex: number): void {
     this.prevDisabled = this.panes[prevIndex].values[this.panes[prevIndex].values.length - 1] < this.minTimestamp;
     this.nextDisabled = this.panes[nextIndex].values[0] > this.maxTimestamp;
+  }
+
+  private normalizeTimestamp(timestamp: number): number {
+    return timestamp;
+  }
+
+  private makeInitPanesSeed(timestamp: number): number {
+    return startOfMonth(timestamp).valueOf();
   }
 
   private makePane(timestamp: number, add: number, baseOrder = 0): Pane {
