@@ -18,10 +18,7 @@ import { ViewStrategy } from '../view-strategies/view-strategy';
 })
 export class ViewComponent implements DatepickerView, OnChanges {
   @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
-
-  @Input() set initialTimestamp(timestamp: number) {
-    this.initPanes(timestamp);
-  }
+  @Input() initialTimestamp: number;
 
   @Input() currentTimestamp: number;
   @Input() selectedTimestamp: number;
@@ -57,6 +54,10 @@ export class ViewComponent implements DatepickerView, OnChanges {
           this[field] = this[field] ? this.strategy.normalizeTimestamp(this[field]) : undefined;
         }
       });
+    }
+    if ('initialTimestamp' in changes) {
+      // Must be called after normalization of other timestamps for proper behavior of min-max range
+      this.initPanes(this.initialTimestamp);
     }
   }
 
