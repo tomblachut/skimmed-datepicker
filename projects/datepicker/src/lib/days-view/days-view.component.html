@@ -3,7 +3,7 @@
     <button type="button" class="skm-datepicker-header" (click)="clickHeader(slider.notPanning)">
       {{pane.values[0] | date:headingFormat}}
     </button>
-    <div class="skm-flex">
+    <div class="skm-flex" *ngIf="strategy.viewMode === ViewMode.Days">
       <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:firstWeekDay:7">{{label}}</div>
       <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:0:firstWeekDay">{{label}}</div>
     </div>

@@ -39,6 +39,8 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   @Output() readonly itemChange = new EventEmitter<number>();
   @Output() readonly headerClick = new EventEmitter<number>();
 
+  readonly ViewMode = ViewMode;
+
   panes: Array<Pane>;
   prevDisabled = false;
   nextDisabled = false;

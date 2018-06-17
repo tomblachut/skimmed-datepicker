@@ -29,7 +29,9 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
 
   @Input() deselectEnabled: boolean;
 
-  @Input() yearFormat: string;
+  @Input() headingFormat: string;
+  @Input() itemFormat: string;
+  @Input() itemLabels: string[];
 
   @Output() readonly itemChange = new EventEmitter<number>();
   @Output() readonly headerClick = new EventEmitter<number>();
