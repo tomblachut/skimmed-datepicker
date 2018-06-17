@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, O
 import { WeekDay } from '@angular/common';
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
-import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 import { ViewMode } from '../datepicker/view-mode';
 import { ViewStrategy } from '../view-strategies/view-strategy';
 
@@ -12,11 +11,8 @@ import { ViewStrategy } from '../view-strategies/view-strategy';
   styleUrls: ['../datepicker.shared.scss'],
   animations: [zoom()],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {provide: DATEPICKER_VIEW, useExisting: ViewComponent},
-  ],
 })
-export class ViewComponent implements DatepickerView, OnChanges {
+export class ViewComponent implements OnChanges {
   @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
   @Input() initialTimestamp: number;
 

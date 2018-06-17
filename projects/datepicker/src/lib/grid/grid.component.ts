@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Pane } from '../pane';
 import { SliderComponent } from '../slider/slider.component';
-import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 import { ViewStrategy } from '../view-strategies/view-strategy';
+import { ViewComponent } from '../view/view.component';
 
 @Component({
   selector: 'skm-grid',
@@ -24,7 +24,7 @@ export class GridComponent implements OnChanges {
   @HostBinding('class') readonly _hostClass = 'skm-datepicker-content';
 
   constructor(readonly slider: SliderComponent,
-              @Inject(DATEPICKER_VIEW) readonly parentView: DatepickerView,
+              readonly parentView: ViewComponent,
               private strategy: ViewStrategy) {
   }
 
