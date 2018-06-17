@@ -21,7 +21,7 @@
 * ⛔ Specify min & max dates
 * 🏷️ Customizable labels & date formats
 * 🔎 Transitions smoothly between daily, monthly & yearly views
-* 🛣️ Doesn't block whole page panning (critical on touch devices)
+* 🛣️ Doesn't block vertical page scrolling on touch devices
 
 ## Quick start
 1. Skimmed Datepicker is available as a [package on npm](https://www.npmjs.com/package/skimmed-datepicker). Simply use ubiquitous command and you are good to go!
