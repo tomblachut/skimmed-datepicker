@@ -32,10 +32,10 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
     this.initPanes(timestamp);
   }
 
-  @Input() currentDate: number;
-  @Input() selectedDate: number;
-  @Input() minDate: number;
-  @Input() maxDate: number;
+  @Input() currentTimestamp: number;
+  @Input() selectedTimestamp: number;
+  @Input() minTimestamp: number;
+  @Input() maxTimestamp: number;
 
   @Input() yearFormat: string;
   @Input() monthFormat: string;
@@ -44,32 +44,21 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
   @Output() readonly itemChange = new EventEmitter<number>();
   @Output() readonly headerClick = new EventEmitter<number>();
 
-  selectedTimestamp: number;
-  currentTimestamp: number;
-  minTimestamp: number;
-  maxTimestamp: number;
-
   panes: Array<Pane>;
   prevDisabled = false;
   nextDisabled = false;
   private visiblePaneIndex: number;
+  private timestampFields = ['currentTimestamp', 'selectedTimestamp', 'minTimestamp', 'maxTimestamp'];
 
   constructor(@Inject(LOCALE_ID) private locale: string) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ('currentDate' in changes) {
-      this.currentTimestamp = new Date(this.currentDate).setDate(1);
-    }
-    if ('selectedDate' in changes) {
-      this.selectedTimestamp = this.selectedDate ? new Date(this.selectedDate).setDate(1) : undefined;
-    }
-    if ('minDate' in changes) {
-      this.minTimestamp = this.minDate ? new Date(this.minDate).setDate(1) : undefined;
-    }
-    if ('maxDate' in changes) {
-      this.maxTimestamp = this.maxDate ? new Date(this.maxDate).setDate(1) : undefined;
-    }
+    this.timestampFields.forEach(field => {
+      if (field in changes) {
+        this[field] = this[field] ? new Date(this[field]).setDate(1) : undefined;
+      }
+    });
   }
 
   trackContent(index: number) {
