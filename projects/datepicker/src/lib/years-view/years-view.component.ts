@@ -23,8 +23,8 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
 
   @Input() selectedDate: number;
   @Input() currentDate: number;
-  @Input() minDate: Date;
-  @Input() maxDate: Date;
+  @Input() minDate: number;
+  @Input() maxDate: number;
 
   @Input() yearFormat: string;
 

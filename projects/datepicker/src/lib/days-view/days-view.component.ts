@@ -35,8 +35,8 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
 
   @Input() currentDate: number;
   @Input() selectedDate: number;
-  @Input() minDate: Date;
-  @Input() maxDate: Date;
+  @Input() minDate: number;
+  @Input() maxDate: number;
 
   @Input() deselectEnabled: boolean;
 

@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { WeekDay } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isValidDate, noop, startOfDay } from '../util/helpers';
@@ -24,9 +14,8 @@ import { ZoomDirection } from '../util/zoom.animation';
     {provide: NG_VALUE_ACCESSOR, useExisting: DatepickerComponent, multi: true},
   ],
 })
-export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnInit {
-  @Input()
-  set date(dirtyDate: Date) {
+export class DatepickerComponent implements ControlValueAccessor, OnInit {
+  @Input() set date(dirtyDate: Date | number) {
     const date = startOfDay(dirtyDate);
     if (date.getTime() !== this.selectedTimestamp) {
       this.selectedTimestamp = isValidDate(date) ? date.getTime() : undefined;
@@ -39,8 +28,15 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
 
   @Output() dateChange = new EventEmitter<Date>();
 
-  @Input() min: Date;
-  @Input() max: Date;
+  @Input() set min(dirtyDate: Date | number) {
+    const date = startOfDay(dirtyDate);
+    this.minTimestamp = isValidDate(date) ? date.valueOf() : undefined;
+  }
+
+  @Input() set max(dirtyDate: Date | number) {
+    const date = startOfDay(dirtyDate);
+    this.maxTimestamp = isValidDate(date) ? date.valueOf() : undefined;
+  }
 
   @Input() deselectEnabled: boolean;
 
@@ -57,6 +53,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   initialTimestamp: number;
   currentTimestamp: number;
   selectedTimestamp: number;
+  minTimestamp: number;
+  maxTimestamp: number;
 
   zoomDirection: ZoomDirection;
   view = ViewMode.Days;
@@ -66,17 +64,6 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   private onTouched: () => void = noop;
 
   constructor(private cd: ChangeDetectorRef) {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if ('min' in changes) {
-      const date = startOfDay(this.min);
-      this.min = isValidDate(date) ? date : undefined;
-    }
-    if ('max' in changes) {
-      const date = startOfDay(this.max);
-      this.max = isValidDate(date) ? date : undefined;
-    }
   }
 
   ngOnInit(): void {
