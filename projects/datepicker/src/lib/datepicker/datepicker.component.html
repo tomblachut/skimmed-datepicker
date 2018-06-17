@@ -1,6 +1,7 @@
 <div class="skm-datepicker" [ngSwitch]="view">
   <skm-days-view
     *ngSwitchCase="ViewMode.Days"
+    skmDaysStrategy
     class="skm-datepicker-view skm-datepicker-days-view"
     [zoomDirection]="zoomDirection"
     [initialTimestamp]="initialTimestamp"

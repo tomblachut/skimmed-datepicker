@@ -6,6 +6,7 @@ import { DaysViewComponent } from './days-view/days-view.component';
 import { MonthsViewComponent } from './months-view/months-view.component';
 import { YearsViewComponent } from './years-view/years-view.component';
 import { GridComponent } from './grid/grid.component';
+import { DaysStrategyDirective } from './view-strategies/days-strategy.directive';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { GridComponent } from './grid/grid.component';
     MonthsViewComponent,
     YearsViewComponent,
     GridComponent,
+    DaysStrategyDirective,
   ],
   exports: [
     DatepickerComponent,
