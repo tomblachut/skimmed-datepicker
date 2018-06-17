@@ -3,7 +3,7 @@ import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 import { ViewMode } from '../datepicker/view-mode';
-import { YearsStrategyDirective } from '../view-strategies/years-strategy.directive';
+import { ViewStrategy } from '../view-strategies/view-strategy';
 
 @Component({
   selector: 'skm-years-view',
@@ -40,7 +40,7 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
   private visiblePaneIndex: number;
   private timestampFields = ['currentTimestamp', 'selectedTimestamp', 'minTimestamp', 'maxTimestamp'];
 
-  constructor(private strategy: YearsStrategyDirective) {
+  constructor(readonly strategy: ViewStrategy) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {

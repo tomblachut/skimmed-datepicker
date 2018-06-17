@@ -7,6 +7,9 @@ import { startOfMonth } from '../util/helpers';
 
 @Directive({
   selector: '[skmDaysStrategy]',
+  providers: [
+    {provide: ViewStrategy, useExisting: DaysStrategyDirective},
+  ],
 })
 export class DaysStrategyDirective extends ViewStrategy {
   readonly viewMode = ViewMode.Days;

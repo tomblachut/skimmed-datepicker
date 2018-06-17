@@ -6,9 +6,12 @@ import { ViewMode } from '../datepicker/view-mode';
 
 @Directive({
   selector: '[skmYearsStrategy]',
+  providers: [
+    {provide: ViewStrategy, useExisting: YearsStrategyDirective},
+  ],
 })
 export class YearsStrategyDirective extends ViewStrategy {
-  readonly viewMode: ViewMode = ViewMode.Years;
+  readonly viewMode = ViewMode.Years;
 
   normalizeTimestamp(timestamp: number): number {
     return new Date(timestamp).setMonth(0, 1);

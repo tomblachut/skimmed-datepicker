@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, O
 import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
-import { MonthsStrategyDirective } from '../view-strategies/months-strategy.directive';
 import { ViewMode } from '../datepicker/view-mode';
+import { ViewStrategy } from '../view-strategies/view-strategy';
 
 @Component({
   selector: 'skm-months-view',
@@ -42,7 +42,7 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
   private visiblePaneIndex: number;
   private timestampFields = ['currentTimestamp', 'selectedTimestamp', 'minTimestamp', 'maxTimestamp'];
 
-  constructor(private strategy: MonthsStrategyDirective) {
+  constructor(readonly strategy: ViewStrategy) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {

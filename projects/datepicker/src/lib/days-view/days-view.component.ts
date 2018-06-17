@@ -4,7 +4,7 @@ import { Pane } from '../pane';
 import { zoom, ZoomDirection } from '../util/zoom.animation';
 import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 import { ViewMode } from '../datepicker/view-mode';
-import { DaysStrategyDirective } from '../view-strategies/days-strategy.directive';
+import { ViewStrategy } from '../view-strategies/view-strategy';
 
 @Component({
   selector: 'skm-days-view',
@@ -45,7 +45,7 @@ export class DaysViewComponent implements DatepickerView, OnChanges {
   private visiblePaneIndex: number;
   private timestampFields = ['currentTimestamp', 'selectedTimestamp', 'minTimestamp', 'maxTimestamp'];
 
-  constructor(private strategy: DaysStrategyDirective) {
+  constructor(readonly strategy: ViewStrategy) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
