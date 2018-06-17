@@ -17,18 +17,21 @@ import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 export class YearsViewComponent implements DatepickerView, OnChanges {
   @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
 
+  @Input() set initialTimestamp(timestamp: number) {
+    this.initPanes(timestamp);
+  }
+
   @Input() selectedDate: Date;
   @Input() currentDate: Date;
-  @Input() initialDate: Date;
   @Input() minDate: Date;
   @Input() maxDate: Date;
 
   @Input() yearFormat: string;
 
-  @Output() readonly dateChange = new EventEmitter<Date>();
+  @Output() readonly itemChange = new EventEmitter<number>();
 
-  selectedValue: number;
   currentValue: number;
+  selectedValue: number;
   minValue: number;
   maxValue: number;
 
@@ -38,6 +41,9 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
   private visiblePaneIndex: number;
 
   ngOnChanges(changes: SimpleChanges): void {
+    if ('currentDate' in changes) {
+      this.currentValue = new Date(this.currentDate).setMonth(0, 1);
+    }
     if ('selectedDate' in changes) {
       this.selectedValue = this.selectedDate ? new Date(this.selectedDate).setMonth(0, 1) : undefined;
     }
@@ -46,12 +52,6 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
     }
     if ('maxDate' in changes) {
       this.maxValue = this.maxDate ? new Date(this.maxDate).setMonth(0, 1) : undefined;
-    }
-    if ('currentDate' in changes) {
-      this.currentValue = new Date(this.currentDate).setMonth(0, 1);
-    }
-    if ('initialDate' in changes) {
-      this.initPanes(this.initialDate);
     }
   }
 
@@ -63,7 +63,7 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const index = button.dataset.index;
-      this.dateChange.emit(new Date(pane.values[index]));
+      this.itemChange.emit(pane.values[index]);
     }
   }
 
@@ -75,7 +75,8 @@ export class YearsViewComponent implements DatepickerView, OnChanges {
     this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
-  private initPanes(date: Date): void {
+  private initPanes(timestamp: number): void {
+    const date = new Date(timestamp);
     const origin = date.getFullYear();
     const adjusted = origin - (origin % 20);
     const yearValue = startOfYear(date).setFullYear(adjusted);

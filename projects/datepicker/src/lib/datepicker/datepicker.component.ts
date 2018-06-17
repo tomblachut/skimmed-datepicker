@@ -31,7 +31,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
     if (!this.selectedDate || date.getTime() !== this.selectedDate.getTime()) {
       this.selectedDate = isValidDate(date) ? date : undefined;
       if (this.selectedDate) {
-        this.initialDate = this.selectedDate;
+        this.initialTimestamp = this.selectedDate.valueOf();
         this.view = ViewMode.Days;
       }
     }
@@ -54,9 +54,9 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   @Input() weekDayLabels: string[];
   @Input() monthLabels: string[];
 
-  selectedDate: Date;
+  initialTimestamp: number;
   currentDate: Date;
-  initialDate: Date;
+  selectedDate: Date;
 
   zoomDirection: ZoomDirection;
   view = ViewMode.Days;
@@ -81,19 +81,20 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
 
   ngOnInit(): void {
     this.currentDate = startOfDay(new Date());
-    this.initialDate = this.selectedDate || this.currentDate;
+    this.initialTimestamp = (this.selectedDate || this.currentDate).valueOf();
   }
 
-  selectDay(date: Date): void {
+  selectDay(timestamp: number | undefined): void {
+    const date = (typeof timestamp !== 'undefined') ? new Date(timestamp) : undefined;
     this.selectedDate = date;
     this.onChange(date);
     this.dateChange.emit(date);
   }
 
-  switchView(date: Date, view: ViewMode, direction: ZoomDirection) {
+  switchView(timestamp: number, view: ViewMode, direction: ZoomDirection) {
     this.zoomDirection = direction;
     setTimeout(() => {
-      this.initialDate = date;
+      this.initialTimestamp = timestamp;
       this.view = view;
       this.cd.markForCheck();
     });

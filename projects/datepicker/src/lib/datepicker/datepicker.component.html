@@ -3,10 +3,10 @@
     *ngSwitchCase="ViewMode.Days"
     class="skm-datepicker-view skm-datepicker-days-view"
     [zoomDirection]="zoomDirection"
-    [initialDate]="initialDate"
+    [initialTimestamp]="initialTimestamp"
 
-    [selectedDate]="selectedDate"
     [currentDate]="currentDate"
+    [selectedDate]="selectedDate"
     [minDate]="min"
     [maxDate]="max"
 
@@ -19,16 +19,16 @@
     [dayLabels]="dayLabels"
 
     (headerClick)="switchView($event, ViewMode.Months, 'out')"
-    (dateChange)="selectDay($event)"
+    (itemChange)="selectDay($event)"
   ></skm-days-view>
   <skm-months-view
     *ngSwitchCase="ViewMode.Months"
     class="skm-datepicker-view skm-datepicker-months-view"
     [zoomDirection]="zoomDirection"
-    [initialDate]="initialDate"
+    [initialTimestamp]="initialTimestamp"
 
-    [selectedDate]="selectedDate"
     [currentDate]="currentDate"
+    [selectedDate]="selectedDate"
     [minDate]="min"
     [maxDate]="max"
 
@@ -37,21 +37,21 @@
     [monthLabels]="monthLabels"
 
     (headerClick)="switchView($event, ViewMode.Years, 'out')"
-    (dateChange)="switchView($event, ViewMode.Days, 'in')"
+    (itemChange)="switchView($event, ViewMode.Days, 'in')"
   ></skm-months-view>
   <skm-years-view
     *ngSwitchCase="ViewMode.Years"
     class="skm-datepicker-view skm-datepicker-years-view"
     [zoomDirection]="zoomDirection"
-    [initialDate]="initialDate"
+    [initialTimestamp]="initialTimestamp"
 
-    [selectedDate]="selectedDate"
     [currentDate]="currentDate"
+    [selectedDate]="selectedDate"
     [minDate]="min"
     [maxDate]="max"
 
     [yearFormat]="yearFormat"
 
-    (dateChange)="switchView($event, ViewMode.Months, 'in')"
+    (itemChange)="switchView($event, ViewMode.Months, 'in')"
   ></skm-years-view>
 </div>

@@ -12,8 +12,8 @@ import { DATEPICKER_VIEW, DatepickerView } from '../datepicker-view';
 export class GridComponent implements OnChanges {
   @Input() pane: Pane;
 
-  @Input() selectedValue: number;
   @Input() currentValue: number;
+  @Input() selectedValue: number;
   @Input() minValue: number;
   @Input() maxValue: number;
 

@@ -28,9 +28,12 @@ import { startOfYear } from '../util/helpers';
 export class MonthsViewComponent implements DatepickerView, OnChanges {
   @Input() @HostBinding('@zoom') zoomDirection: ZoomDirection;
 
-  @Input() selectedDate: Date;
+  @Input() set initialTimestamp(timestamp: number) {
+    this.initPanes(timestamp);
+  }
+
   @Input() currentDate: Date;
-  @Input() initialDate: Date;
+  @Input() selectedDate: Date;
   @Input() minDate: Date;
   @Input() maxDate: Date;
 
@@ -38,8 +41,8 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
   @Input() monthFormat: string;
   @Input() monthLabels: string[];
 
-  @Output() readonly dateChange = new EventEmitter<Date>();
-  @Output() readonly headerClick = new EventEmitter<Date>();
+  @Output() readonly itemChange = new EventEmitter<number>();
+  @Output() readonly headerClick = new EventEmitter<number>();
 
   selectedValue: number;
   currentValue: number;
@@ -55,20 +58,17 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ('selectedDate' in changes) {
-      this.selectedValue = this.selectedDate ? new Date(this.selectedDate).setDate(1) : undefined;
-    }
     if ('currentDate' in changes) {
       this.currentValue = new Date(this.currentDate).setDate(1);
+    }
+    if ('selectedDate' in changes) {
+      this.selectedValue = this.selectedDate ? new Date(this.selectedDate).setDate(1) : undefined;
     }
     if ('minDate' in changes) {
       this.minValue = this.minDate ? new Date(this.minDate).setDate(1) : undefined;
     }
     if ('maxDate' in changes) {
       this.maxValue = this.maxDate ? new Date(this.maxDate).setDate(1) : undefined;
-    }
-    if ('initialDate' in changes) {
-      this.initPanes(this.initialDate);
     }
   }
 
@@ -78,7 +78,7 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
 
   clickHeader(notPanning: boolean): void {
     if (notPanning) {
-      this.headerClick.emit(new Date(this.panes[this.visiblePaneIndex].values[0]));
+      this.headerClick.emit(this.panes[this.visiblePaneIndex].values[0]);
     }
   }
 
@@ -86,7 +86,7 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
     if (notPanning) {
       const button = event.target as HTMLButtonElement;
       const index = button.dataset.index;
-      this.dateChange.emit(new Date(pane.values[index]));
+      this.itemChange.emit(pane.values[index]);
     }
   }
 
@@ -98,8 +98,8 @@ export class MonthsViewComponent implements DatepickerView, OnChanges {
     this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
-  private initPanes(date: Date): void {
-    const yearValue = startOfYear(date).valueOf();
+  private initPanes(timestamp: number): void {
+    const yearValue = startOfYear(timestamp).valueOf();
     this.panes = [-1, 0, 1].map(i => this.makePane(yearValue, i));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
