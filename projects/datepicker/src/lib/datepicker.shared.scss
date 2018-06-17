@@ -11,16 +11,20 @@ button[disabled] {
   pointer-events: none;
 }
 
-.skm-flex {
-  display: flex;
-}
-
 .skm-datepicker-pane {
   flex-shrink: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.skm-datepicker-week {
+  display: flex;
+}
+
+.skm-datepicker-weekday {
+  width: (100% / 7);
 }
 
 .skm-datepicker-content {
@@ -37,16 +41,12 @@ button[disabled] {
   pointer-events: none;
 }
 
-.skm-datepicker-cell {
-  display: flex;
-}
-
-.skm-datepicker-weekday {
-  width: (100% / 7);
-}
-
 .skm-datepicker-indent {
   height: (100% / 6);
+}
+
+.skm-datepicker-cell {
+  display: flex;
 }
 
 :host-context(.skm-datepicker-days-view) .skm-datepicker-cell {
