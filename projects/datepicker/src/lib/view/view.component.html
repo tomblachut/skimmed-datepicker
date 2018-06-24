@@ -8,8 +8,8 @@
       </ng-container>
     </button>
     <div class="skm-datepicker-week" *ngIf="viewStrategy.viewMode === ViewMode.Days">
-      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:firstWeekDay:7">{{label}}</div>
-      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:0:firstWeekDay">{{label}}</div>
+      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:weekStart:7">{{label}}</div>
+      <div class="skm-datepicker-weekday" *ngFor="let label of weekDayLabels | slice:0:weekStart">{{label}}</div>
     </div>
     <skm-grid
       [pane]="pane"

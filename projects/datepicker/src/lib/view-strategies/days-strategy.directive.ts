@@ -15,7 +15,7 @@ export class DaysStrategyDirective extends ViewStrategy {
   readonly viewMode = ViewMode.Days;
   readonly itemClass = 'skm-datepicker-day';
 
-  @Input() firstWeekDay: WeekDay;
+  @Input() weekStart: WeekDay;
 
   normalizeTimestamp(timestamp: number): number {
     return timestamp;
@@ -42,7 +42,7 @@ export class DaysStrategyDirective extends ViewStrategy {
     return {
       order: baseOrder + add,
       values: values,
-      indent: (firstDay - this.firstWeekDay + 7) % 7 || 7, // Defaulting to full week makes for more a balanced cells layout
+      indent: (firstDay - this.weekStart + 7) % 7 || 7, // Defaulting to full week makes for more a balanced cells layout
     };
   }
 

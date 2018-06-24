@@ -24,7 +24,7 @@ export class ViewComponent implements OnChanges {
   @Input() deselectEnabled: boolean;
 
   @Input() headingFormat: string;
-  @Input() firstWeekDay: WeekDay;
+  @Input() weekStart: WeekDay;
   @Input() weekDayLabels: string[];
   @Input() itemFormat: string;
   @Input() itemLabels: string[];
