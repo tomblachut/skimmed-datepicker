@@ -83,13 +83,13 @@ export class ViewComponent implements OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    this.panes[index] = this.viewStrategy.makePane(pane.values[0], 3 * direction, pane.order);
+    this.panes[index] = this.viewStrategy.makePane(pane.values[0], 3 * direction, pane.order, this.weekStart);
     this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
   private initPanes(timestamp: number): void {
     const seed = this.viewStrategy.makeInitPanesSeed(timestamp);
-    this.panes = [-1, 0, 1].map(i => this.viewStrategy.makePane(seed, i, 0));
+    this.panes = [-1, 0, 1].map(i => this.viewStrategy.makePane(seed, i, 0, this.weekStart));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
   }

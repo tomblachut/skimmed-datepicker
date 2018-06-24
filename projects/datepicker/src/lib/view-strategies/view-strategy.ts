@@ -1,5 +1,6 @@
 import { ViewMode } from '../datepicker/view-mode';
 import { Pane } from '../pane';
+import { WeekDay } from '@angular/common';
 
 export abstract class ViewStrategy {
   abstract readonly viewMode: ViewMode;
@@ -9,5 +10,5 @@ export abstract class ViewStrategy {
 
   abstract makeInitPanesSeed(timestamp: number): number;
 
-  abstract makePane(timestamp: number, add: number, baseOrder: number): Pane;
+  abstract makePane(timestamp: number, add: number, baseOrder: number, weekStart: WeekDay): Pane;
 }

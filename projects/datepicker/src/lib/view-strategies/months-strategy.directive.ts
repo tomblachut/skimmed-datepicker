@@ -3,6 +3,7 @@ import { Pane } from '../pane';
 import { startOfYear } from '../util/helpers';
 import { ViewStrategy } from './view-strategy';
 import { ViewMode } from '../datepicker/view-mode';
+import { WeekDay } from '@angular/common';
 
 @Directive({
   selector: '[skmMonthsStrategy]',
@@ -22,7 +23,7 @@ export class MonthsStrategyDirective extends ViewStrategy {
     return startOfYear(timestamp).valueOf();
   }
 
-  makePane(timestamp: number, add: number, baseOrder: number): Pane {
+  makePane(timestamp: number, add: number, baseOrder: number, weekStart: WeekDay): Pane {
     const date = new Date(timestamp);
     date.setFullYear(add + date.getFullYear());
 

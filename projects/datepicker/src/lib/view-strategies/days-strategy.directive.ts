@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive } from '@angular/core';
 import { ViewStrategy } from './view-strategy';
 import { ViewMode } from '../datepicker/view-mode';
 import { Pane } from '../pane';
@@ -15,8 +15,6 @@ export class DaysStrategyDirective extends ViewStrategy {
   readonly viewMode = ViewMode.Days;
   readonly itemClass = 'skm-datepicker-day';
 
-  @Input() weekStart: WeekDay;
-
   normalizeTimestamp(timestamp: number): number {
     return timestamp;
   }
@@ -25,7 +23,7 @@ export class DaysStrategyDirective extends ViewStrategy {
     return startOfMonth(timestamp).valueOf();
   }
 
-  makePane(timestamp: number, add: number, baseOrder: number): Pane {
+  makePane(timestamp: number, add: number, baseOrder: number, weekStart: WeekDay): Pane {
     const date = new Date(timestamp);
     date.setMonth(add + date.getMonth());
     const firstDay = date.getDay();
@@ -42,7 +40,7 @@ export class DaysStrategyDirective extends ViewStrategy {
     return {
       order: baseOrder + add,
       values: values,
-      indent: (firstDay - this.weekStart + 7) % 7 || 7, // Defaulting to full week makes for more a balanced cells layout
+      indent: (firstDay - weekStart + 7) % 7 || 7, // Defaulting to full week makes for more a balanced cells layout
     };
   }
 
