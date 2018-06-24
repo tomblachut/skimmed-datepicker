@@ -25,7 +25,7 @@ export class GridComponent implements OnChanges {
 
   constructor(readonly slider: SliderComponent,
               readonly parentView: ViewComponent,
-              private strategy: ViewStrategy) {
+              private readonly viewStrategy: ViewStrategy) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -36,7 +36,7 @@ export class GridComponent implements OnChanges {
 
   makeItemClasses(index: number, pane: Pane): string {
     return [
-      this.strategy.itemClass,
+      this.viewStrategy.itemClass,
       'skm-datepicker-item',
       (pane.values[index] === this.currentTimestamp) ? 'skm-datepicker-current' : '',
       (pane.values[index] === this.selectedTimestamp) ? 'skm-datepicker-selected' : '',

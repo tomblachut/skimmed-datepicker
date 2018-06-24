@@ -25,7 +25,7 @@ export class YearsStrategyDirective extends ViewStrategy {
     return startOfYear(date).setFullYear(adjusted);
   }
 
-  makePane(timestamp: number, add: number, baseOrder = 0): Pane {
+  makePane(timestamp: number, add: number, baseOrder: number): Pane {
     const date = new Date(timestamp);
     const origin = add * 20 + date.getFullYear();
 

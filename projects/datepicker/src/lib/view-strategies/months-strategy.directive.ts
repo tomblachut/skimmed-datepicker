@@ -22,7 +22,7 @@ export class MonthsStrategyDirective extends ViewStrategy {
     return startOfYear(timestamp).valueOf();
   }
 
-  makePane(timestamp: number, add: number, baseOrder = 0): Pane {
+  makePane(timestamp: number, add: number, baseOrder: number): Pane {
     const date = new Date(timestamp);
     date.setFullYear(add + date.getFullYear());
 

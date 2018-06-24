@@ -25,7 +25,7 @@ export class DaysStrategyDirective extends ViewStrategy {
     return startOfMonth(timestamp).valueOf();
   }
 
-  makePane(timestamp: number, add: number, baseOrder = 0): Pane {
+  makePane(timestamp: number, add: number, baseOrder: number): Pane {
     const date = new Date(timestamp);
     date.setMonth(add + date.getMonth());
     const firstDay = date.getDay();

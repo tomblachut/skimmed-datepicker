@@ -38,16 +38,16 @@ export class ViewComponent implements OnChanges {
   prevDisabled = false;
   nextDisabled = false;
   private visiblePaneIndex: number;
-  private timestampFields = ['currentTimestamp', 'selectedTimestamp', 'minTimestamp', 'maxTimestamp'];
+  private regularTimestampFields = ['currentTimestamp', 'selectedTimestamp', 'minTimestamp', 'maxTimestamp'];
 
-  constructor(readonly strategy: ViewStrategy) {
+  constructor(readonly viewStrategy: ViewStrategy) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.strategy.viewMode !== ViewMode.Days) {
-      this.timestampFields.forEach(field => {
+    if (this.viewStrategy.viewMode !== ViewMode.Days) {
+      this.regularTimestampFields.forEach(field => {
         if (field in changes) {
-          this[field] = this[field] ? this.strategy.normalizeTimestamp(this[field]) : undefined;
+          this[field] = this[field] ? this.viewStrategy.normalizeTimestamp(this[field]) : undefined;
         }
       });
     }
@@ -57,7 +57,7 @@ export class ViewComponent implements OnChanges {
     }
   }
 
-  trackContent(index: number): number {
+  trackIndex(index: number): number {
     return index;
   }
 
@@ -83,13 +83,13 @@ export class ViewComponent implements OnChanges {
     this.visiblePaneIndex = (3 + this.visiblePaneIndex + direction) % 3;
     const index = (3 + this.visiblePaneIndex + direction) % 3;
     const pane = this.panes[index];
-    this.panes[index] = this.strategy.makePane(pane.values[0], 3 * direction, pane.order);
+    this.panes[index] = this.viewStrategy.makePane(pane.values[0], 3 * direction, pane.order);
     this.updateDisabledStatus((3 + this.visiblePaneIndex - 1) % 3, (3 + this.visiblePaneIndex + 1) % 3);
   }
 
   private initPanes(timestamp: number): void {
-    const seed = this.strategy.makeInitPanesSeed(timestamp);
-    this.panes = [-1, 0, 1].map(i => this.strategy.makePane(seed, i));
+    const seed = this.viewStrategy.makeInitPanesSeed(timestamp);
+    this.panes = [-1, 0, 1].map(i => this.viewStrategy.makePane(seed, i, 0));
     this.visiblePaneIndex = 1;
     this.updateDisabledStatus(0, 2);
   }

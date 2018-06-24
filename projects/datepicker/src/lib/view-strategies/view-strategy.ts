@@ -9,5 +9,5 @@ export abstract class ViewStrategy {
 
   abstract makeInitPanesSeed(timestamp: number): number;
 
-  abstract makePane(timestamp: number, add: number, baseOrder?: number): Pane;
+  abstract makePane(timestamp: number, add: number, baseOrder: number): Pane;
 }
