@@ -27,7 +27,7 @@ export class AppComponent {
     text = text && text.trim() || '';
     if (text && text.length === this.format.length) {
       const date = new Date(text);
-      if (!isNaN(date.getTime()) && (this[field] as Date).getTime() !== date.getTime()) {
+      if (!isNaN(date.getTime()) && (this[field] && (this[field] as Date).getTime()) !== date.getTime()) {
         this[field] = date;
       }
     }
