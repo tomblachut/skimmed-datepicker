@@ -1,5 +1,5 @@
 export enum ViewMode {
-  Days,
-  Months,
-  Years,
+  Days = 'days',
+  Months = 'months',
+  Years = 'years',
 }

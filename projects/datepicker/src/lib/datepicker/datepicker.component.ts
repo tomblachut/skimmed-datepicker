@@ -28,6 +28,10 @@ import { ZoomDirection } from '../util/zoom.animation';
 })
 export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnInit {
   @Input() set date(dirtyDate: Date | number) {
+    if (dirtyDate == null) {
+      this.selectedTimestamp = undefined;
+      return;
+    }
     const date = startOfDay(dirtyDate);
     if (date.getTime() !== this.selectedTimestamp) {
       this.selectedTimestamp = isValidDate(date) ? date.getTime() : undefined;
@@ -62,6 +66,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   @Input() weekDayLabels: string[];
   @Input() monthLabels: string[];
 
+  @Input() view = ViewMode.Days;
+
   initialTimestamp: number;
   currentTimestamp: number;
   selectedTimestamp: number;
@@ -69,7 +75,6 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   maxTimestamp: number;
 
   zoomDirection: ZoomDirection;
-  view = ViewMode.Days;
   readonly ViewMode = ViewMode;
 
   private onChange: (date: Date) => void = noop;
@@ -91,6 +96,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnChanges, OnI
   }
 
   selectDay(timestamp: number | undefined): void {
+    console.log(timestamp);
     this.selectedTimestamp = timestamp;
     const date = (typeof timestamp !== 'undefined') ? new Date(timestamp) : undefined;
     this.onChange(date);
